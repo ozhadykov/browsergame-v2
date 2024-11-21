@@ -7,21 +7,15 @@ It has an educational focus and provides some basic, object-oriented infrastruct
 
 How to start
 ------------
-To start the demo, simply open the file public/index.html in a webbrowser of your choice.
+Yes, we are now working with something fast:) Use it to install packages and modules
 
-The example uses the tool browserify/watchify to pack all clientside-code into one file named bundle.js.
-If you change code, use watchify to update bundle.js.
-First, install watchify by
+    npm i
 
-    >npm install -g watchify
+go to your project directory and start it with this command, you do not need more.
 
-Then start it from the project directory by
+    npm run dev
 
-    >watchify ./client/main.js -o ./public/bundle.js
-
-Watchify observes all your javascript files. 
-Whenever a file changes, it automatically builds a new bundle.js.
-The latter command is included in package.json and hence can be started from tools like visual studio code.
+This is wys faster than watchify and this is used to develop apps today, I hope...
 
 
 ---
