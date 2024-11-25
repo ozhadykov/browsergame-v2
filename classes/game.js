@@ -83,6 +83,7 @@ export default class Game {
 
       this.ctx.save()
       //this.ctx.scale(2, 2)
+      //this.ctx.translate(0 , )
 
       //--- clear screen
       this.ctx.fillStyle = 'white'

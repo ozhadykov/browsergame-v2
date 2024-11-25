@@ -19,9 +19,9 @@ export const generatePlatformsForLevel = (level) => {
             x: x * 16,
             y: y * 16,
           },
-          height: 0,
-          width: 0,
-          imageSrc: '../assets/platform/block.png'
+          imageSrc: '../assets/platform/block.png',
+          height: 16,
+          width: 16,
         })
         platforms.push(platformEl)
       }
