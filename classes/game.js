@@ -53,8 +53,8 @@ export default class Game {
         x: 100,
         y: 0
       },
-      height: 50,
-      width: 50,
+      height: 32,
+      width: 32,
     }))
 
     this.player = this.elementList.getPlayer()
@@ -62,6 +62,8 @@ export default class Game {
     // adding level markup
     const levelPlatforms = generatePlatformsForLevel(level)
     levelPlatforms.forEach(platform => this.elementList.add(platform))
+
+    console.log(levelPlatforms)
 
     // this is important for animation purposes, do not need now
     this.timeOfLastFrame = Date.now()
@@ -78,6 +80,10 @@ export default class Game {
 
   tick() {
     if (!this.player.keys.pause.pressed) {
+
+      this.ctx.save()
+      //this.ctx.scale(2, 2)
+
       //--- clear screen
       this.ctx.fillStyle = 'white'
       this.ctx.fillRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight)
@@ -89,6 +95,7 @@ export default class Game {
 
       // calling animation function again
       this.raf = window.requestAnimationFrame(this.tick.bind(this))
+      this.ctx.restore()
     } else {
       this.openPauseMenu(this.canvas)
     }

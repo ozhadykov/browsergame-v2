@@ -16,9 +16,12 @@ export const generatePlatformsForLevel = (level) => {
       if (levelEl === 'P') {
         const platformEl = new Platform({
           position: {
-            x: x * 30,
-            y: y * 30,
-          }
+            x: x * 16,
+            y: y * 16,
+          },
+          height: 0,
+          width: 0,
+          imageSrc: '../assets/platform/block.png'
         })
         platforms.push(platformEl)
       }
