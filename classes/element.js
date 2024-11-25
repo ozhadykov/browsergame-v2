@@ -28,10 +28,10 @@ export default class BaseGameElement {
 
     this.frame = frame;
     this.image = new Image();
-    // this.image.onload = () => {
-    //   this.width = this.image.width / this.frame;
-    //   this.height = this.image.height;
-    // }
+    this.image.onload = () => {
+      this.width = this.image.width / this.frame;
+      this.height = this.image.height;
+    }
     this.image.src = imageSrc;
     this.currentFrame = 0;
     this.frameBuffer = frameBuffer;

@@ -57,19 +57,19 @@ export default class Game {
       width: 32,
     })
 
-    // adding level markup
     this.background = new Background({
       position: {
         x: 0,
         y: 0
-      }
+      },
+      imageSrc: '../assets/background/background.png',
     })
     const levelPlatforms = generatePlatformsForLevel(level)
 
     // adding all elements to List
-    this.elementList.add(this.player)
     this.elementList.add(this.background)
-    levelPlatforms.forEach(platform => this.elementList.add(platform))
+    this.elementList.add(this.player)
+    //levelPlatforms.forEach(platform => this.elementList.add(platform))
 
     // this is important for animation purposes, do not need now
     this.timeOfLastFrame = Date.now()
