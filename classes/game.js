@@ -1,6 +1,7 @@
 import Player from "./player.js";
 import ElementList from "./elementList.js";
 import {generatePlatformsForLevel} from "../utils/PlatfromElementGenerator.js";
+import {Background} from "./background.js";
 
 export default class Game {
 
@@ -44,26 +45,31 @@ export default class Game {
 
   start(level) {
 
-    //fill all elements in element List:
+    // creating element List
     this.elementList = new ElementList()
 
-    // adding player to element list
-    this.elementList.add(new Player({
+    this.player = new Player({
       position: {
         x: 100,
         y: 0
       },
       height: 32,
       width: 32,
-    }))
-
-    this.player = this.elementList.getPlayer()
+    })
 
     // adding level markup
+    this.background = new Background({
+      position: {
+        x: 0,
+        y: 0
+      }
+    })
     const levelPlatforms = generatePlatformsForLevel(level)
-    levelPlatforms.forEach(platform => this.elementList.add(platform))
 
-    console.log(levelPlatforms)
+    // adding all elements to List
+    this.elementList.add(this.player)
+    this.elementList.add(this.background)
+    levelPlatforms.forEach(platform => this.elementList.add(platform))
 
     // this is important for animation purposes, do not need now
     this.timeOfLastFrame = Date.now()

@@ -17,9 +17,6 @@ export default class ElementList extends Array {
   get(i) {
     return this[i]
   }
-  getPlayer(){ //finding player instance
-    return this.find(element => element instanceof Player)
-  }
 
   delete(i) {
     this.splice(i, 1)
