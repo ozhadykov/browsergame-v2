@@ -20,21 +20,18 @@ export default class Game {
       return Game.instance
 
     // request animation frame handle
-    this.raf = null
-    this.canvas = canvas
-    this.ctx = ctx
+    this.raf         = null
+    this.canvas      = canvas
+    this.ctx         = ctx
     this.elementList = null
     // not sure if we really need this here, ask prof.
-    this.level = level
-    this.player = null
-
-    this.instance = this
+    this.level       = level
+    this.player      = null
+    this.instance    = this
   }
 
   static getInstance() {
-    console.log(Game.instance)
     if (!Game.instance) {
-      console.log('creating Game')
       const canvas = document.getElementById("my-canvas");
       const ctx = canvas.getContext("2d");
       Game.instance = new Game(ctx, canvas)

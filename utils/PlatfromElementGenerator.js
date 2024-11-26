@@ -13,7 +13,7 @@ export const generatePlatformsForLevel = (level) => {
   levelMarkup.forEach((levelRow, y) => {
     levelRow.split('').forEach((levelEl, x) => {
       // TODO: Define, what kind of platform should be created
-      if (levelEl === 'P') {
+      if (levelEl !== '-') {
         const platformEl = new Platform({
           position: {
             x: x * 16,

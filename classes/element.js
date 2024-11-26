@@ -9,6 +9,7 @@ export default class BaseGameElement {
    * @param scale
    * @param frame
    * @param frameBuffer
+   * @param cropBoxPosition
    */
   constructor(
     {
@@ -18,25 +19,30 @@ export default class BaseGameElement {
       width,
       scale = 1,
       frame = 1,
-      frameBuffer = 3
+      frameBuffer = 3,
+      cropBoxPosition = {x: 0, y: 0}
     }
   ) {
-
-    this.position = position;
     this.height = height;
-    this.width = width;
+      this.width = width;
+    this.position = position;
     this.scale = scale;
 
     this.frame = frame;
     this.image = new Image();
     this.image.onload = () => {
-      // this.width = this.image.width / this.frame;
-      // this.height = this.image.height;
+      // this.height = height;
+      // this.width = width;
     }
     this.image.src = imageSrc;
     this.currentFrame = 0;
     this.frameBuffer = frameBuffer;
     this.elapsedFrames = 0
+    this.cropBox = {
+      height: 16,
+      width: 16,
+      position: cropBoxPosition
+    }
   }
 
   action() {
@@ -48,23 +54,18 @@ export default class BaseGameElement {
     ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
 
     if (!this.image) return
-    // i want to have px and py, for position on my Image grid
-    // and also it is important to have width and height
-    const cropBox = {
-      height: 16,
-      width: 16,
-      position: {
-        x: 0,
-        y: 0
-      }
-    }
 
     ctx.drawImage(
       this.image,
-      cropBox.position.x,
-      cropBox.position.y,
-      cropBox.height,
-      cropBox.width, this.position.x, this.position.y, this.width, this.height)
+      this.cropBox.position.x,
+      this.cropBox.position.y,
+      this.cropBox.height,
+      this.cropBox.width,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    )
   }
 
 
