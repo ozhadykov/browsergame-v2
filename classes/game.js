@@ -110,13 +110,25 @@ export default class Game {
 
   openPauseMenu() {
     this.canvas.style.display = "none";
-    document.getElementById('pauseMenu').style.display = 'block';
+    document.getElementById('pauseMenu').style.display = "block"
   }
 
   closePauseMenu() {
     this.canvas.style.display = "block";
-    document.getElementById('pauseMenu').style.display = 'none';
+    document.getElementById('pauseMenu').style.display = "none"
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
+  }
+  areYouSureMainMenu()  {
+    document.getElementById('pauseMenu').style.display = "none"
+    document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "block"
+  }
+  openMainMenu()  {
+    document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
+    document.getElementById('main-menu').style.display = "block"
+  }
+  continuePause() {
+    document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
+    document.getElementById('pauseMenu').style.display = " block"
   }
 }
 
