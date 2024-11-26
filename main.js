@@ -3,7 +3,7 @@ import { Game } from "./classes/index.js";
 
 
 const game = Game.getInstance()
-const mainMenu = document.getElementById("main-menu");
+const mainMenu = document.getElementById("mainMenu");
 
 function startGame() {
   game.canvas.style.display = "block";
@@ -30,7 +30,7 @@ function continuePause()  {
 
 
 
-document.getElementById("start-button").onclick = startGame
+document.getElementById("mainMenuStartButton").onclick = startGame
 document.getElementById("continueButton").onclick = closePauseMenu
 document.getElementById("goToMainMenu").onclick = areYouSureMainMenu
 document.getElementById("YesMainMenu").onclick = goToMainMenu

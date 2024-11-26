@@ -124,7 +124,7 @@ export default class Game {
   }
   openMainMenu()  {
     document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
-    document.getElementById('main-menu').style.display = "block"
+    document.getElementById('mainMenu').style.display = "block"
   }
   continuePause() {
     document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
