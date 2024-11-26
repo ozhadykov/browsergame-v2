@@ -20,14 +20,14 @@ export default class Game {
       return Game.instance
 
     // request animation frame handle
-    this.raf         = null
-    this.canvas      = canvas
-    this.ctx         = ctx
+    this.raf = null
+    this.canvas = canvas
+    this.ctx = ctx
     this.elementList = null
     // not sure if we really need this here, ask prof.
-    this.level       = level
-    this.player      = null
-    this.instance    = this
+    this.level = level
+    this.player = null
+    this.instance = this
   }
 
   static getInstance() {
@@ -45,28 +45,29 @@ export default class Game {
     // creating element List
     this.elementList = new ElementList()
 
-    this.player = new Player({
-      position: {
-        x: 100,
-        y: 0
-      },
-      height: 32,
-      width: 32,
-    })
-
+    // creating game elements
     this.background = new Background({
       position: {
-        x: 0,
+        x: 10,
         y: 0
       },
       imageSrc: '../assets/background/background.png',
     })
-    const levelPlatforms = generatePlatformsForLevel(level)
+    const collisionBlocks = generatePlatformsForLevel(level)
+    this.player = new Player({
+      position: {
+        x: 0,
+        y: 440
+      },
+      height: 32,
+      width: 32,
+      collisionBlocks
+    })
 
     // adding all elements to List
     this.elementList.add(this.background)
     this.elementList.add(this.player)
-    levelPlatforms.forEach(platform => this.elementList.add(platform))
+    collisionBlocks.forEach(platform => this.elementList.add(platform))
 
     // this is important for animation purposes, do not need now
     this.timeOfLastFrame = Date.now()
@@ -85,8 +86,8 @@ export default class Game {
     if (!this.player.keys.pause.pressed) {
 
       this.ctx.save()
-      //this.ctx.scale(2, 2)
-      //this.ctx.translate(0 , )
+      this.ctx.scale(2, 2)
+      this.ctx.translate(0, -this.canvas.height / 2)
 
       //--- clear screen
       this.ctx.fillStyle = 'white'

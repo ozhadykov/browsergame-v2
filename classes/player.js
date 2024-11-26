@@ -1,4 +1,6 @@
 import BaseGameElement from "./element.js"
+import Game from "./game.js";
+import {Collisions} from "../utils/collisions.js";
 
 export default class Player extends BaseGameElement {
   constructor(params) {
@@ -30,11 +32,16 @@ export default class Player extends BaseGameElement {
 
     this.jumpDuration = null;
     this.gravity = params.gravity ?? 0.5;
+    this.collisionBlocks = params.collisionBlocks ?? [];
 
     this.startTime = null;
     this.endTime = null;
 
     // creating event listeners only once, do not need to create them each time, when we re-render
+    this.init()
+  }
+
+  init() {
     window.addEventListener('keydown', e => {
       switch (e.key) {
         case 'd':
@@ -96,114 +103,27 @@ export default class Player extends BaseGameElement {
   }
 
   action() {
+
+    this.position.x += this.velocity.x
+    this.checkForHorizontalCollisions()
+    this.applyGravity()
+    this.checkForVerticalCollisions()
+    this.checkForCollisions()
+
     if (this.velocity.x > 0)
-      this.velocity.x -= 0.2
+      this.velocity.x -= 0.4
 
     if (this.velocity.x < 0)
-      this.velocity.x += 0.2
+      this.velocity.x += 0.4
 
-    if (this.velocity.x < 0.2 && this.velocity.x > -0.2)
+    if (this.velocity.x < 0.4 && this.velocity.x > -0.4)
       this.velocity.x = 0
 
     if (this.keys.d.pressed && this.canJump)
-      this.velocity.x = 5
+      this.velocity.x = 3
     else if (this.keys.a.pressed && this.canJump)
-      this.velocity.x = -5
+      this.velocity.x = -3
   }
-
-  checkForCollisions(ctx, canvas) {
-    // simple checking, because we will use soon something better :)
-    if (this.position.y + this.height + this.velocity.y > canvas.height) {
-      this.velocity.y = 0
-      this.canJump = true
-    } else
-      this.canJump = false
-
-    if (this.position.x + this.velocity.x < 0) {
-      this.position.x = 0;
-      this.velocity.x = -this.velocity.x
-    }
-
-    if (this.position.x + this.width + this.velocity.x > canvas.width) {
-      this.velocity.x = -this.velocity.x
-      this.position.x = canvas.width - this.width
-    }
-
-    if (this.position.x + this.velocity.x < 0) {
-      this.position.x = 0;
-      this.velocity.x = 0
-    }
-
-    if (this.position.x + this.width + this.velocity.x > canvas.width) {
-      this.velocity.x = 0
-      this.position.x = canvas.width - this.width
-    }
-
-  }
-
-  checkForPlatformCollisions() {
-    const playerBottom = this.position.y + this.height;
-    const playerTop = this.position.y;
-    const playerRight = this.position.x + this.width;
-    const playerLeft = this.position.x;
-    var verticalCollision = false
-    var horizontalCollision = false;
-
-
-    for (let i = 0; i < this.elementList.length; i++) {
-      const element = this.elementList[i];
-
-      // Ignoriere das eigene Element (den Spieler)
-      if (element === this) continue;
-
-      // Prüfe, ob es sich um eine Plattform handelt
-      if (element instanceof Platform) {
-        const platformBottom = element.position.y + element.height;
-        const platformTop = element.position.y;
-        const platformRight = element.position.x + element.width;
-        const platformLeft = element.position.x;
-
-        //Vertikale Kollision:
-        if (playerBottom >= platformTop && playerTop <= platformBottom && playerLeft <= platformRight && playerRight >= platformLeft) { //y-achse
-          verticalCollision = true
-
-        }
-
-        //Horizontale Kollision:
-        if (playerBottom >= platformTop && playerTop <= platformBottom && playerLeft <= platformRight && playerRight >= platformLeft)
-          verticalCollision = true
-      }
-
-
-      //player movement anapassen:
-      if (verticalCollision) {
-        if (this.velocity.y > 0) {
-          console.log("vertikale kollision!");
-          this.velocity.y = 0
-          this.position.y = element.position.y - this.height - 0.01
-        }
-        if (this.velocity.y < 0) {
-          console.log("vertikale kollision!");
-          this.velocity.y = 0
-          this.position.y = platformBottom + 0.01
-
-        }
-      }
-
-      if (horizontalCollision) {
-        if (this.velocity.x > 0) {
-          console.log("horizontale kollision!");
-          this.velocity.x = 0
-          this.position.x = element.position.x - this.width - 0.01
-        }
-        if (this.velocity.x < 0) {
-          this.velocity.x = 0
-          this.position.x = platformRight + 0.01
-        }
-      }
-    }
-  }
-
 
   draw(ctx, canvas) {
 
@@ -216,17 +136,72 @@ export default class Player extends BaseGameElement {
     else
       ctx.fillRect(this.position.x + this.width / 5, this.position.y + this.height / 5, this.width / 5, this.height / 5)
 
-
-    this.position.x += this.velocity.x
-
-    this.applyGravity()
-    this.checkForCollisions(ctx, canvas)
-
-    //this.checkForPlatformCollisions()
   }
 
   applyGravity() {
     this.position.y += this.velocity.y
     this.velocity.y += this.gravity
+  }
+
+  checkForHorizontalCollisions() {
+    for (const block of this.collisionBlocks) {
+      if (Collisions.collision(this, block)) {
+        if (this.velocity.x > 0) {
+          this.velocity.x = 0
+          this.position.x = block.position.x - this.width - 0.01
+          break // Exit loop after handling collision
+        }
+
+        if (this.velocity.x < 0) {
+          this.velocity.x = 0
+          this.position.x = block.position.x + block.width + 0.01
+          break // Exit loop after handling collision
+        }
+      }
+    }
+  }
+
+  checkForVerticalCollisions() {
+    for (const block of this.collisionBlocks) {
+      if (Collisions.collision(this, block)) {
+        if (this.velocity.y > 0) {
+          this.velocity.y = 0
+          this.position.y = block.position.y - this.height - 0.01
+          break // Exit loop after handling collision
+        }
+
+        if (this.velocity.y < 0) {
+          this.velocity.y = 0
+          this.position.y = block.position.y + block.height + 0.01
+          break // Exit loop after handling collision
+        }
+      }
+    }
+  }
+
+  checkForCollisions() {
+    const canvas = Game.getInstance().canvas
+    // simple checking, because we will use soon something better :)
+    // horizontal collision checking
+    if (this.position.x + this.velocity.x < 0) {
+      this.position.x = 0;
+      this.velocity.x = -this.velocity.x
+    }
+
+    if (this.position.x + this.width + this.velocity.x > canvas.width) {
+      this.velocity.x = -this.velocity.x
+      this.position.x = canvas.width - this.width
+    }
+
+    if (this.position.x + this.velocity.x < 0) {
+      this.position.x = 0;
+      this.velocity.x = 0
+    }
+
+    if (this.position.x + this.width + this.velocity.x > canvas.width) {
+      this.velocity.x = 0
+      this.position.x = canvas.width - this.width
+    }
+
   }
 }
