@@ -69,7 +69,7 @@ export default class Game {
     // adding all elements to List
     this.elementList.add(this.background)
     this.elementList.add(this.player)
-    //levelPlatforms.forEach(platform => this.elementList.add(platform))
+    levelPlatforms.forEach(platform => this.elementList.add(platform))
 
     // this is important for animation purposes, do not need now
     this.timeOfLastFrame = Date.now()
