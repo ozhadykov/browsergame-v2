@@ -37,6 +37,14 @@ export default class Player extends BaseGameElement {
     this.startTime = null;
     this.endTime = null;
 
+    this.image = new Image();
+    this.image.onload = () => {
+      console.log('Player Ready')
+    }
+    this.image.src = '../assets/Char/CharSheetWalk.png';
+    this.animationStep = 0;
+    this.walkState = false;
+
     // creating event listeners only once, do not need to create them each time, when we re-render
     this.init()
   }
@@ -119,23 +127,87 @@ export default class Player extends BaseGameElement {
     if (this.velocity.x < 0.4 && this.velocity.x > -0.4)
       this.velocity.x = 0
 
-    if (this.keys.d.pressed && this.canJump)
-      this.velocity.x = 3
-    else if (this.keys.a.pressed && this.canJump)
-      this.velocity.x = -3
+    if (this.keys.d.pressed && this.canJump) {
+      this.velocity.x = 0.5;
+      this.walkState = true;
+    }
+    else if (this.keys.a.pressed && this.canJump) {
+      this.velocity.x = -0.5
+      this.walkState = true;
+    } else  this.walkState = false;
   }
 
   draw(ctx, canvas) {
 
-    ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
-    ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'
-
-    if (this.lastPressedRight)
-      ctx.fillRect(this.position.x + (this.width - 2 * (this.width / 5)), this.position.y + this.height / 5, this.width / 5, this.height / 5)
-    else
-      ctx.fillRect(this.position.x + this.width / 5, this.position.y + this.height / 5, this.width / 5, this.height / 5)
-
+    if (this.walkState) {
+      if (this.animationstep <= 8) this.animationstep += 0.15
+      else this.animationstep = 0
+    }
+    if (this.lastPressedRight && this.walkState) {
+      ctx.save();
+      ctx.scale(1,1);
+      ctx.drawImage(
+        this.image,
+        100 * Math.round(this.animationstep),
+        0,
+        100,
+        100,
+        this.position.x,
+        this.position.y,
+        this.width,
+        this.height
+      )
+      ctx.restore();
+    }
+    else if (this.walkState) {
+      ctx.save();
+      ctx.scale(-1,1);
+      ctx.drawImage(
+        this.image,
+        100 * Math.round(this.animationstep),
+        0,
+        100,
+        100,
+        -this.position.x,
+        this.position.y,
+        -this.width,
+        this.height
+      )
+      ctx.restore();
+    } else {
+      if (this.lastPressedRight) {
+        ctx.save();
+        ctx.scale(1,1);
+        ctx.drawImage(
+          this.image,
+          0,
+          100,
+          100,
+          100,
+          this.position.x,
+          this.position.y,
+          this.width,
+          this.height
+        )
+        ctx.restore();
+      }
+      else {
+        ctx.save();
+        ctx.scale(-1,1);
+        ctx.drawImage(
+          this.image,
+          0,
+          100,
+          100,
+          100,
+          -this.position.x,
+          this.position.y,
+          -this.width,
+          this.height
+        )
+        ctx.restore();
+      }
+    }
   }
 
   applyGravity() {
