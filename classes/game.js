@@ -61,9 +61,10 @@ export default class Game {
       },
       height: 50,
       width: 30,
+      scale: 0.45,
       imageSrc: '../assets/Char/CharSheetWalk.png',
       cropBoxPosition: {x: 0, y: 100},
-      collisionBlocks
+      collisionBlocks,
     })
 
     // adding all elements to List

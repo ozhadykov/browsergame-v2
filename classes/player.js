@@ -11,14 +11,32 @@ export default class Player extends BaseGameElement {
       imageSrc,
       cropBoxPosition = {x: 0, y: 0},
       gravity = 0.1,
-      collisionBlocks
+      collisionBlocks,
+      scale = 0.5,
+      animations
     }) {
     super({position, height, width});
 
     this.velocity = {
       x: 0,
       y: 1,
-    };
+    }
+    this.gravity = gravity ?? 0.1;
+    this.collisionBlocks = collisionBlocks ?? [];
+    this.hitBox = {
+      position: {
+        x: this.position.x,
+        y: this.position.y,
+      },
+      width: 10,
+      height: 10,
+    }
+    this.scale = scale
+    this.image = new Image();
+    this.image.onload = () => {
+      console.log('Player Ready')
+    }
+    this.image.src =  imageSrc;
 
     this.keys = {
       d: {
@@ -38,21 +56,11 @@ export default class Player extends BaseGameElement {
     this.canJump = true;
     this.inJump = false;
     this.lastPressedRight = false;
-
     this.jumpDuration = null;
-    this.gravity = gravity ?? 0.1;
-    this.collisionBlocks = collisionBlocks ?? [];
-
     this.startTime = null;
     this.endTime = null;
 
-    this.image = new Image();
-    this.image.onload = () => {
-      console.log('Player Ready')
-    }
-    this.image.src =  imageSrc;
-    // Das ist in Platforms auch weiß nur nicht woher???
-    //this.cropBoxPosition = {x: 0, y: 0},
+    this.cropBoxPosition = cropBoxPosition;
     this.animationStep = 0;
     this.animationJump = 0;
     this.walkState = false;
@@ -66,12 +74,12 @@ export default class Player extends BaseGameElement {
     window.addEventListener('keydown', e => {
       switch (e.key) {
         case 'd':
-          this.keys.d.pressed = true,
+          this.keys.d.pressed = true
           this.drectionInversion = 1
           break
         case 'a':
-          this.keys.a.pressed = true,
-          this.drectionInversion = -1 
+          this.keys.a.pressed = true
+          this.drectionInversion = -1
           break
         case 'w':
           if (!this.keys.w.pressed && this.canJump && !this.inJump) {
@@ -122,13 +130,65 @@ export default class Player extends BaseGameElement {
   }
 
   action() {
-
     this.position.x += this.velocity.x
+    // It is important to use this function 2 times
+    this.updateHitBox()
     this.checkForHorizontalCollisions()
     this.applyGravity()
+    // It is important to use this function 2 times
+    this.updateHitBox()
     this.checkForVerticalCollisions()
     this.checkForCollisions()
+    this.enableMoving()
 
+  }
+
+  draw(ctx, canvas) {
+    ctx.save()
+    ctx.fillStyle = 'rgba(0, 255, 0, 0.2)'
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.2)'
+    ctx.fillRect(this.hitBox.position.x, this.hitBox.position.y, this.hitBox.width, this.hitBox.height);
+    if (this.walkState) {
+      if (this.animationstep <= 8) this.animationstep += 0.1
+      else this.animationstep = 0
+      this.cropBoxPosition = {x: 80 * Math.round(this.animationstep), y: 0}
+    } else if (this.inJump) {
+      if (this.animationJump <= 3) this.animationJump += 0.07
+      else this.animationJump = 3
+      this.cropBoxPosition = {x: 80 * Math.round(this.animationJump), y: 200}
+    } else if (this.canJump) {
+      this.cropBoxPosition = {x: 0, y: 100}
+    } else {
+      this.cropBoxPosition = {x: 400, y: 200}
+    }
+    this.cropBox = {
+      height: 100,
+      width: 60
+    }
+    // ctx.scale(this.drectionInversion, 1);
+    // ctx.translate(this.position.x, this.position.y)
+    ctx.drawImage(
+      this.image,
+      this.cropBoxPosition.x,
+      this.cropBoxPosition.y,
+      this.cropBox.width,
+      this.cropBox.height,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    )
+
+    ctx.restore()
+  }
+
+  applyGravity() {
+    this.velocity.y += this.gravity
+    this.position.y += this.velocity.y
+  }
+
+  enableMoving() {
     if (this.velocity.x > 0)
       this.velocity.x -= 0.05
 
@@ -139,68 +199,31 @@ export default class Player extends BaseGameElement {
       this.velocity.x = 0
 
     if (this.keys.d.pressed && this.canJump) {
-      this.velocity.x = 0.5;
+      this.velocity.x = 1;
       this.walkState = true;
-    }
-    else if (this.keys.a.pressed && this.canJump) {
-      this.velocity.x = -0.5
+    } else if (this.keys.a.pressed && this.canJump) {
+      this.velocity.x = -1
       this.walkState = true;
-    } else  this.walkState = false;
-  }
-
-  draw(ctx, canvas) {
-    ctx.save();
-    ctx.scale(1 * this.drectionInversion,1);
-    // Bessere version mit CropBox funktioniert nicht siehe Zeile 45
-    if (this.walkState) {
-      if (this.animationstep <= 8) this.animationstep += 0.1
-      else this.animationstep = 0
-      this.cropBoxPosition = {x: 80 * Math.round(this.animationstep), y: 0}
-    } else if (this.inJump) {
-      if (this.animationJump <= 3) this.animationJump += 0.07
-      else this.animationJump = 3
-      this.cropBoxPosition = {x: 80 * Math.round(this.animationJump), y: 200}
-    } else if (this.canJump){
-      this.cropBoxPosition = {x: 0, y: 100}
     } else{
-      this.cropBoxPosition = {x: 400, y: 200}
+      this.walkState = false;
     }
-    this.cropBox = {
-      height: 100,
-      width: 60
-    }
-    
-    ctx.drawImage(
-      this.image,
-      this.cropBoxPosition.x,
-      this.cropBoxPosition.y,
-      this.cropBox.width,
-      this.cropBox.height,
-      this.position.x * this.drectionInversion,
-      this.position.y,
-      this.width * this.drectionInversion,
-      this.height
-    )
-    ctx.restore();
-  }
 
-  applyGravity() {
-    this.position.y += this.velocity.y
-    this.velocity.y += this.gravity
   }
 
   checkForHorizontalCollisions() {
     for (const block of this.collisionBlocks) {
-      if (Collisions.collision(this, block)) {
+      if (Collisions.collision(this.hitBox, block)) {
         if (this.velocity.x > 0) {
           this.velocity.x = 0
-          this.position.x = block.position.x - this.width - 0.01
+          const offset = this.hitBox.position.x - this.position.x + this.hitBox.width
+          this.position.x = block.position.x - offset - 0.01
           break // Exit loop after handling collision
         }
 
         if (this.velocity.x < 0) {
           this.velocity.x = 0
-          this.position.x = block.position.x + block.width + 0.01
+          const offset = this.hitBox.position.x - this.position.x
+          this.position.x = block.position.x + offset + 0.01
           break // Exit loop after handling collision
         }
       }
@@ -209,19 +232,32 @@ export default class Player extends BaseGameElement {
 
   checkForVerticalCollisions() {
     for (const block of this.collisionBlocks) {
-      if (Collisions.collision(this, block)) {
+      if (Collisions.collision(this.hitBox, block)) {
         if (this.velocity.y > 0) {
           this.velocity.y = 0
-          this.position.y = block.position.y - this.height - 0.01
+          const offset = this.hitBox.position.y - this.position.y + this.hitBox.height
+          this.position.y = block.position.y - offset - 0.01
           break // Exit loop after handling collision
         }
 
         if (this.velocity.y < 0) {
           this.velocity.y = 0
-          this.position.y = block.position.y + block.height + 0.01
+          const offset = this.hitBox.position.y - this.position.y
+          this.position.y = block.position.y + block.height - offset + 0.01
           break // Exit loop after handling collision
         }
       }
+    }
+  }
+
+  updateHitBox() {
+    this.hitBox = {
+      position: {
+        x: this.position.x + 8,
+        y: this.position.y,
+      },
+      width: 14,
+      height: 50,
     }
   }
 
