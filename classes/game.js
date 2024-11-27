@@ -59,8 +59,10 @@ export default class Game {
         x: 0,
         y: 440
       },
-      height: 32,
-      width: 32,
+      height: 50,
+      width: 30,
+      imageSrc: '../assets/Char/CharSheetWalk.png',
+      cropBoxPosition: {x: 0, y: 100},
       collisionBlocks
     })
 
@@ -86,6 +88,7 @@ export default class Game {
     if (!this.player.keys.pause.pressed) {
 
       this.ctx.save()
+      //finde das kleinere besser aber nur mein geschmack. Falls geändert müssen wir auch den Sprung entsprechend anpassen
       this.ctx.scale(2, 2)
       this.ctx.translate(0, -this.canvas.height / 2)
 
