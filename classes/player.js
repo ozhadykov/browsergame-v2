@@ -3,8 +3,17 @@ import Game from "./game.js";
 import {Collisions} from "../utils/collisions.js";
 
 export default class Player extends BaseGameElement {
-  constructor(params) {
-    super(params);
+  constructor(
+    {
+      position,
+      height,
+      width,
+      imageSrc,
+      cropBoxPosition = {x: 0, y: 0},
+      gravity = 0.1,
+      collisionBlocks
+    }) {
+    super({position, height, width});
 
     this.velocity = {
       x: 0,
@@ -31,8 +40,8 @@ export default class Player extends BaseGameElement {
     this.lastPressedRight = false;
 
     this.jumpDuration = null;
-    this.gravity = params.gravity ?? 0.1;
-    this.collisionBlocks = params.collisionBlocks ?? [];
+    this.gravity = gravity ?? 0.1;
+    this.collisionBlocks = collisionBlocks ?? [];
 
     this.startTime = null;
     this.endTime = null;
@@ -41,7 +50,7 @@ export default class Player extends BaseGameElement {
     this.image.onload = () => {
       console.log('Player Ready')
     }
-    this.image.src = '../assets/Char/CharSheetWalk.png';
+    this.image.src =  imageSrc;
     // Das ist in Platforms auch weiß nur nicht woher???
     //this.cropBoxPosition = {x: 0, y: 0},
     this.animationStep = 0;
@@ -143,91 +152,35 @@ export default class Player extends BaseGameElement {
     ctx.save();
     ctx.scale(1 * this.drectionInversion,1);
     // Bessere version mit CropBox funktioniert nicht siehe Zeile 45
-    /* if (this.walkState) {
-      if (this.animationstep <= 8) this.animationstep += 0.15
+    if (this.walkState) {
+      if (this.animationstep <= 8) this.animationstep += 0.1
       else this.animationstep = 0
-      cropBoxPosition = {x: 80 * Math.round(this.animationstep), y: 0}
+      this.cropBoxPosition = {x: 80 * Math.round(this.animationstep), y: 0}
     } else if (this.inJump) {
       if (this.animationJump <= 3) this.animationJump += 0.07
       else this.animationJump = 3
-      cropBoxPosition = {x: 80 * Math.round(this.animationJump), y: 200}
+      this.cropBoxPosition = {x: 80 * Math.round(this.animationJump), y: 200}
     } else if (this.canJump){
-      cropBoxPosition = {x: 0, y: 100}
+      this.cropBoxPosition = {x: 0, y: 100}
     } else{
-      cropBoxPosition = {x: 400, y: 200}
+      this.cropBoxPosition = {x: 400, y: 200}
     }
     this.cropBox = {
       height: 100,
-      width: 60,
-      position: cropBoxPosition
+      width: 60
     }
+    
     ctx.drawImage(
       this.image,
-      this.cropBox.cropBoxPosition.x,
-      this.cropBox.cropBoxPosition.y,
+      this.cropBoxPosition.x,
+      this.cropBoxPosition.y,
       this.cropBox.width,
       this.cropBox.height,
       this.position.x * this.drectionInversion,
       this.position.y,
       this.width * this.drectionInversion,
       this.height
-    ) */
-    if (this.walkState) {
-      if (this.animationstep <= 8) this.animationstep += 0.15
-      else this.animationstep = 0
-      ctx.drawImage(
-        this.image,
-        80 * Math.round(this.animationstep),
-        0,
-        60,
-        100,
-        this.position.x * this.drectionInversion,
-        this.position.y,
-        this.width * this.drectionInversion,
-        this.height
-      )
-    }
-    else if (this.inJump) {
-      if (this.animationJump <= 3) this.animationJump += 0.07
-      else this.animationJump = 3
-      ctx.drawImage(
-        this.image,
-        80 * Math.round(this.animationJump),
-        200,
-        60,
-        100,
-        this.position.x * this.drectionInversion,
-        this.position.y,
-        this.width * this.drectionInversion,
-        this.height
-      )
-    }
-    else if (this.canJump){
-        ctx.drawImage(
-          this.image,
-          0,
-          100,
-          60,
-          100,
-          this.position.x * this.drectionInversion,
-          this.position.y,
-          this.width * this.drectionInversion,
-          this.height
-        )
-    }
-    else{
-      ctx.drawImage(
-        this.image,
-        400,
-        200,
-        60,
-        100,
-        this.position.x * this.drectionInversion,
-        this.position.y,
-        this.width * this.drectionInversion,
-        this.height
-      )
-     }
+    )
     ctx.restore();
   }
 
