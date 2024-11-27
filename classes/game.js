@@ -59,8 +59,8 @@ export default class Game {
         x: 0,
         y: 440
       },
-      height: 32,
-      width: 32,
+      height: 50,
+      width: 30,
       collisionBlocks
     })
 
@@ -86,7 +86,7 @@ export default class Game {
     if (!this.player.keys.pause.pressed) {
 
       this.ctx.save()
-      this.ctx.scale(2, 2)
+      //this.ctx.scale(2, 2)
       this.ctx.translate(0, -this.canvas.height / 2)
 
       //--- clear screen

@@ -31,7 +31,7 @@ export default class Player extends BaseGameElement {
     this.lastPressedRight = false;
 
     this.jumpDuration = null;
-    this.gravity = params.gravity ?? 0.5;
+    this.gravity = params.gravity ?? 0.1;
     this.collisionBlocks = params.collisionBlocks ?? [];
 
     this.startTime = null;
@@ -42,8 +42,12 @@ export default class Player extends BaseGameElement {
       console.log('Player Ready')
     }
     this.image.src = '../assets/Char/CharSheetWalk.png';
+    // Das ist in Platforms auch weiß nur nicht woher???
+    //this.cropBoxPosition = {x: 0, y: 0},
     this.animationStep = 0;
+    this.animationJump = 0;
     this.walkState = false;
+    this.drectionInversion = 1;
 
     // creating event listeners only once, do not need to create them each time, when we re-render
     this.init()
@@ -54,11 +58,11 @@ export default class Player extends BaseGameElement {
       switch (e.key) {
         case 'd':
           this.keys.d.pressed = true,
-            this.lastPressedRight = true
+          this.drectionInversion = 1
           break
         case 'a':
           this.keys.a.pressed = true,
-            this.lastPressedRight = false
+          this.drectionInversion = -1 
           break
         case 'w':
           if (!this.keys.w.pressed && this.canJump && !this.inJump) {
@@ -83,18 +87,16 @@ export default class Player extends BaseGameElement {
           this.keys.a.pressed = false
           break
         case 'w':
+          // can Jump funktioniert noch nicht mit neuer Collision 
           if (this.canJump && this.inJump) {
+            this.animationJump = 0
             this.keys.w.pressed = false
             this.stoppedPressingJump()
 
             this.jumpDuration = this.endTime - this.startTime
-            this.velocity.y = -8 * (this.jumpDuration * 0.005)
+            this.velocity.y = -2 * (this.jumpDuration * 0.002)
 
-            if (this.lastPressedRight)
-              this.velocity.x = this.jumpDuration * 0.05
-            else
-              this.velocity.x = -(this.jumpDuration * 0.05)
-
+            this.velocity.x = this.jumpDuration * 0.005 * this.drectionInversion
             this.inJump = false
           }
           break
@@ -119,12 +121,12 @@ export default class Player extends BaseGameElement {
     this.checkForCollisions()
 
     if (this.velocity.x > 0)
-      this.velocity.x -= 0.4
+      this.velocity.x -= 0.05
 
     if (this.velocity.x < 0)
-      this.velocity.x += 0.4
+      this.velocity.x += 0.05
 
-    if (this.velocity.x < 0.4 && this.velocity.x > -0.4)
+    if (this.velocity.x < 0.2 && this.velocity.x > -0.2)
       this.velocity.x = 0
 
     if (this.keys.d.pressed && this.canJump) {
@@ -138,76 +140,95 @@ export default class Player extends BaseGameElement {
   }
 
   draw(ctx, canvas) {
-
+    ctx.save();
+    ctx.scale(1 * this.drectionInversion,1);
+    // Bessere version mit CropBox funktioniert nicht siehe Zeile 45
+    /* if (this.walkState) {
+      if (this.animationstep <= 8) this.animationstep += 0.15
+      else this.animationstep = 0
+      cropBoxPosition = {x: 80 * Math.round(this.animationstep), y: 0}
+    } else if (this.inJump) {
+      if (this.animationJump <= 3) this.animationJump += 0.07
+      else this.animationJump = 3
+      cropBoxPosition = {x: 80 * Math.round(this.animationJump), y: 200}
+    } else if (this.canJump){
+      cropBoxPosition = {x: 0, y: 100}
+    } else{
+      cropBoxPosition = {x: 400, y: 200}
+    }
+    this.cropBox = {
+      height: 100,
+      width: 60,
+      position: cropBoxPosition
+    }
+    ctx.drawImage(
+      this.image,
+      this.cropBox.cropBoxPosition.x,
+      this.cropBox.cropBoxPosition.y,
+      this.cropBox.width,
+      this.cropBox.height,
+      this.position.x * this.drectionInversion,
+      this.position.y,
+      this.width * this.drectionInversion,
+      this.height
+    ) */
     if (this.walkState) {
       if (this.animationstep <= 8) this.animationstep += 0.15
       else this.animationstep = 0
-    }
-    if (this.lastPressedRight && this.walkState) {
-      ctx.save();
-      ctx.scale(1,1);
       ctx.drawImage(
         this.image,
-        100 * Math.round(this.animationstep),
+        80 * Math.round(this.animationstep),
         0,
+        60,
         100,
-        100,
-        this.position.x,
+        this.position.x * this.drectionInversion,
         this.position.y,
-        this.width,
+        this.width * this.drectionInversion,
         this.height
       )
-      ctx.restore();
     }
-    else if (this.walkState) {
-      ctx.save();
-      ctx.scale(-1,1);
+    else if (this.inJump) {
+      if (this.animationJump <= 3) this.animationJump += 0.07
+      else this.animationJump = 3
       ctx.drawImage(
         this.image,
-        100 * Math.round(this.animationstep),
-        0,
+        80 * Math.round(this.animationJump),
+        200,
+        60,
         100,
-        100,
-        -this.position.x,
+        this.position.x * this.drectionInversion,
         this.position.y,
-        -this.width,
+        this.width * this.drectionInversion,
         this.height
       )
-      ctx.restore();
-    } else {
-      if (this.lastPressedRight) {
-        ctx.save();
-        ctx.scale(1,1);
+    }
+    else if (this.canJump){
         ctx.drawImage(
           this.image,
           0,
           100,
+          60,
           100,
-          100,
-          this.position.x,
+          this.position.x * this.drectionInversion,
           this.position.y,
-          this.width,
+          this.width * this.drectionInversion,
           this.height
         )
-        ctx.restore();
-      }
-      else {
-        ctx.save();
-        ctx.scale(-1,1);
-        ctx.drawImage(
-          this.image,
-          0,
-          100,
-          100,
-          100,
-          -this.position.x,
-          this.position.y,
-          -this.width,
-          this.height
-        )
-        ctx.restore();
-      }
     }
+    else{
+      ctx.drawImage(
+        this.image,
+        400,
+        200,
+        60,
+        100,
+        this.position.x * this.drectionInversion,
+        this.position.y,
+        this.width * this.drectionInversion,
+        this.height
+      )
+     }
+    ctx.restore();
   }
 
   applyGravity() {
