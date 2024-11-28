@@ -111,9 +111,9 @@ export default class Player extends BaseGameElement {
             this.stoppedPressingJump()
 
             this.jumpDuration = this.endTime - this.startTime
-            this.velocity.y = -2 * (this.jumpDuration * 0.002)
+            this.velocity.y = -1 * (Math.pow(this.jumpDuration / 375, 2))
 
-            this.velocity.x = this.jumpDuration * 0.005 * this.directionInversion
+            this.velocity.x = this.jumpDuration / 225 * this.directionInversion
             this.inJump = false
           }
           break
@@ -229,6 +229,7 @@ export default class Player extends BaseGameElement {
   checkForVerticalCollisions() {
     for (const block of this.collisionBlocks) {
       if (Collisions.collision(this.hitBox, block)) {
+        this.canJump = true
         if (this.velocity.y > 0) {
           this.velocity.y = 0
           const offset = this.hitBox.position.y - this.position.y + this.hitBox.height
@@ -242,7 +243,8 @@ export default class Player extends BaseGameElement {
           this.position.y = block.position.y + block.height - offset + 0.01
           break // Exit loop after handling collision
         }
-      }
+      } else
+        this.canJump = false
     }
   }
 
