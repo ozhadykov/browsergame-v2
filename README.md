@@ -78,4 +78,15 @@ Idee des Objektorieterten Programmierens einearbeiten
 - Prinzip des kleinsten Zugriffs
 - Zusammenfügen von gemeinsamkeiten in Oberklassen (Siehe framework)
 
+----- Gameplay
+
+- Hud - Simon
+- Hintergrund - ID 
+- Kamera - ?? 
+- Map in 2 Geteilt - ?? 
+- Steuerung Anpassen - (fertig) 
+- "Sprung Gefühl" Anpassen - ?? 
+
+(???) Items, "lava level",
+
 
