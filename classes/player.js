@@ -64,7 +64,7 @@ export default class Player extends BaseGameElement {
     this.animationStep = 0;
     this.animationJump = 0;
     this.walkState = false;
-    this.drectionInversion = 1;
+    this.directionInversion = 1;
 
     // creating event listeners only once, do not need to create them each time, when we re-render
     this.init()
@@ -75,11 +75,11 @@ export default class Player extends BaseGameElement {
       switch (e.key) {
         case 'd':
           this.keys.d.pressed = true
-          this.drectionInversion = 1
+          this.directionInversion = 1
           break
         case 'a':
           this.keys.a.pressed = true
-          this.drectionInversion = -1
+          this.directionInversion = -1
           break
         case 'w':
           if (!this.keys.w.pressed && this.canJump && !this.inJump) {
@@ -113,7 +113,7 @@ export default class Player extends BaseGameElement {
             this.jumpDuration = this.endTime - this.startTime
             this.velocity.y = -2 * (this.jumpDuration * 0.002)
 
-            this.velocity.x = this.jumpDuration * 0.005 * this.drectionInversion
+            this.velocity.x = this.jumpDuration * 0.005 * this.directionInversion
             this.inJump = false
           }
           break
@@ -145,10 +145,6 @@ export default class Player extends BaseGameElement {
 
   draw(ctx, canvas) {
     ctx.save()
-    ctx.fillStyle = 'rgba(0, 255, 0, 0.2)'
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-    ctx.fillStyle = 'rgba(255, 0, 0, 0.2)'
-    ctx.fillRect(this.hitBox.position.x, this.hitBox.position.y, this.hitBox.width, this.hitBox.height);
     if (this.walkState) {
       if (this.animationstep <= 8) this.animationstep += 0.1
       else this.animationstep = 0
@@ -166,17 +162,17 @@ export default class Player extends BaseGameElement {
       height: 100,
       width: 60
     }
-    // ctx.scale(this.drectionInversion, 1);
-    // ctx.translate(this.position.x, this.position.y)
+
+    ctx.scale(this.directionInversion, 1);
     ctx.drawImage(
       this.image,
       this.cropBoxPosition.x,
       this.cropBoxPosition.y,
       this.cropBox.width,
       this.cropBox.height,
-      this.position.x,
+      this.position.x * this.directionInversion,
       this.position.y,
-      this.width,
+      this.width * this.directionInversion,
       this.height
     )
 

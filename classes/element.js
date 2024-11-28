@@ -26,4 +26,5 @@ export default class BaseGameElement {
     ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
   }
 
+
 }
