@@ -7,12 +7,14 @@ export default class BaseGameElement {
    * @param height
    * @param width
    * @param scale
+   * e
    */
   constructor({ position, height, width })
   {
     this.height = height;
     this.width = width;
     this.position = position;
+
   }
 
   action()
@@ -25,6 +27,5 @@ export default class BaseGameElement {
     ctx.fillRect(x, y, width, height)
     ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
   }
-
 
 }

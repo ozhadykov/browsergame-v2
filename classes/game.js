@@ -111,12 +111,14 @@ export default class Game {
   }
 
   openPauseMenu() {
+    document.getElementById('mainmenuBackround').style.display = "block"
     this.canvas.style.display = "none";
     document.getElementById('pauseMenu').style.display = "block"
   }
 
   closePauseMenu() {
     this.canvas.style.display = "block";
+    document.getElementById('mainmenuBackround').style.display = "none"
     document.getElementById('pauseMenu').style.display = "none"
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
@@ -125,6 +127,7 @@ export default class Game {
     document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "block"
   }
   openMainMenu()  {
+    document.getElementById('mainmenuBackround').style.display = "block"
     document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
     document.getElementById('mainMenu').style.display = "block"
   }
