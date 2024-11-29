@@ -60,7 +60,7 @@ export default class Game {
         y: 440
       },
       height: 50,
-      width: 30,
+      width: 50,
       scale: 0.45,
       imageSrc: '../assets/Char/CharSheetWalk.png',
       cropBoxPosition: {x: 0, y: 100},

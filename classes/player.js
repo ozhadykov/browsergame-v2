@@ -148,19 +148,22 @@ export default class Player extends BaseGameElement {
     if (this.walkState) {
       if (this.animationstep <= 8) this.animationstep += 0.1
       else this.animationstep = 0
-      this.cropBoxPosition = {x: 80 * Math.round(this.animationstep), y: 0}
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationstep), y: 0}
     } else if (this.inJump) {
-      if (this.animationJump <= 3) this.animationJump += 0.07
-      else this.animationJump = 3
-      this.cropBoxPosition = {x: 80 * Math.round(this.animationJump), y: 200}
+      if (this.animationJump <= 2) this.animationJump += 0.07
+      else this.animationJump = 2
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 200}
     } else if (this.canJump) {
       this.cropBoxPosition = {x: 0, y: 100}
     } else {
-      this.cropBoxPosition = {x: 400, y: 200}
+      if (this.animationJump <= 3) this.animationJump = 3
+      if (this.animationJump <= 6) this.animationJump += 0.03
+      else this.animationJump = 6
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 200}
     }
     this.cropBox = {
       height: 100,
-      width: 60
+      width: 100
     }
 
     ctx.scale(this.directionInversion, 1);
@@ -212,14 +215,14 @@ export default class Player extends BaseGameElement {
         if (this.velocity.x > 0) {
           this.velocity.x = 0
           const offset = this.hitBox.position.x - this.position.x + this.hitBox.width
-          this.position.x = block.position.x - offset - 0.01
+          this.position.x = block.position.x  - offset - 0.01
           break // Exit loop after handling collision
         }
 
         if (this.velocity.x < 0) {
           this.velocity.x = 0
           const offset = this.hitBox.position.x - this.position.x
-          this.position.x = block.position.x + offset + 0.01
+          this.position.x = block.position.x + offset  + 0.01
           break // Exit loop after handling collision
         }
       }
@@ -254,7 +257,7 @@ export default class Player extends BaseGameElement {
         x: this.position.x + 8,
         y: this.position.y,
       },
-      width: 14,
+      width: 27,
       height: 50,
     }
   }
