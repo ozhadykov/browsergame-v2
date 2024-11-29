@@ -6,6 +6,7 @@ const game = Game.getInstance()
 const mainMenu = document.getElementById("mainMenu");
 
 function startGame() {
+  document.getElementById('mainmenuBackround').style.display = "none"
   game.canvas.style.display = "block";
   mainMenu.style.display = "none";
   game.start(0);
