@@ -36,7 +36,7 @@ export default class Player extends BaseGameElement {
     this.image.onload = () => {
       console.log('Player Ready')
     }
-    this.image.src =  imageSrc;
+    this.image.src = imageSrc;
 
     this.keys = {
       d: {
@@ -67,10 +67,10 @@ export default class Player extends BaseGameElement {
     this.directionInversion = 1;
 
     // creating event listeners only once, do not need to create them each time, when we re-render
-    this.init()
+    this.initEventListeners()
   }
 
-  init() {
+  initEventListeners() {
     window.addEventListener('keydown', e => {
       switch (e.key) {
         case 'd':
@@ -133,6 +133,7 @@ export default class Player extends BaseGameElement {
     this.position.x += this.velocity.x
     // It is important to use this function 2 times
     this.updateHitBox()
+    this.updateHorizontalCamera()
     this.checkForHorizontalCollisions()
     this.applyGravity()
     // It is important to use this function 2 times
@@ -145,22 +146,8 @@ export default class Player extends BaseGameElement {
 
   draw(ctx, canvas) {
     ctx.save()
-    if (this.walkState) {
-      if (this.animationstep <= 8) this.animationstep += 0.1
-      else this.animationstep = 0
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationstep), y: 0}
-    } else if (this.inJump) {
-      if (this.animationJump <= 2) this.animationJump += 0.07
-      else this.animationJump = 2
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 200}
-    } else if (this.canJump) {
-      this.cropBoxPosition = {x: 0, y: 100}
-    } else {
-      if (this.animationJump <= 3) this.animationJump = 3
-      if (this.animationJump <= 6) this.animationJump += 0.03
-      else this.animationJump = 6
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 200}
-    }
+    // animation
+    this.updateFrames()
     this.cropBox = {
       height: 100,
       width: 100
@@ -203,7 +190,7 @@ export default class Player extends BaseGameElement {
     } else if (this.keys.a.pressed && this.canJump) {
       this.velocity.x = -1
       this.walkState = true;
-    } else{
+    } else {
       this.walkState = false;
     }
 
@@ -215,14 +202,14 @@ export default class Player extends BaseGameElement {
         if (this.velocity.x > 0) {
           this.velocity.x = 0
           const offset = this.hitBox.position.x - this.position.x + this.hitBox.width
-          this.position.x = block.position.x  - offset - 0.01
+          this.position.x = block.position.x - offset - 0.01
           break // Exit loop after handling collision
         }
 
         if (this.velocity.x < 0) {
           this.velocity.x = 0
           const offset = this.hitBox.position.x - this.position.x
-          this.position.x = block.position.x + offset  + 0.01
+          this.position.x = block.position.x + offset + 0.01
           break // Exit loop after handling collision
         }
       }
@@ -260,6 +247,39 @@ export default class Player extends BaseGameElement {
       width: 27,
       height: 50,
     }
+  }
+
+  updateFrames() {
+    if (this.walkState) {
+      if (this.animationstep <= 8) this.animationstep += 0.1
+      else this.animationstep = 0
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationstep), y: 0}
+    } else if (this.inJump) {
+      if (this.animationJump <= 2) this.animationJump += 0.07
+      else this.animationJump = 2
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 200}
+    } else if (this.canJump) {
+      this.cropBoxPosition = {x: 0, y: 100}
+    } else {
+      if (this.animationJump <= 3) this.animationJump = 3
+      if (this.animationJump <= 6) this.animationJump += 0.03
+      else this.animationJump = 6
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 200}
+    }
+  }
+
+  updateHorizontalCamera() {
+    const ctx = Game.getInstance().ctx
+    const canvas = Game.getInstance().canvas
+
+
+    if (this.hitBox.position.x + this.hitBox.width >= canvas.width / 2) {
+      ctx.save()
+      console.log('Move camera to the right')
+      ctx.translate(canvas.width / 2, 0)
+      ctx.restore()
+    }
+
   }
 
   checkForCollisions() {

@@ -91,7 +91,7 @@ export default class Game {
       this.ctx.save()
       //finde das kleinere besser aber nur mein geschmack. Falls geändert müssen wir auch den Sprung entsprechend anpassen
       this.ctx.scale(2, 2)
-      this.ctx.translate(0, -this.canvas.height / 2)
+      //this.ctx.translate(0, -this.canvas.height / 2)
 
       //--- clear screen
       this.ctx.fillStyle = 'white'
