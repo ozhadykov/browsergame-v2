@@ -89,4 +89,11 @@ Idee des Objektorieterten Programmierens einearbeiten
 
 (???) Items, "lava level",
 
+### Aufgaben für die Woche (28. Nov. - 6. Dez.)
+
+1. Jump Balken + Limiter - Paul F
+2. Main Menu Background + Buttons - Paul J
+3. Background Image - Imke
+4. Neue Character + Neue Animation + neues Level - Simon
+5. Camera Bewegung - Omar
 
