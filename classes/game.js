@@ -91,7 +91,7 @@ export default class Game {
       this.ctx.save()
 
       this.ctx.scale(2, 2)
-      this.ctx.translate(this.player.cameraBox.position.x, -this.canvas.height / 2)
+      this.ctx.translate(this.player.cameraBox.position.x, -this.player.cameraBox.position.y)
 
       //--- clear screen
       this.ctx.fillStyle = 'white'

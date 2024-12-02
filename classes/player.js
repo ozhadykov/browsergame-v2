@@ -286,10 +286,7 @@ export default class Player extends BaseGameElement {
   }
 
   updateVerticalCamera() {
-    const canvas = Game.getInstance().canvas
-
-    console.log(this.position.y)
-
+    this.cameraBox.position.y = this.position.y - 204
   }
 
   checkForCollisions() {
