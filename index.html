@@ -13,28 +13,28 @@
 </head>
 
 <body>
-  <div id="mainMenu">
+  <div class="content">
+    <div id="mainMenu">
+      <h1>Main Menu</h1>
+      <button id="mainMenuStartButton">start</button>
+    </div>
+    <img id="mainmenuBackround" src="assets/mainmenu/mainmenubackround.webp">
 
-    <h1>Main Menu</h1>
-    <button id="mainMenuStartButton">start</button>
+    <div id="pauseMenu">
+      <h1>Spiel pausiert</h1>
+      <button id="continueButton">Fortsetzen</button>
+      <button id="goToMainMenu">Zum Hauptmenü</button>
+    </div>
 
+    <div id="goToMainMenu_ARE_YOU_SURE">
+      <h1>Dein Fortschritt wird nicht gespeichert!</h1>
+      <h1>Dennoch zum Hauptmenü zurückkehren?</h1>
+      <button id="YesMainMenu">Ja</button>
+      <button id="NoContinuePause">Nein</button>
+    </div>
+
+    <canvas id="my-canvas" width="960" height="540" style="display: none"></canvas>
   </div>
-  <img id="mainmenuBackround" src="assets/mainmenu/mainmenubackround.webp">
-
-  <div id="pauseMenu">
-    <h1>Spiel pausiert</h1>
-    <button id="continueButton">Fortsetzen</button>
-    <button id="goToMainMenu">Zum Hauptmenü</button>
-  </div>
-
-  <div id="goToMainMenu_ARE_YOU_SURE">
-    <h1>Dein Fortschritt wird nicht gespeichert!</h1>
-    <h1>Dennoch zum Hauptmenü zurückkehren?</h1>
-    <button id="YesMainMenu">Ja</button>
-    <button id="NoContinuePause">Nein</button>
-  </div>
-
-  <canvas id="my-canvas" width="960" height="540" style="display: none"></canvas>
   <script type="module" src="main.js"></script>
 </body>
 
