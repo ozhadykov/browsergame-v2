@@ -48,11 +48,12 @@ export default class Game {
     // creating game elements
     this.background = new Background({
       position: {
-        x: 10,
-        y: 0
+        x: 0,
+        y: 5
       },
-      imageSrc: '../assets/background/background.png',
+      imageSrc: '../assets/background/Background_Kanalisation.png',
     })
+   
     const collisionBlocks = generatePlatformsForLevel(level)
     this.player = new Player({
       position: {
