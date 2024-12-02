@@ -31,6 +31,14 @@ export default class Player extends BaseGameElement {
       width: 10,
       height: 10,
     }
+    this.cameraBox = {
+      position: {
+        x: this.position.x,
+        y: this.position.y,
+      },
+      width: Game.getInstance().canvas.width / 2,
+      height: Game.getInstance().canvas.height / 2,
+    }
     this.scale = scale
     this.image = new Image();
     this.image.onload = () => {
@@ -138,6 +146,7 @@ export default class Player extends BaseGameElement {
     this.applyGravity()
     // It is important to use this function 2 times
     this.updateHitBox()
+    this.updateVerticalCamera()
     this.checkForVerticalCollisions()
     this.checkForCollisions()
     this.enableMoving()
@@ -269,16 +278,17 @@ export default class Player extends BaseGameElement {
   }
 
   updateHorizontalCamera() {
-    const ctx = Game.getInstance().ctx
     const canvas = Game.getInstance().canvas
 
+    this.cameraBox.position.x = this.hitBox.position.x + this.hitBox.width >= canvas.width / 2 ?
+      this.cameraBox.position.x = - canvas.width / 2 :
+      this.cameraBox.position.x = 0
+  }
 
-    if (this.hitBox.position.x + this.hitBox.width >= canvas.width / 2) {
-      ctx.save()
-      console.log('Move camera to the right')
-      ctx.translate(canvas.width / 2, 0)
-      ctx.restore()
-    }
+  updateVerticalCamera() {
+    const canvas = Game.getInstance().canvas
+
+    console.log(this.position.y)
 
   }
 
