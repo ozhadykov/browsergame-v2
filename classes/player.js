@@ -280,13 +280,15 @@ export default class Player extends BaseGameElement {
   updateHorizontalCamera() {
     const canvas = Game.getInstance().canvas
 
-    this.cameraBox.position.x = this.hitBox.position.x + this.hitBox.width >= canvas.width / 2 ?
+    this.hitBox.position.x + this.hitBox.width >= canvas.width / 2 ?
       this.cameraBox.position.x = - canvas.width / 2 :
       this.cameraBox.position.x = 0
   }
 
   updateVerticalCamera() {
-    this.cameraBox.position.y = this.position.y - 204
+    this.position.y - 204 >= 0 ?
+      this.cameraBox.position.y = this.position.y - 204 :
+      this.cameraBox.position.y = 0
   }
 
   checkForCollisions() {
