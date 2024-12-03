@@ -57,6 +57,8 @@ export default class Player extends BaseGameElement {
     this.inJump = false;
     this.lastPressedRight = false;
     this.jumpDuration = null;
+    this.maxJumpCharge = 950; // Einstellungsvariable für Sprung-Limiter
+    this.chargingJumpTime = 0;
     this.startTime = null;
     this.endTime = null;
 
@@ -86,6 +88,7 @@ export default class Player extends BaseGameElement {
             this.startedPressingJump()
             this.inJump = true
             this.keys.w.pressed = true
+            this.chargingJumpTime = Date.now()
           }
           break
         // todo: move to Game class
@@ -111,9 +114,14 @@ export default class Player extends BaseGameElement {
             this.stoppedPressingJump()
 
             this.jumpDuration = this.endTime - this.startTime
+            if(this.jumpDuration <= this.maxJumpCharge) {
             this.velocity.y = -1 * (Math.pow(this.jumpDuration / 375, 2))
-
             this.velocity.x = this.jumpDuration / 225 * this.directionInversion
+            }else {
+              this.velocity.y = -1 * (Math.pow(this.maxJumpCharge / 375, 2))
+              this.velocity.x = this.maxJumpCharge / 225 * this.directionInversion
+            }
+            
             this.inJump = false
           }
           break

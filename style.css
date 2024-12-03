@@ -24,15 +24,25 @@ canvas {
     right: 0;
 }
 
+#my-jumpChargingBarCanvas {
+    background: rgb(255, 255, 255);
+    margin: auto;
+    display: block;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    bottom: 240px;
+    left: 1100px;
+    right: 0px;
+}
+
 #mainMenu {
     display: block;
     position: fixed;
-    /* fixed, damit es immer über dem Canvas bleibt */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.85);
-    /* dunklerer Hintergrund für bessere Sichtbarkeit */
     color: white;
     padding: 30px;
     border-radius: 12px;
@@ -40,7 +50,6 @@ canvas {
     text-align: center;
     font-family: 'Arial', sans-serif;
     z-index: 999;
-    /* Damit das Menü immer oben ist */
     width: 500px;
 }
 
@@ -75,12 +84,10 @@ canvas {
     display: none;
     /* erstmal unsichtbar */
     position: fixed;
-    /* fixed, damit es immer über dem Canvas bleibt */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.85);
-    /* dunklerer Hintergrund für bessere Sichtbarkeit */
     color: white;
     padding: 30px;
     border-radius: 12px;
@@ -88,7 +95,6 @@ canvas {
     text-align: center;
     font-family: 'Arial', sans-serif;
     z-index: 999;
-    /* Damit das Menü immer oben ist */
     width: 500px;
 }
 
@@ -129,12 +135,10 @@ canvas {
     display: none;
     /* erstmal unsichtbar */
     position: fixed;
-    /* fixed, damit es immer über dem Canvas bleibt */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.85);
-    /* dunklerer Hintergrund für bessere Sichtbarkeit */
     color: white;
     padding: 30px;
     border-radius: 12px;
@@ -142,7 +146,6 @@ canvas {
     text-align: center;
     font-family: 'Arial', sans-serif;
     z-index: 999;
-    /* Damit das Menü immer oben ist */
     width: 500px;
 }
 
