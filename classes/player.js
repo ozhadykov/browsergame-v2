@@ -160,7 +160,7 @@ export default class Player extends BaseGameElement {
     // animation
     this.updateFrames()
     this.cropBox = {
-      height: 100,
+      height: 99,
       width: 100
     }
 
@@ -264,18 +264,18 @@ export default class Player extends BaseGameElement {
     if (this.walkState) {
       if (this.animationstep <= 8) this.animationstep += 0.1
       else this.animationstep = 0
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationstep), y: 0}
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationstep), y: 1}
     } else if (this.inJump) {
       if (this.animationJump <= 2) this.animationJump += 0.07
       else this.animationJump = 2
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 200}
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 201}
     } else if (this.canJump) {
-      this.cropBoxPosition = {x: 0, y: 100}
+      this.cropBoxPosition = {x: 0, y: 101}
     } else {
       if (this.animationJump <= 3) this.animationJump = 3
       if (this.animationJump <= 6) this.animationJump += 0.03
       else this.animationJump = 6
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 200}
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 201}
     }
   }
 
