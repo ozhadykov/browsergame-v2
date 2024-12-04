@@ -99,15 +99,30 @@ export default class Game {
 
       // drawing elements
       this.elementList.draw(this.ctx, this.canvas)
+
+      this.updateHud()
+      
       // animating
       this.elementList.action()
-
+      
       // calling animation function again
       this.raf = window.requestAnimationFrame(this.tick.bind(this))
       this.ctx.restore()
     } else {
       this.openPauseMenu(this.canvas)
     }
+  }
+
+  updateHud() {
+    this.ctx.beginPath();
+    this.ctx.lineWidth = "2";
+    this.ctx.fillStyle = "red";
+    if (!this.player.inJump) this.ctx.fillRect(this.player.cameraBox.position.x + (this.canvas.clientWidth - 220) / 2,this.player.cameraBox.position.y + 10, 0, 10)
+    else if ((Date.now() - this.player.startTime) >= 2000) this.ctx.fillRect(this.player.cameraBox.position.x + (this.canvas.clientWidth - 220) / 2,this.player.cameraBox.position.y + 10, 100, 10)
+    else this.ctx.fillRect(this.player.cameraBox.position.x + (this.canvas.clientWidth - 220) / 2,this.player.cameraBox.position.y + 10,(Date.now() - this.player.startTime) / 20, 10)
+    this.ctx.strokeStyle = "green";
+    this.ctx.rect(this.player.cameraBox.position.x + (this.canvas.clientWidth - 220) / 2,this.player.cameraBox.position.y + 10, 100, 10);
+    this.ctx.stroke();
   }
 
   openPauseMenu() {

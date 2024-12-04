@@ -117,8 +117,10 @@ export default class Player extends BaseGameElement {
             this.animationJump = 0
             this.keys.w.pressed = false
             this.stoppedPressingJump()
-
-            this.jumpDuration = this.endTime - this.startTime
+            
+            this.jumpDuration = (this.endTime - this.startTime) / 2
+            if (this.jumpDuration > 1000) this.jumpDuration = 1000
+            console.log(this.jumpDuration)
             this.velocity.y = -1 * (Math.pow(this.jumpDuration / 375, 2))
 
             this.velocity.x = this.jumpDuration / 225 * this.directionInversion
