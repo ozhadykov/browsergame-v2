@@ -95,5 +95,5 @@ Idee des Objektorieterten Programmierens einearbeiten
 2. Main Menu Background + Buttons - Paul J
 3. Background Image - Imke
 4. Neue Character + Neue Animation + neues Level - Simon
-5. Camera Bewegung - Omar
+5. Camera Bewegung - Omar. **Done**
 

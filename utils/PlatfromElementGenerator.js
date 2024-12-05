@@ -14,6 +14,7 @@ export const generatePlatformsForLevel = (level) => {
     levelRow.split('').forEach((levelEl, x) => {
       // TODO: Define, what kind of platform should be created
       if (levelEl !== '-') {
+        // if ()
         const platformEl = new Platform({
           position: {
             x: x * 16,
