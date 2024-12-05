@@ -8,26 +8,24 @@ export class Background extends BaseGameElement {
       width,
       imageSrc,
       scale = 1,
-     
+
     }) {
     super({position, height, width});
     this.loaded = false
     this.image = new Image();
     this.image.onload = () => {
       this.width = this.image.width * this.scale
-      this.height = this.image.height *this.scale
+      this.height = this.image.height * this.scale
       this.loaded = true
-      console.log('Image ready')
     }
     this.image.src = imageSrc;
     this.scale = scale
-    }
-  
+  }
 
-  draw (ctx, r, g, b, a, x, y, width, height) 
-  { ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height); 
-         console.log('Image loaded and drawn') 
-  
+
+  draw(ctx, r, g, b, a, x, y, width, height) {
+    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+
   }
 
 }

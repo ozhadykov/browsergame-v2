@@ -1,7 +1,8 @@
 import Player from "./player.js";
 import ElementList from "./elementList.js";
-import { generatePlatformsForLevel } from "../utils/PlatfromElementGenerator.js";
-import { Background } from "./background.js";
+import {Background} from "./background.js";
+import {levels} from "../data/levels.js";
+import {Platform} from "./platform.js";
 
 export default class Game {
 
@@ -61,8 +62,8 @@ export default class Game {
       },
       imageSrc: '../assets/background/Background_Kanalisation.png',
     })
-   
-    const collisionBlocks = generatePlatformsForLevel(level)
+
+    const collisionBlocks = this.generatePlatformsForLevel(level)
     this.player = new Player({
       position: {
         x: 0,
@@ -70,9 +71,9 @@ export default class Game {
       },
       height: 50,
       width: 50,
-      scale: 0.45,
+      scale: 0.75,
       imageSrc: '../assets/Char/CharSheetWalk.png',
-      cropBoxPosition: { x: 0, y: 100 },
+      cropBoxPosition: {x: 0, y: 100},
       collisionBlocks,
     })
 
@@ -115,7 +116,7 @@ export default class Game {
       this.elementList.draw(this.ctx, this.canvas)
       // animating
       this.elementList.action()
-      if(this.player.keys.w.pressed)  {
+      if (this.player.keys.w.pressed) {
         this.drawjumpChargingBar()
       }
 
@@ -128,74 +129,69 @@ export default class Game {
   }
 
   drawjumpChargingBar() {
-    for(let i = 0; i <= this.player.maxJumpCharge; i += this.player.maxJumpCharge /10 ) { // auch mit /20; /100 möglich
-      if(Date.now() - this.player.chargingJumpTime >= i) {
+    for (let i = 0; i <= this.player.maxJumpCharge; i += this.player.maxJumpCharge / 10) { // auch mit /20; /100 möglich
+      if (Date.now() - this.player.chargingJumpTime >= i) {
         //this.jumpChargingBar.fillStyle = 'rgb(0, 0, 0)'
         //this.jumpChargingBar.fillRect(10, this.jumpChargingBarCanvas.clientHeight - (i / 3.5), 80, 10)   Möglichkeit 1
-        this.jumpChargingBar.fillStyle = `rgb(${Math.floor(255 - i / 5 )}, 0, 0)`
-        console.log(`rgb(${Math.floor(255 - i / 5)}, 0, 0)`)
+        this.jumpChargingBar.fillStyle = `rgb(${Math.floor(255 - i / 5)}, 0, 0)`
         this.jumpChargingBar.fillRect(10, this.jumpChargingBarCanvas.clientHeight - (i / 4), 80, 28)
       }
     }
-    console.log(Date.now() - this.player.chargingJumpTime)
-    /* if (Date.now() - this.player.chargingJumpTime > this.player.maxJumpCharge * 0) {   //Möglichkeit 2
-      this.jumpChargingBar.fillStyle = 'red'
-      this.jumpChargingBar.fillRect(25, 400, 50, 25)
-    }
-    if (Date.now() - this.player.chargingJumpTime >= this.player.maxJumpCharge * 0.125) {
-      this.jumpChargingBar.fillStyle = 'green'
-      this.jumpChargingBar.fillRect(25, 350, 50, 25)
-    }
-    if (Date.now() - this.player.chargingJumpTime >= this.player.maxJumpCharge * 0.25) {
-      this.jumpChargingBar.fillStyle = 'blue'
-      this.jumpChargingBar.fillRect(25, 300, 50, 25)
-    }
-    if (Date.now() - this.player.chargingJumpTime >= this.player.maxJumpCharge * 0.375) {
-      this.jumpChargingBar.fillStyle = 'black'
-      this.jumpChargingBar.fillRect(25, 250 , 50, 25)
-    }
-    if (Date.now() - this.player.chargingJumpTime >= this.player.maxJumpCharge * 0.5) {
-      this.jumpChargingBar.fillStyle = 'violet'
-      this.jumpChargingBar.fillRect(25, 200 , 50, 25)
-    }
-    if (Date.now() - this.player.chargingJumpTime >= this.player.maxJumpCharge * 0.625) {
-      this.jumpChargingBar.fillStyle = 'yellow'
-      this.jumpChargingBar.fillRect(25, 150 , 50, 25)
-    }
-    if (Date.now() - this.player.chargingJumpTime >= this.player.maxJumpCharge * 0.75) {
-      this.jumpChargingBar.fillStyle = 'orange'
-      this.jumpChargingBar.fillRect(25, 100 , 50, 25)
-    }
-    if (Date.now() - this.player.chargingJumpTime >= this.player.maxJumpCharge * 1) {
-      this.jumpChargingBar.fillStyle = 'purple'
-      this.jumpChargingBar.fillRect(25, 50 , 50, 25)
-    } */
+  }
+
+  generatePlatformsForLevel (level){
+    const levelMarkup = levels[level].replace(/\s+/g, '').split('+')
+    const platforms = []
+
+    levelMarkup.forEach((levelRow, y) => {
+      levelRow.split('').forEach((levelEl, x) => {
+        // TODO: Define, what kind of platform should be created
+        if (levelEl !== '-') {
+          // if ()
+          const platformEl = new Platform({
+            position: {
+              x: x * 16,
+              y: y * 16,
+            },
+            imageSrc: '../assets/platform/block.png',
+            height: 16,
+            width: 16,
+          })
+          platforms.push(platformEl)
+        }
+      })
+    })
+
+    return platforms
   }
 
 
-openPauseMenu() {
-  this.canvas.style.display = "none"
-  this.jumpChargingBarCanvas.style.display = "none"
-  document.getElementById('pauseMenu').style.display = "block"
-}
-
-closePauseMenu() {
-  this.canvas.style.display = "block";
-  this.jumpChargingBarCanvas.style.display = "block"
-  document.getElementById('pauseMenu').style.display = "none"
-  this.raf = window.requestAnimationFrame(this.tick.bind(this))
-}
-areYouSureMainMenu()  {
-  document.getElementById('pauseMenu').style.display = "none"
-  document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "block"
-}
-openMainMenu()  {
-  document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
-  document.getElementById('mainMenu').style.display = "block"
-}
-continuePause() {
-  document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
-  document.getElementById('pauseMenu').style.display = " block"
-}
+  openPauseMenu() {
+    this.canvas.style.display = "none"
+    this.jumpChargingBarCanvas.style.display = "none"
+    document.getElementById('pauseMenu').style.display = "block"
   }
+
+  closePauseMenu() {
+    this.canvas.style.display = "block";
+    this.jumpChargingBarCanvas.style.display = "block"
+    document.getElementById('pauseMenu').style.display = "none"
+    this.raf = window.requestAnimationFrame(this.tick.bind(this))
+  }
+
+  areYouSureMainMenu() {
+    document.getElementById('pauseMenu').style.display = "none"
+    document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "block"
+  }
+
+  openMainMenu() {
+    document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
+    document.getElementById('mainMenu').style.display = "block"
+  }
+
+  continuePause() {
+    document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
+    document.getElementById('pauseMenu').style.display = " block"
+  }
+}
 

@@ -1,6 +1,5 @@
 import BaseGameElement from "./element.js"
 import Game from "./game.js";
-import {Collisions} from "../utils/collisions.js";
 
 export default class Player extends BaseGameElement {
   constructor(
@@ -12,10 +11,10 @@ export default class Player extends BaseGameElement {
       cropBoxPosition = {x: 0, y: 0},
       gravity = 0.1,
       collisionBlocks,
-      scale = 0.5,
+      scale,
       animations
     }) {
-    super({position, height, width});
+    super({position, height, width, scale});
 
     this.velocity = {
       x: 0,
@@ -165,10 +164,6 @@ export default class Player extends BaseGameElement {
     ctx.save()
     // animation
     this.updateFrames()
-    this.cropBox = {
-      height: 100,
-      width: 100
-    }
 
     ctx.scale(this.directionInversion, 1);
     ctx.drawImage(
@@ -215,7 +210,7 @@ export default class Player extends BaseGameElement {
 
   checkForHorizontalCollisions() {
     for (const block of this.collisionBlocks) {
-      if (Collisions.collision(this.hitBox, block)) {
+      if (this.collision(this.hitBox, block)) {
         if (this.velocity.x > 0) {
           this.velocity.x = 0
           const offset = this.hitBox.position.x - this.position.x + this.hitBox.width
@@ -235,7 +230,7 @@ export default class Player extends BaseGameElement {
 
   checkForVerticalCollisions() {
     for (const block of this.collisionBlocks) {
-      if (Collisions.collision(this.hitBox, block)) {
+      if (this.collision(this.hitBox, block)) {
         this.canJump = true
         if (this.velocity.y > 0) {
           this.velocity.y = 0
@@ -261,8 +256,8 @@ export default class Player extends BaseGameElement {
         x: this.position.x + 8,
         y: this.position.y,
       },
-      width: 27,
-      height: 50,
+      width: 27 * this.scale,
+      height: 50 * this.scale,
     }
   }
 
@@ -274,14 +269,19 @@ export default class Player extends BaseGameElement {
     } else if (this.inJump) {
       if (this.animationJump <= 2) this.animationJump += 0.07
       else this.animationJump = 2
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 200}
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 201}
     } else if (this.canJump) {
-      this.cropBoxPosition = {x: 0, y: 100}
+      this.cropBoxPosition = {x: 0, y: 101}
     } else {
       if (this.animationJump <= 3) this.animationJump = 3
       if (this.animationJump <= 6) this.animationJump += 0.03
       else this.animationJump = 6
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 200}
+      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 201}
+    }
+
+    this.cropBox = {
+      height: 99,
+      width: 100
     }
   }
 
@@ -294,8 +294,8 @@ export default class Player extends BaseGameElement {
   }
 
   updateVerticalCamera() {
-    this.position.y - 204 >= 0 ?
-      this.cameraBox.position.y = this.position.y - 204 :
+    this.position.y - 217 >= 0 ?
+      this.cameraBox.position.y = this.position.y - 217 :
       this.cameraBox.position.y = 0
   }
 
@@ -322,6 +322,14 @@ export default class Player extends BaseGameElement {
       this.velocity.x = 0
       this.position.x = canvas.width - this.width
     }
+  }
 
+  collision(player, block) {
+    return (
+      player.position.y + player.height >= block.position.y &&
+      player.position.y <= block.position.y + block.height &&
+      player.position.x <= block.position.x + block.width &&
+      player.position.x + player.width >= block.position.x
+    )
   }
 }

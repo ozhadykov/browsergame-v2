@@ -10,7 +10,7 @@ function startGame() {
   game.canvas.style.display = "block";
   game.jumpChargingBarCanvas.style.display = "block"
   mainMenu.style.display = "none";
-  game.start(0);
+  game.start(1);
 }
 
 function closePauseMenu() {

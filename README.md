@@ -95,5 +95,13 @@ Idee des Objektorieterten Programmierens einearbeiten
 2. Main Menu Background + Buttons - Paul J
 3. Background Image - Imke
 4. Neue Character + Neue Animation + neues Level - Simon
-5. Camera Bewegung - Omar. **Done**
+5. Camera Bewegung - Omar. **Done*
+
+### Aufgaben für die Woche (5. Dez. - 12 Dez.)
+
+1. Limiter bearbeiten - Paul F
+2. Steuerung anpassen - Simon 
+3. Map - Imke 
+4. UML - zusammen am Dienstag
+5. Ton - Bonus
 
