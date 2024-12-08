@@ -129,12 +129,11 @@ export default class Game {
   }
 
   drawjumpChargingBar() {
+
     for (let i = 0; i <= this.player.maxJumpCharge; i += this.player.maxJumpCharge / 10) { // auch mit /20; /100 möglich
       if (Date.now() - this.player.chargingJumpTime >= i) {
-        //this.jumpChargingBar.fillStyle = 'rgb(0, 0, 0)'
-        //this.jumpChargingBar.fillRect(10, this.jumpChargingBarCanvas.clientHeight - (i / 3.5), 80, 10)   Möglichkeit 1
-        this.jumpChargingBar.fillStyle = `rgb(${Math.floor(255 - i / 5)}, 0, 0)`
-        this.jumpChargingBar.fillRect(10, this.jumpChargingBarCanvas.clientHeight - (i / 4), 80, 28)
+        this.jumpChargingBar.fillStyle = `rgb(${(255 - i/5)  },0 , 0)`
+        this.jumpChargingBar.fillRect(0, this.jumpChargingBarCanvas.clientHeight - this.jumpChargingBarCanvas.clientHeight * (i / this.player.maxJumpCharge), this.jumpChargingBarCanvas.clientWidth, this.jumpChargingBarCanvas.clientHeight / 10)
       }
     }
   }

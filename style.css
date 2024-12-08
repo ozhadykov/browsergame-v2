@@ -25,14 +25,14 @@ canvas {
 }
 
 #my-jumpChargingBarCanvas {
-    background: rgb(255, 255, 255);
+    background: rgb(0, 0, 0);
     margin: auto;
     display: block;
-    padding: 0;
+    padding: 0px;
     position: absolute;
-    top: 0;
-    bottom: 240px;
-    left: 1100px;
+    top: 0px;
+    bottom: 230px;
+    left: 1050px;
     right: 0px;
 }
 
