@@ -4,7 +4,8 @@ import Game from "./game.js";
 export default class Player extends BaseGameElement {
   constructor(
     {
-      position,
+      positionX,
+      positionY,
       height,
       width,
       imageSrc,
@@ -14,7 +15,7 @@ export default class Player extends BaseGameElement {
       scale,
       animations
     }) {
-    super({position, height, width, scale});
+    super({positionX, positionY, height, width, scale});
 
     this.velocity = {
       x: 0,
@@ -24,16 +25,16 @@ export default class Player extends BaseGameElement {
     this.collisionBlocks = collisionBlocks ?? [];
     this.hitBox = {
       position: {
-        x: this.position.x,
-        y: this.position.y,
+        x: this.positionX,
+        y: this.positionY,
       },
       width: 10,
       height: 10,
     }
     this.cameraBox = {
       position: {
-        x: this.position.x,
-        y: this.position.y,
+        x: this.positionX,
+        y: this.positionY,
       },
       width: Game.getInstance().canvas.width / 2,
       height: Game.getInstance().canvas.height / 2,
@@ -174,7 +175,7 @@ export default class Player extends BaseGameElement {
   }
 
   action() {
-    this.position.x += this.velocity.x
+    this.positionX += this.velocity.x
     // It is important to use this function 2 times
     this.checkDirection()
     this.updateHitBox()
@@ -207,8 +208,8 @@ export default class Player extends BaseGameElement {
       this.cropBoxPosition.y,
       this.cropBox.width,
       this.cropBox.height,
-      this.position.x * this.directionInversion,
-      this.position.y,
+      this.positionX * this.directionInversion,
+      this.positionY,
       this.width * this.directionInversion,
       this.height
     )
@@ -218,7 +219,7 @@ export default class Player extends BaseGameElement {
 
   applyGravity() {
     this.velocity.y += this.gravity
-    this.position.y += this.velocity.y
+    this.positionY += this.velocity.y
   }
 
   enableMoving() {
@@ -248,16 +249,16 @@ export default class Player extends BaseGameElement {
       if (this.collision(this.hitBox, block)) {
         if (!this.canJump) this.crashSound.play()
         if (this.velocity.x > 0) {
-          const offset = this.hitBox.position.x - this.position.x + this.hitBox.width
-          this.position.x = block.position.x - offset - 0.01
+          const offset = this.hitBox.position.x - this.positionX + this.hitBox.width
+          this.positionX= block.positionX - offset - 0.01
           if (!this.canJump) this.velocity.x = -1 * this.velocity.x / 1.1
           else this.velocity.x = 0
           break // Exit loop after handling collision
         }
 
         if (this.velocity.x < 0) {
-          const offset = this.hitBox.position.x - this.position.x
-          this.position.x = block.position.x + offset + 0.01
+          const offset = this.hitBox.position.x - this.positionX
+          this.positionX = block.positionX + offset + 0.01
           if (!this.canJump) this.velocity.x = -1 * this.velocity.x / 1.1
           else this.velocity.x = 0
           break // Exit loop after handling collision
@@ -272,15 +273,15 @@ export default class Player extends BaseGameElement {
         this.canJump = true
         if (this.velocity.y > 0) {
           this.velocity.y = 0
-          const offset = this.hitBox.position.y - this.position.y + this.hitBox.height
-          this.position.y = block.position.y - offset - 0.01
+          const offset = this.hitBox.position.y - this.positionY + this.hitBox.height
+          this.positionY = block.positionY - offset - 0.01
           break // Exit loop after handling collision
         }
 
         if (this.velocity.y < 0) {
           this.velocity.y = 0
-          const offset = this.hitBox.position.y - this.position.y
-          this.position.y = block.position.y + block.height - offset + 0.01
+          const offset = this.hitBox.position.y - this.positionY
+          this.positionY = block.positionY + block.height - offset + 0.01
           break // Exit loop after handling collision
         }
       } else
@@ -291,8 +292,8 @@ export default class Player extends BaseGameElement {
   updateHitBox() {
     this.hitBox = {
       position: {
-        x: this.position.x + 8,
-        y: this.position.y,
+        x: this.positionX + 8,
+        y: this.positionY,
       },
       width: 27 * this.scale,
       height: 50 * this.scale,
@@ -332,8 +333,8 @@ export default class Player extends BaseGameElement {
   }
 
   updateVerticalCamera() {
-    this.position.y - 217 >= 0 ?
-      this.cameraBox.position.y = this.position.y - 217 :
+    this.positionY- 217 >= 0 ?
+      this.cameraBox.position.y  = this.positionY - 217 :
       this.cameraBox.position.y = 0
   }
 
@@ -341,33 +342,33 @@ export default class Player extends BaseGameElement {
     const canvas = Game.getInstance().canvas
     // simple checking, because we will use soon something better :)
     // horizontal collision checking
-    if (this.position.x + this.velocity.x < 0) {
-      this.position.x = 0;
+    if (this.positionX + this.velocity.x < 0) {
+      this.positionX = 0;
       this.velocity.x = -this.velocity.x
     }
 
-    if (this.position.x + this.width + this.velocity.x > canvas.width) {
+    if (this.positionX + this.width + this.velocity.x > canvas.width) {
       this.velocity.x = -this.velocity.x
-      this.position.x = canvas.width - this.width
+      this.positionX = canvas.width - this.width
     }
 
-    if (this.position.x + this.velocity.x < 0) {
-      this.position.x = 0;
+    if (this.positionX + this.velocity.x < 0) {
+      this.positionX = 0;
       this.velocity.x = 0
     }
 
-    if (this.position.x + this.width + this.velocity.x > canvas.width) {
+    if (this.positionX + this.width + this.velocity.x > canvas.width) {
       this.velocity.x = 0
-      this.position.x = canvas.width - this.width
+      this.positionX = canvas.width - this.width
     }
   }
 
   collision(player, block) {
     return (
-      player.position.y + player.height >= block.position.y &&
-      player.position.y <= block.position.y + block.height &&
-      player.position.x <= block.position.x + block.width &&
-      player.position.x + player.width >= block.position.x
+      player.positionY + player.height >= block.positionY &&
+      player.positionY <= block.positionY + block.height &&
+      player.positionX <= block.positionX + block.width &&
+      player.positionX + player.width >= block.positionX
     )
   }
 }

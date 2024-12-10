@@ -9,12 +9,37 @@ export default class BaseGameElement {
    * @param scale
    * e
    */
-  constructor({ position, height, width, scale = 1 })
+  constructor({ positionX, positionY, height, width, scale = 1 })
   {
     this.height = height * scale;
     this.width = width * scale;
-    this.position = position;
+    this.positionX = positionX
+    this.positionY = positionY
 
+  }
+
+  getHeight() {
+    return this.height
+  }
+
+  getWidth() {
+    return this.width
+  }
+
+  setHeight(newHeight) {
+    this.height = newHeight
+  }
+
+  setWidth(newWidth) {
+    this.width = newWidth
+  }
+
+  setPositionX(newPositionX) {
+    this.positionX = newPositionX
+  }
+
+  setPositionY(newPositionY) {
+    this.positionY = newPositionY
   }
 
   action()

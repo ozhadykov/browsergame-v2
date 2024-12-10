@@ -3,14 +3,15 @@ import BaseGameElement from "./element.js";
 export class Background extends BaseGameElement {
   constructor(
     {
-      position,
+      positionX,
+      positionY,
       height,
       width,
       imageSrc,
       scale = 1,
 
     }) {
-    super({position, height, width});
+    super({positionX,positionY, height, width});
     this.loaded = false
     this.image = new Image();
     this.image.onload = () => {
@@ -24,7 +25,7 @@ export class Background extends BaseGameElement {
 
 
   draw(ctx, r, g, b, a, x, y, width, height) {
-    ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(this.image, this.positionX, this.positionY, this.width, this.height);
 
   }
 

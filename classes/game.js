@@ -57,19 +57,15 @@ export default class Game {
 
     // creating game elements
     this.background = new Background({
-      position: {
-        x: 0,
-        y: 5
-      },
+      positionX: 0,
+      positionY: 5,
       imageSrc: '../assets/background/Background_Kanalisation2.png',
     })
 
     const collisionBlocks = this.generatePlatformsForLevel(0)
     this.player = new Player({
-      position: {
-        x: 0,
-        y: 440
-      },
+      positionX:  0,
+      positionY: 440,
       height: 50,
       width: 50,
       scale: 0.75,
@@ -159,10 +155,8 @@ export default class Game {
         if (levelEl !== '-') {
           // if ()
           const platformEl = new Platform({
-            position: {
-              x: x * 16,
-              y: y * 16,
-            },
+            positionX: x * 16,
+            positionY: y * 16,
             imageSrc: '../assets/platform/block.png',
             height: 16,
             width: 16,

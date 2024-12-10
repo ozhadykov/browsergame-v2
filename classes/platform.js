@@ -4,7 +4,8 @@ export class Platform extends BaseGameElement {
 
   constructor(
     {
-      position,
+      positionX,
+      positionY,
       height,
       width,
       imageSrc,
@@ -12,7 +13,7 @@ export class Platform extends BaseGameElement {
     }
   ) {
 
-    super({position, height, width})
+    super({positionX, positionY, height, width})
 
     this.image = new Image();
     this.image.onload = () => {
@@ -35,8 +36,8 @@ export class Platform extends BaseGameElement {
       this.cropBox.position.y,
       this.cropBox.height,
       this.cropBox.width,
-      this.position.x,
-      this.position.y,
+      this.positionX,
+      this.positionY,
       this.width,
       this.height
     )
