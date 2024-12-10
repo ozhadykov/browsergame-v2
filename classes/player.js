@@ -89,18 +89,25 @@ export default class Player extends BaseGameElement {
     this.jumpSound.preload = "auto";
     this.jumpSound.mozPreservesPitch = false;
     this.jumpSound.volume = 0.01;
+    this.crashSound = new Audio('../assets/Sounds/crashSound.mp3')
+    this.crashSound.preload = "auto";
+    this.crashSound.volume = 0.02;
   }
 
   initEventListeners() {
     window.addEventListener('keydown', e => {
       switch (e.key) {
         case 'd':
-          this.keys.d.pressed = true
-          this.walkSound.play()
+          if (!this.inJump) {
+            this.keys.d.pressed = true
+            this.walkSound.play()
+          }
           break
         case 'a':
+          if (!this.inJump) {
           this.keys.a.pressed = true
           this.walkSound.play()
+          }
           break
         case 'w':
           if (!this.keys.w.pressed && this.canJump && !this.inJump) {
@@ -239,6 +246,7 @@ export default class Player extends BaseGameElement {
   checkForHorizontalCollisions() {
     for (const block of this.collisionBlocks) {
       if (this.collision(this.hitBox, block)) {
+        if (!this.canJump) this.crashSound.play()
         if (this.velocity.x > 0) {
           const offset = this.hitBox.position.x - this.position.x + this.hitBox.width
           this.position.x = block.position.x - offset - 0.01
