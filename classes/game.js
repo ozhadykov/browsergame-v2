@@ -34,6 +34,7 @@ export default class Game {
     this.level = level
     this.player = null
     this.instance = this
+
   }
 
   static getInstance() {
@@ -60,10 +61,10 @@ export default class Game {
         x: 0,
         y: 5
       },
-      imageSrc: '../assets/background/Background_Kanalisation.png',
+      imageSrc: '../assets/background/Background_Kanalisation2.png',
     })
 
-    const collisionBlocks = this.generatePlatformsForLevel(level)
+    const collisionBlocks = this.generatePlatformsForLevel(0)
     this.player = new Player({
       position: {
         x: 0,
@@ -97,7 +98,6 @@ export default class Game {
 
   tick() {
     if (!this.player.keys.pause.pressed) {
-
       this.ctx.save()
 
       //this.jumpChargingBar.save()
@@ -125,6 +125,17 @@ export default class Game {
       this.ctx.restore()
     } else {
       this.openPauseMenu(this.canvas)
+      
+    }
+  }
+
+  themeManager() {
+    if (!this.player.keys.pause.pressed) this.theme.pause()
+    else {
+    this.theme = new Audio('../assets/Sounds/chipTune.wav')
+    this.theme.preload = "auto";
+    this.theme.volume = 0.05;
+    this.theme.play()
     }
   }
 
