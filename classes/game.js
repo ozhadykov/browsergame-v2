@@ -4,6 +4,9 @@ import {Background} from "./background.js";
 import {levels} from "../data/levels.js";
 import {Platform} from "./platform.js";
 
+import { Menu } from "../src/base-classes/";
+import { CanvasManager } from "../src/classes/canvas-manager.js";
+
 export default class Game {
 
   static instance = null
@@ -28,12 +31,19 @@ export default class Game {
     this.ctx = ctx
     this.jumpChargingBarCanvas = jumpChargingBarCanvas
     this.jumpChargingBar = jumpChargingBar
-    this.elementList = null
-
-    // not sure if we really need this here, ask prof.
-    this.level = level
-    this.player = null
     this.instance = this
+    
+    this.canvasManager = new CanvasManager()
+    this.iunputManager = new InputManager()
+    this.elementList = null
+    this.background = null
+    this.player = null
+    this.level = level
+    this.chargingBar = null
+    this.pauseMenu = new Menu()
+    this.mainMenu = new Menu()
+    this.areYouSureMenu = new Menu()
+
   }
 
   static getInstance() {
