@@ -61,6 +61,8 @@ export default class Player extends BaseGameElement {
       },
     };
 
+    console.log(this.collisionBlocks)
+
     this.canJump = true;
     this.inJump = false;
     this.lastPressedRight = false;
@@ -270,6 +272,7 @@ export default class Player extends BaseGameElement {
   checkForVerticalCollisions() {
     for (const block of this.collisionBlocks) {
       if (this.collision(this.hitBox, block)) {
+        console.log("!!!")
         this.canJump = true
         if (this.velocity.y > 0) {
           this.velocity.y = 0
@@ -298,6 +301,7 @@ export default class Player extends BaseGameElement {
       width: 27 * this.scale,
       height: 50 * this.scale,
     }
+    
   }
 
   updateFrames() {
@@ -365,10 +369,10 @@ export default class Player extends BaseGameElement {
 
   collision(player, block) {
     return (
-      player.positionY + player.height >= block.positionY &&
-      player.positionY <= block.positionY + block.height &&
-      player.positionX <= block.positionX + block.width &&
-      player.positionX + player.width >= block.positionX
+      player.position.y + player.height >= block.positionY &&
+      player.position.y <= block.positionY + block.height &&
+      player.position.x <= block.positionX + block.width &&
+      player.position.x + player.width >= block.positionX
     )
   }
 }
