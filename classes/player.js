@@ -75,8 +75,20 @@ export default class Player extends BaseGameElement {
     this.walkState = false;
     this.directionInversion = 1;
 
+    this.initSounds()
+
     // creating event listeners only once, do not need to create them each time, when we re-render
     this.initEventListeners()
+  }
+
+  initSounds() {
+    this.walkSound = new Audio('../assets/Sounds/walkSoud.mp3')
+    this.walkSound.preload = "auto";
+    this.walkSound.volume = 0.01;
+    this.jumpSound = new Audio('../assets/Sounds/jumpSoud.mp3')
+    this.jumpSound.preload = "auto";
+    this.jumpSound.mozPreservesPitch = false;
+    this.jumpSound.volume = 0.01;
   }
 
   initEventListeners() {
@@ -84,11 +96,11 @@ export default class Player extends BaseGameElement {
       switch (e.key) {
         case 'd':
           this.keys.d.pressed = true
-          this.directionInversion = 1
+          this.walkSound.play()
           break
         case 'a':
           this.keys.a.pressed = true
-          this.directionInversion = -1
+          this.walkSound.play()
           break
         case 'w':
           if (!this.keys.w.pressed && this.canJump && !this.inJump) {
@@ -96,6 +108,8 @@ export default class Player extends BaseGameElement {
             this.inJump = true
             this.keys.w.pressed = true
             this.chargingJumpTime = Date.now()
+            this.jumpSound.pause()
+            this.jumpSound.load()
           }
           break
         // todo: move to Game class
@@ -109,9 +123,13 @@ export default class Player extends BaseGameElement {
       switch (e.key) {
         case 'd':
           this.keys.d.pressed = false
+          this.walkSound.pause()
+          this.walkSound.load()
           break
         case 'a':
           this.keys.a.pressed = false
+          this.walkSound.pause()
+          this.walkSound.load()
           break
         case 'w':
           // can Jump funktioniert noch nicht mit neuer Collision 
@@ -121,20 +139,24 @@ export default class Player extends BaseGameElement {
             this.stoppedPressingJump()
 
             this.jumpDuration = this.endTime - this.startTime
-            if(this.jumpDuration <= this.maxJumpCharge) {
-            this.velocity.y = -1 * (Math.pow(this.jumpDuration / 375, 2))
+            if(this.jumpDuration >= this.maxJumpCharge) this.jumpDuration = this.maxJumpCharge
+            this.velocity.y = -1 * (Math.pow(this.jumpDuration / 350, 2))
             this.velocity.x = this.jumpDuration / 225 * this.directionInversion
-            }else {
-              this.velocity.y = -1 * (Math.pow(this.maxJumpCharge / 375, 2))
-              this.velocity.x = this.maxJumpCharge / 225 * this.directionInversion
-            }
-            
+            this.playJumpSound()
             this.inJump = false
           }
           break
       }
     })
   }
+
+  playJumpSound() {
+    //let soundModulation = Math.random() * (1.3 - 0.7) + 0.7
+    let soundModulation =3 - this.jumpDuration / 500
+    this.jumpSound.playbackRate = soundModulation;
+    this.jumpSound.play()
+  }
+ 
 
   startedPressingJump() {
     this.startTime = Date.now()
@@ -147,6 +169,7 @@ export default class Player extends BaseGameElement {
   action() {
     this.position.x += this.velocity.x
     // It is important to use this function 2 times
+    this.checkDirection()
     this.updateHitBox()
     this.updateHorizontalCamera()
     this.checkForHorizontalCollisions()
@@ -158,6 +181,11 @@ export default class Player extends BaseGameElement {
     this.checkForCollisions()
     this.enableMoving()
 
+  }
+
+  checkDirection() {
+    if(this.velocity.x > 0) this.directionInversion = 1
+    if(this.velocity.x < 0) this.directionInversion = -1
   }
 
   draw(ctx, canvas) {
@@ -212,16 +240,18 @@ export default class Player extends BaseGameElement {
     for (const block of this.collisionBlocks) {
       if (this.collision(this.hitBox, block)) {
         if (this.velocity.x > 0) {
-          this.velocity.x = 0
           const offset = this.hitBox.position.x - this.position.x + this.hitBox.width
           this.position.x = block.position.x - offset - 0.01
+          if (!this.canJump) this.velocity.x = -1 * this.velocity.x / 1.1
+          else this.velocity.x = 0
           break // Exit loop after handling collision
         }
 
         if (this.velocity.x < 0) {
-          this.velocity.x = 0
           const offset = this.hitBox.position.x - this.position.x
           this.position.x = block.position.x + offset + 0.01
+          if (!this.canJump) this.velocity.x = -1 * this.velocity.x / 1.1
+          else this.velocity.x = 0
           break // Exit loop after handling collision
         }
       }

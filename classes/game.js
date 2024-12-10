@@ -60,10 +60,10 @@ export default class Game {
         x: 0,
         y: 5
       },
-      imageSrc: '../assets/background/Background_Kanalisation.png',
+      imageSrc: '../assets/background/Background_Kanalisation2.png',
     })
 
-    const collisionBlocks = this.generatePlatformsForLevel(level)
+    const collisionBlocks = this.generatePlatformsForLevel(0)
     this.player = new Player({
       position: {
         x: 0,
