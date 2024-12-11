@@ -2,7 +2,7 @@ export class Menu {
 
     constructor (selector) {
         this._selector = selector
-        this._htmlEL = document.querySelector(this.selector)
+        this._htmlEL = document.querySelector(this._selector)
         this._shown = false
     }
 

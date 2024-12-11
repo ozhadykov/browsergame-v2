@@ -1,6 +1,6 @@
 export class BaseBox {
     
-    constructor(x, y, height, width) {
+    constructor({x = 0, y = 0, height, width}) {
         this._x = x
         this._y = y
         this._height = height

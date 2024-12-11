@@ -4,7 +4,7 @@ import {Background} from "./background.js";
 import {levels} from "../data/levels.js";
 import {Platform} from "./platform.js";
 
-import { Menu } from "../src/base-classes/";
+import { BaseBox, BaseElement, Menu } from "../src/base-classes/";
 import { CanvasManager } from "../src/classes/canvas-manager.js";
 
 export default class Game {
@@ -33,15 +33,15 @@ export default class Game {
     this.jumpChargingBar = jumpChargingBar
     this.instance = this
     
-    this.canvasManager = new CanvasManager()
+    this.canvasManager = new CanvasManager('#my-canvas')
     this.elementList = null
     this.background = null
     this.player = null
     this.level = level
-    this.chargingBar = null
-    this.pauseMenu = new Menu()
-    this.mainMenu = new Menu()
-    this.areYouSureMenu = new Menu()
+    this.chargingBar = new CanvasManager('#my-jump-charging-bar')
+    this.pauseMenu = new Menu('#pause-menu')
+    this.mainMenu = new Menu('#main-menu')
+    this.areYouSureMenu = new Menu('#are-you-sure-menu')
 
   }
 
@@ -50,7 +50,7 @@ export default class Game {
       const canvas = document.getElementById("my-canvas");
       const ctx = canvas.getContext("2d");
 
-      const jumpChargingBarCanvas = document.getElementById("my-jumpChargingBarCanvas");
+      const jumpChargingBarCanvas = document.getElementById("my-jump-charging-bar");
       const jumpChargingBar = jumpChargingBarCanvas.getContext("2d");
       Game.instance = new Game(ctx, canvas, jumpChargingBar, jumpChargingBarCanvas)
     }
@@ -64,13 +64,19 @@ export default class Game {
     this.elementList = new ElementList()
 
     // creating game elements
-    this.background = new Background({
-      position: {
-        x: 0,
-        y: 5
-      },
+    this.background = new BaseElement({
+      x: 0,
+      y: 0,
       imageSrc: '../assets/background/Background_Kanalisation2.png',
+      imageCropBox: new BaseBox({
+        y: 5,
+        height: this.canvasManager.getCanvas().height,
+        width: this.canvasManager.getCanvas().width
+      })
     })
+
+    // console.log(this.background);
+    
 
     const collisionBlocks = this.generatePlatformsForLevel(0)
     this.player = new Player({
@@ -108,7 +114,6 @@ export default class Game {
     if (!this.player.keys.pause.pressed) {
       this.ctx.save()
 
-      //this.jumpChargingBar.save()
       //finde das kleinere besser aber nur mein geschmack. Falls geändert müssen wir auch den Sprung entsprechend anpassen
       this.ctx.scale(2, 2)
       this.ctx.translate(this.player.cameraBox.position.x, -this.player.cameraBox.position.y)
@@ -117,8 +122,9 @@ export default class Game {
       this.ctx.fillStyle = 'white'
       this.ctx.fillRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight)
 
-      this.jumpChargingBar.fillStyle = 'white'
-      this.jumpChargingBar.fillRect(0, 0, this.jumpChargingBarCanvas.clientWidth, this.jumpChargingBarCanvas.clientHeight)
+      const jumpChargingBarCtx = this.chargingBar.getContext()
+      jumpChargingBarCtx.fillStyle = 'white'
+      jumpChargingBarCtx.fillRect(0, 0, this.jumpChargingBarCanvas.clientWidth, this.jumpChargingBarCanvas.clientHeight)
 
       // drawing elements
       this.elementList.draw(this.ctx, this.canvas)
@@ -138,21 +144,26 @@ export default class Game {
   }
 
   themeManager() {
-    if (!this.player.keys.pause.pressed) this.theme.pause()
+    if (!this.player.keys.pause.pressed) 
+      this.theme.pause()
     else {
-    this.theme = new Audio('../assets/Sounds/chipTune.wav')
-    this.theme.preload = "auto";
-    this.theme.volume = 0.05;
-    this.theme.play()
+      this.theme = new Audio('../assets/Sounds/chipTune.wav')
+      this.theme.preload = "auto";
+      this.theme.volume = 0.05;
+      this.theme.play()
     }
   }
 
   drawjumpChargingBar() {
-
     for (let i = 0; i <= this.player.maxJumpCharge; i += this.player.maxJumpCharge / 10) { // auch mit /20; /100 möglich
       if (Date.now() - this.player.chargingJumpTime >= i) {
-        this.jumpChargingBar.fillStyle = `rgb(${(255 - i/5)  },0 , 0)`
-        this.jumpChargingBar.fillRect(0, this.jumpChargingBarCanvas.clientHeight - this.jumpChargingBarCanvas.clientHeight * (i / this.player.maxJumpCharge), this.jumpChargingBarCanvas.clientWidth, this.jumpChargingBarCanvas.clientHeight / 10)
+        const charginBarCanvas = this.chargingBar.getCanvas()
+        const charginBarCtx = this.chargingBar.getContext()
+
+        charginBarCtx.fillStyle = `rgb(${(255 - i/5)  },0 , 0)`
+        charginBarCtx.fillRect(0, 
+          charginBarCanvas.clientHeight - charginBarCanvas.clientHeight * (i / this.player.maxJumpCharge), 
+          charginBarCanvas.clientWidth, charginBarCanvas.clientHeight / 10)
       }
     }
   }
@@ -187,29 +198,29 @@ export default class Game {
   openPauseMenu() {
     this.canvas.style.display = "none"
     this.jumpChargingBarCanvas.style.display = "none"
-    document.getElementById('pauseMenu').style.display = "block"
+    document.getElementById('pause-menu').style.display = "block"
   }
 
   closePauseMenu() {
     this.canvas.style.display = "block";
     this.jumpChargingBarCanvas.style.display = "block"
-    document.getElementById('pauseMenu').style.display = "none"
+    document.getElementById('pause-menu').style.display = "none"
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 
   areYouSureMainMenu() {
-    document.getElementById('pauseMenu').style.display = "none"
-    document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "block"
+    document.getElementById('pause-menu').style.display = "none"
+    document.getElementById('are-you-sure-menu').style.display = "block"
   }
 
   openMainMenu() {
-    document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
-    document.getElementById('mainMenu').style.display = "block"
+    document.getElementById('are-you-sure-menu').style.display = "none"
+    document.getElementById('main-menu').style.display = "block"
   }
 
   continuePause() {
-    document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
-    document.getElementById('pauseMenu').style.display = " block"
+    document.getElementById('are-you-sure-menu').style.display = "none"
+    document.getElementById('pause-menu').style.display = " block"
   }
 }
 

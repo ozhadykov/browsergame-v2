@@ -24,7 +24,7 @@ canvas {
     right: 0;
 }
 
-#my-jumpChargingBarCanvas {
+#my-jump-charging-bar {
     background: rgb(0, 0, 0);
     margin: auto;
     display: block;
@@ -36,7 +36,7 @@ canvas {
     right: 0px;
 }
 
-#mainMenu {
+#main-menu {
     display: block;
     position: fixed;
     top: 50%;
@@ -53,7 +53,7 @@ canvas {
     width: 500px;
 }
 
-#mainMenuStartButton {
+#main-menu-start-btn {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -69,24 +69,24 @@ canvas {
     width: 100%;
 }
 
-#mainMenu button:hover {
+#main-menu button:hover {
     background-color: #00ff1e;
     transform: scale(1.05);
     /* Button wird größer, wenn mit Maus drüber*/
 }
 
-#mainMenu button:active {
+#main-menu button:active {
     transform: scale(1.05);
     /* Button wird leicht kleiner, wenn er gedrückt wird */
 }
 
-#mainmenuBackround {
+#main-menu-backround {
     width: 100%;
     height: 100%;
     position: fixed;
 }
 
-#pauseMenu {
+#pause-menu {
     display: none;
     /* erstmal unsichtbar */
     position: fixed;
@@ -104,13 +104,13 @@ canvas {
     width: 500px;
 }
 
-#pauseMenu h1 {
+#pause-menu h1 {
     font-size: 3em;
     margin-bottom: 20px;
     letter-spacing: 1px;
 }
 
-#pauseMenu button {
+#pause-menu button {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -126,18 +126,18 @@ canvas {
     width: 100%;
 }
 
-#pauseMenu button:hover {
+#pause-menu button:hover {
     background-color: #00ff1e;
     transform: scale(1.1);
     /* Button wird größer, wenn mit Maus drüber*/
 }
 
-#pauseMenu button:active {
+#pause-menu button:active {
     transform: scale(1.05);
     /* Button wird leicht kleiner, wenn er gedrückt wird */
 }
 
-#goToMainMenu_ARE_YOU_SURE {
+#are-you-sure-menu {
     display: none;
     /* erstmal unsichtbar */
     position: fixed;
@@ -155,13 +155,13 @@ canvas {
     width: 500px;
 }
 
-#goToMainMenu_ARE_YOU_SURE h1 {
+#are-you-sure-menu h1 {
     font-size: 2em;
     margin-bottom: 20px;
     letter-spacing: 1px;
 }
 
-#goToMainMenu_ARE_YOU_SURE button {
+#are-you-sure-menu button {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -177,13 +177,13 @@ canvas {
     width: 100%;
 }
 
-#goToMainMenu_ARE_YOU_SURE button:hover {
+#are-you-sure-menu button:hover {
     background-color: #00ff1e;
     transform: scale(1.1);
     /* Button wird größer, wenn mit Maus drüber*/
 }
 
-#goToMainMenu_ARE_YOU_SURE button:active {
+#are-you-sure-menu button:active {
     transform: scale(1.05);
     /* Button wird leicht kleiner, wenn er gedrückt wird */
 }

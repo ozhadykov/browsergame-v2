@@ -6,5 +6,4 @@ export {
     Menu,
     BaseBox,
     BaseElement,
-    PositionXY
 }

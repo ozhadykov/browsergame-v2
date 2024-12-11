@@ -2,9 +2,12 @@ import { Menu } from "../base-classes/menu";
 
 export class CanvasManager extends Menu {
 
+    /**
+     * @param selector; this should be a selector for a querySelector method
+     */
     constructor (selector) {
         super(selector)
-        this._ctx = this._canvas.getContext("2d")
+        this._ctx = this._htmlEL.getContext("2d")
     }
 
     getCanvas() {

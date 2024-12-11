@@ -2,22 +2,22 @@ import { BaseBox } from "./base-box"
 
 export class BaseElement extends BaseBox {
     
-    constructor (
+    constructor ({
         x,
         y,
         height,
         width,
-        scale,
+        scale = 1,
         imageSrc,
         imageCropBox
-    ) {
+    }) {
         super(x, y, height, width)
         this._scale = scale
         this._image = new Image()
         this._image.onload = () => {
             this._imageLoaded = true
-            this._height * this._scale
-            this._width * this._scale
+            this._height = this._image.height * this._scale
+            this._width = this._image.width * this._scale
         }
         this._image.src = imageSrc
         this._imageCropBox = imageCropBox
@@ -27,18 +27,23 @@ export class BaseElement extends BaseBox {
     draw(ctx) {
         if (!this._image || !this._imageLoaded)
             return 
-
+        
         // todo: ctx draw image
         ctx.drawImage(
             this._image,
             this._imageCropBox.getX(),
             this._imageCropBox.getY(),
-            this._imageCropBox.getHeight(),
             this._imageCropBox.getWidth(),
+            this._imageCropBox.getHeight(),
             this.getX(),
             this.getY(),
-            this.getWidth()
+            this.getWidth(),
+            this.getHeight()
         )
+    }
+
+    action() {
+        // ... do some stuff
     }
 
 }
