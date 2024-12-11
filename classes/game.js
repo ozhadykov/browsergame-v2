@@ -1,11 +1,12 @@
 import Player from "./player.js";
 import ElementList from "./elementList.js";
-import {Background} from "./background.js";
-import {levels} from "../data/levels.js";
+import { levels } from "../data/levels.js";
 import {Platform} from "./platform.js";
 
 import { BaseBox, BaseElement, Menu } from "../src/base-classes/";
 import { CanvasManager } from "../src/classes/canvas-manager.js";
+import { Level } from "../src/classes/level.js";
+import { Background } from "../src/classes/background.js";
 
 export default class Game {
 
@@ -20,14 +21,13 @@ export default class Game {
    * @param jumpChargingBarCanvas
    */
 
-  constructor(ctx, canvas, jumpChargingBar, jumpChargingBarCanvas, level = 0) {
+  constructor(ctx, jumpChargingBar, jumpChargingBarCanvas, level = 0) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
 
     // request animation frame handle
     this.raf = null
-    this.canvas = canvas
     this.ctx = ctx
     this.jumpChargingBarCanvas = jumpChargingBarCanvas
     this.jumpChargingBar = jumpChargingBar
@@ -35,9 +35,24 @@ export default class Game {
     
     this.canvasManager = new CanvasManager('#my-canvas')
     this.elementList = null
-    this.background = null
     this.player = null
-    this.level = level
+    this.level = new Level({
+      level,
+      levelString: levels[level],
+      background: new BaseElement({
+        x: 0,
+        y: 0,
+        imageSrc: '../assets/background/Background_Kanalisation2.png',
+        imageCropBox: new BaseBox({
+          y: 5,
+          height: this.canvasManager.getCanvas().height,
+          width: this.canvasManager.getCanvas().width
+        }),
+        framesX: 1,
+        framesY: 1
+      })
+    })
+    this.background = this.level.getBackground()
     this.chargingBar = new CanvasManager('#my-jump-charging-bar')
     this.pauseMenu = new Menu('#pause-menu')
     this.mainMenu = new Menu('#main-menu')
@@ -64,21 +79,10 @@ export default class Game {
     this.elementList = new ElementList()
 
     // creating game elements
-    this.background = new BaseElement({
-      x: 0,
-      y: 0,
-      imageSrc: '../assets/background/Background_Kanalisation2.png',
-      imageCropBox: new BaseBox({
-        y: 5,
-        height: this.canvasManager.getCanvas().height,
-        width: this.canvasManager.getCanvas().width
-      })
-    })
 
-    // console.log(this.background);
+    // generating platform blocks
+    const collisionBlocks = this.level.generatePlatfroms()
     
-
-    const collisionBlocks = this.generatePlatformsForLevel(0)
     this.player = new Player({
       position: {
         x: 0,
@@ -120,14 +124,14 @@ export default class Game {
 
       //--- clear screen
       this.ctx.fillStyle = 'white'
-      this.ctx.fillRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight)
+      this.ctx.fillRect(0, 0, this.canvasManager.getCanvas().clientWidth, this.canvasManager.getCanvas().clientHeight)
 
       const jumpChargingBarCtx = this.chargingBar.getContext()
       jumpChargingBarCtx.fillStyle = 'white'
       jumpChargingBarCtx.fillRect(0, 0, this.jumpChargingBarCanvas.clientWidth, this.jumpChargingBarCanvas.clientHeight)
 
       // drawing elements
-      this.elementList.draw(this.ctx, this.canvas)
+      this.elementList.draw(this.ctx, this.canvasManager.getCanvas())
       // animating
       this.elementList.action()
       if (this.player.keys.w.pressed) {
@@ -138,8 +142,10 @@ export default class Game {
       this.raf = window.requestAnimationFrame(this.tick.bind(this))
       this.ctx.restore()
     } else {
-      this.openPauseMenu(this.canvas)
-      
+      // open pause menu and hiding elements
+      this.pauseMenu.show()
+      this.canvasManager.hide()
+      this.chargingBar.hide()
     }
   }
 
@@ -194,17 +200,11 @@ export default class Game {
     return platforms
   }
 
-
-  openPauseMenu() {
-    this.canvas.style.display = "none"
-    this.jumpChargingBarCanvas.style.display = "none"
-    document.getElementById('pause-menu').style.display = "block"
-  }
-
   closePauseMenu() {
-    this.canvas.style.display = "block";
-    this.jumpChargingBarCanvas.style.display = "block"
-    document.getElementById('pause-menu').style.display = "none"
+    this.canvasManager.show()
+    this.chargingBar.hide()
+    this.pauseMenu.hide()
+    // why? i did not understand (c) Omar :) would like to know more
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 

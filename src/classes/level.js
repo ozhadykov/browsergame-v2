@@ -1,6 +1,8 @@
+import { BaseBox, BaseElement } from "../base-classes"
+
 export class Level {
 
-    constructor (levelId, levelString, background) {
+    constructor ({levelId, levelString, background}) {
         this._levelId = levelId
         this._levelString = levelString
         this._platforms = []
@@ -26,9 +28,48 @@ export class Level {
         this._levelString = levelString
     }
 
-    generatePlatfroms() {
-        this._platforms = []
-
-        // ... generating platforms
+    getBackground() {
+        // todo: think about fallback value
+        if (this._background)
+            return this._background
+        else 
+            return null
     }
+
+    generatePlatfroms() {
+        // ... generating platforms
+        this._platforms = []
+        const levelMarkup = this._levelString.replace(/\s+/g, '').split('+')
+        
+        levelMarkup.forEach((levelRow, y) => {
+            levelRow.split('').forEach((levelEl, x) => {
+              // TODO: Define, what kind of platform should be created
+              
+              if (levelEl !== '-') {
+                // console.log(y * 16, x * 16);
+                const platformEl = new BaseElement({
+                    x: x * 16,
+                    y: y * 16,
+                    height: 16,
+                    width: 16,
+                    imageSrc: '../../assets/platform/block.png',
+                    imageCropBox: new BaseBox({
+                        x: 0,
+                        y: 0,
+                        height: 16,
+                        width: 16
+                    }),
+                    framesX: 3,
+                    framesY: 3
+                })
+                console.log(platformEl);
+                
+                this._platforms.push(platformEl)
+              }
+            })
+          })
+        
+        return this._platforms
+    }
+
 }

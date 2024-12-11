@@ -7,15 +7,15 @@ export class Menu {
     }
 
     show() {
-        if (this.htmlEL){
-            this.htmlEL.style.display = 'block'
+        if (this._htmlEL){
+            this._htmlEL.style.display = 'block'
             this._shown = true
         }
     }
 
     hide() {
-        if (this.htmlEL) {
-            this.htmlEL.style.display = 'none'
+        if (this._htmlEL) {
+            this._htmlEL.style.display = 'none'
             this._shown = false
         }
     } 
