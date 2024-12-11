@@ -59,9 +59,9 @@ export default class Game {
     this.background = new Background({
       position: {
         x: 0,
-        y: 5
+        y: 0
       },
-      imageSrc: '../assets/background/Background_Kanalisation2.png',
+      imageSrc: '../assets/background/Background_Level_0.png',
     })
 
     const collisionBlocks = this.generatePlatformsForLevel(0)
