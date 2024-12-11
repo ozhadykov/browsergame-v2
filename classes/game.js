@@ -32,7 +32,6 @@ export default class Game {
     this.jumpChargingBarCanvas = jumpChargingBarCanvas
     this.jumpChargingBar = jumpChargingBar
     this.instance = this
-<<<<<<< HEAD
     
     this.canvasManager = new CanvasManager()
     this.iunputManager = new InputManager()
@@ -44,8 +43,6 @@ export default class Game {
     this.pauseMenu = new Menu()
     this.mainMenu = new Menu()
     this.areYouSureMenu = new Menu()
-=======
->>>>>>> master
 
   }
 
