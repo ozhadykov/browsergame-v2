@@ -9,7 +9,10 @@ export class Platform extends BaseGameElement {
       height,
       width,
       imageSrc,
-      cropBoxPosition = {x: 0, y: 0},
+      cropBoxPositionX = 0, // Default value
+      cropBoxPositionY = 0, // Default value
+      cropBoxHeight = 16,   // Default value
+      cropBoxWidth = 16     // Default value
     }
   ) {
 
@@ -20,11 +23,11 @@ export class Platform extends BaseGameElement {
       console.log('Image ready')
     }
     this.image.src = imageSrc;
-    this.cropBox = {
-      height: 16,
-      width: 16,
-      position: cropBoxPosition
-    }
+    this.cropBoxHeight = cropBoxHeight;
+    this.cropBoxWidth = cropBoxWidth;
+    this.cropBoxPositionX = cropBoxPositionX;
+    this.cropBoxPositionY = cropBoxPositionY;
+
   }
 
   draw(ctx) {
@@ -32,10 +35,10 @@ export class Platform extends BaseGameElement {
 
     ctx.drawImage(
       this.image,
-      this.cropBox.position.x,
-      this.cropBox.position.y,
-      this.cropBox.height,
-      this.cropBox.width,
+      this.cropBoxPositionX,
+      this.cropBoxPositionY,
+      this.cropBoxHeight,
+      this.cropBoxWidth,
       this.positionX,
       this.positionY,
       this.width,
@@ -46,7 +49,5 @@ export class Platform extends BaseGameElement {
   action() {
 
   }
-
-
 }
 

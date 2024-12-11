@@ -70,7 +70,8 @@ export default class Game {
       width: 50,
       scale: 0.75,
       imageSrc: '../assets/Char/CharSheetWalk.png',
-      cropBoxPosition: {x: 0, y: 100},
+      cropBoxPositionX :0,
+      cropBoxPositionY : 100,
       collisionBlocks,
     })
 
@@ -99,7 +100,7 @@ export default class Game {
       //this.jumpChargingBar.save()
       //finde das kleinere besser aber nur mein geschmack. Falls geändert müssen wir auch den Sprung entsprechend anpassen
       this.ctx.scale(2, 2)
-      this.ctx.translate(this.player.cameraBox.position.x, -this.player.cameraBox.position.y)
+      this.ctx.translate(this.player.cameraBoxPositionX, -this.player.cameraBoxPositionY)
 
       //--- clear screen
       this.ctx.fillStyle = 'white'
