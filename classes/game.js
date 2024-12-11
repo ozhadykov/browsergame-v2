@@ -34,7 +34,6 @@ export default class Game {
     this.instance = this
     
     this.canvasManager = new CanvasManager()
-    this.iunputManager = new InputManager()
     this.elementList = null
     this.background = null
     this.player = null

@@ -19,14 +19,18 @@ export class BaseElement extends BaseBox {
             this._width * this._scale
         }
         this._image.src = imageSrc
+        this._imageCropBox = new BaseBox()
     }
 
 
-    draw() {
+    draw(ctx) {
         if (!this._image || !this._imageLoaded)
             return 
 
         // todo: ctx draw image
+        ctx.drawImage(
+            this._image,
+        )
     }
 
 }

@@ -1,11 +1,18 @@
-import { PositionXY } from "./position-xy.js"
-
 export class BaseBox {
     
     constructor(x, y, height, width) {
-        this._position = new PositionXY(x, y)
+        this._x = x
+        this._y = y
         this._height = height
         this._width = width
+    }
+
+    setX(x) {
+        this._x = x
+    }
+    
+    setY(y) {
+        this._y = y
     }
 
     setHeight(height) {
@@ -22,6 +29,20 @@ export class BaseBox {
             this._width = 0
     }
 
+    getX() {
+        if (this._x >= 0)
+            return this._x
+        else 
+            return 0
+    }
+    
+    getY() {
+        if (this._y >= 0)
+            return this._y
+        else 
+            return 0
+    }
+
     getHeight() {
         if (this._height >= 0)
             return this._height
@@ -34,5 +55,10 @@ export class BaseBox {
             return this._width
         else
             return 0
+    }
+
+    isCollidingWith(box) {
+        // ... some collision logic
+        return false
     }
 }
