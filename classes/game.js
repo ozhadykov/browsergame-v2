@@ -1,8 +1,8 @@
 import Player from "./player.js";
 import ElementList from "./elementList.js";
-import {Background} from "./background.js";
-import {levels} from "../data/levels.js";
-import {Platform} from "./platform.js";
+import { Background } from "./background.js";
+import { levels } from "../data/levels.js";
+import { Platform } from "./platform.js";
 
 export default class Game {
 
@@ -51,20 +51,20 @@ export default class Game {
   }
 
   start(level) {
+    this.currentLevel = level; // Speichere das aktuelle Level 
+    this.loadLevel(this.currentLevel); // Lade das Level 
+  }
 
-    // creating element List
-    this.elementList = new ElementList()
+  loadLevel(level) {
+    // Lade Hintergrund 
+    this.background = new Background(
+      {
+        position: { x: 0, y: 0 },
+        imageSrc: `../assets/background/Background_Level_${level}.png`
+      })
 
-    // creating game elements
-    this.background = new Background({
-      position: {
-        x: 0,
-        y: 0
-      },
-      imageSrc: '../assets/background/Background_Level_0.png',
-    })
-
-    const collisionBlocks = this.generatePlatformsForLevel(0)
+   
+    const collisionBlocks = this.generatePlatformsForLevel(level)
     this.player = new Player({
       position: {
         x: 0,
@@ -74,11 +74,12 @@ export default class Game {
       width: 50,
       scale: 0.75,
       imageSrc: '../assets/Char/CharSheetWalk.png',
-      cropBoxPosition: {x: 0, y: 100},
+      cropBoxPosition: { x: 0, y: 100 },
       collisionBlocks,
     })
 
-    // adding all elements to List
+    // creating list und adding all elements to List
+    this.elementList = new ElementList()
     this.elementList.add(this.background)
     this.elementList.add(this.player)
     collisionBlocks.forEach(platform => this.elementList.add(platform))
@@ -88,8 +89,17 @@ export default class Game {
 
     // here we are requiring window to reload to max framerate possible
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
-
   }
+
+  checkLevelCompletion() {
+    // prüft, ob der Spieler eine bestimmte Plattform in oberen Bild erreicht hat (hier Annahme y<50) muss ggf. noch geändert werden, weil aktuell nur auf Level 0 zugeschnitten 
+    if (this.player.position.y < 50 && this.player.canJump) {
+      this.currentLevel++;
+      this.loadLevel(this.currentLevel);
+    }
+  }
+
+
 
 
   stop() {
@@ -119,23 +129,25 @@ export default class Game {
       if (this.player.keys.w.pressed) {
         this.drawjumpChargingBar()
       }
+      // Überprüfe den Abschluss des Levels 
+      this.checkLevelCompletion();
 
       // calling animation function again
       this.raf = window.requestAnimationFrame(this.tick.bind(this))
       this.ctx.restore()
     } else {
       this.openPauseMenu(this.canvas)
-      
+
     }
   }
 
   themeManager() {
     if (!this.player.keys.pause.pressed) this.theme.pause()
     else {
-    this.theme = new Audio('../assets/Sounds/chipTune.wav')
-    this.theme.preload = "auto";
-    this.theme.volume = 0.05;
-    this.theme.play()
+      this.theme = new Audio('../assets/Sounds/chipTune.wav')
+      this.theme.preload = "auto";
+      this.theme.volume = 0.05;
+      this.theme.play()
     }
   }
 
@@ -143,13 +155,13 @@ export default class Game {
 
     for (let i = 0; i <= this.player.maxJumpCharge; i += this.player.maxJumpCharge / 10) { // auch mit /20; /100 möglich
       if (Date.now() - this.player.chargingJumpTime >= i) {
-        this.jumpChargingBar.fillStyle = `rgb(${(255 - i/5)  },0 , 0)`
+        this.jumpChargingBar.fillStyle = `rgb(${(255 - i / 5)},0 , 0)`
         this.jumpChargingBar.fillRect(0, this.jumpChargingBarCanvas.clientHeight - this.jumpChargingBarCanvas.clientHeight * (i / this.player.maxJumpCharge), this.jumpChargingBarCanvas.clientWidth, this.jumpChargingBarCanvas.clientHeight / 10)
       }
     }
   }
 
-  generatePlatformsForLevel (level){
+  generatePlatformsForLevel(level) {
     const levelMarkup = levels[level].replace(/\s+/g, '').split('+')
     const platforms = []
 
@@ -204,4 +216,6 @@ export default class Game {
     document.getElementById('pauseMenu').style.display = " block"
   }
 }
+
+
 
