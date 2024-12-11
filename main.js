@@ -7,10 +7,10 @@ const mainMenu = document.getElementById("main-menu");
 
 function startGame() {
   document.getElementById('main-menu-backround').style.display = "none"
-  game.canvas.style.display = "block";
-  game.jumpChargingBarCanvas.style.display = "block"
-  mainMenu.style.display = "none";
-  game.start(1);
+  game.getCanvasManager().show()
+  game.getChargingBar().show()
+  game.getMainMenu().hide()
+  game.start(0);
 }
 
 function closePauseMenu() {

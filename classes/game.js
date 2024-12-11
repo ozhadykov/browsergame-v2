@@ -1,12 +1,11 @@
 import Player from "./player.js";
+
 import ElementList from "./elementList.js";
 import { levels } from "../data/levels.js";
-import {Platform} from "./platform.js";
-
 import { BaseBox, BaseElement, Menu } from "../src/base-classes/";
 import { CanvasManager } from "../src/classes/canvas-manager.js";
 import { Level } from "../src/classes/level.js";
-import { Background } from "../src/classes/background.js";
+import Player2 from "../src/classes/player.js";
 
 export default class Game {
 
@@ -16,12 +15,10 @@ export default class Game {
    *
    * @param ctx
    * @param canvas
-   * @param level
-   * @param jumpChargingBar
-   * @param jumpChargingBarCanvas
+   * @param levelId
    */
 
-  constructor(ctx, jumpChargingBar, jumpChargingBarCanvas, level = 0) {
+  constructor(ctx, levelId = 0) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -29,16 +26,14 @@ export default class Game {
     // request animation frame handle
     this.raf = null
     this.ctx = ctx
-    this.jumpChargingBarCanvas = jumpChargingBarCanvas
-    this.jumpChargingBar = jumpChargingBar
     this.instance = this
     
     this.canvasManager = new CanvasManager('#my-canvas')
     this.elementList = null
     this.player = null
     this.level = new Level({
-      level,
-      levelString: levels[level],
+      levelId,
+      levelString: levels.at(levelId),
       background: new BaseElement({
         x: 0,
         y: 0,
@@ -69,7 +64,6 @@ export default class Game {
       const jumpChargingBar = jumpChargingBarCanvas.getContext("2d");
       Game.instance = new Game(ctx, canvas, jumpChargingBar, jumpChargingBarCanvas)
     }
-
     return Game.instance
   }
 
@@ -79,21 +73,29 @@ export default class Game {
     this.elementList = new ElementList()
 
     // creating game elements
-
     // generating platform blocks
     const collisionBlocks = this.level.generatePlatfroms()
     
-    this.player = new Player({
-      position: {
-        x: 0,
-        y: 440
-      },
-      height: 50,
-      width: 50,
+    // this.player = new Player({
+    //   position: {
+    //     x: 0,
+    //     y: 440
+    //   },
+    //   height: 50,
+    //   width: 50,
+    //   scale: 0.75,
+    //   imageSrc: '../assets/Char/CharSheetWalk.png',
+    //   cropBoxPosition: {x: 0, y: 100},
+    //   collisionBlocks,
+    // })
+
+    this.player = new Player2({
+      x: 0,
+      y: 440,
       scale: 0.75,
       imageSrc: '../assets/Char/CharSheetWalk.png',
-      cropBoxPosition: {x: 0, y: 100},
-      collisionBlocks,
+      imageCropBox: new BaseBox({}),
+      collisionBlocks
     })
 
     // adding all elements to List
@@ -128,7 +130,9 @@ export default class Game {
 
       const jumpChargingBarCtx = this.chargingBar.getContext()
       jumpChargingBarCtx.fillStyle = 'white'
-      jumpChargingBarCtx.fillRect(0, 0, this.jumpChargingBarCanvas.clientWidth, this.jumpChargingBarCanvas.clientHeight)
+      jumpChargingBarCtx.fillRect(0, 0, 
+        this.jumpChargingBarCanvas.clientWidth, 
+        this.jumpChargingBarCanvas.clientHeight)
 
       // drawing elements
       this.elementList.draw(this.ctx, this.canvasManager.getCanvas())
@@ -174,30 +178,16 @@ export default class Game {
     }
   }
 
-  generatePlatformsForLevel (level){
-    const levelMarkup = levels[level].replace(/\s+/g, '').split('+')
-    const platforms = []
+  getCanvasManager() {
+    return this.canvasManager
+  }
 
-    levelMarkup.forEach((levelRow, y) => {
-      levelRow.split('').forEach((levelEl, x) => {
-        // TODO: Define, what kind of platform should be created
-        if (levelEl !== '-') {
-          // if ()
-          const platformEl = new Platform({
-            position: {
-              x: x * 16,
-              y: y * 16,
-            },
-            imageSrc: '../assets/platform/block.png',
-            height: 16,
-            width: 16,
-          })
-          platforms.push(platformEl)
-        }
-      })
-    })
+  getChargingBar() {
+    return this.chargingBar
+  }
 
-    return platforms
+  getMainMenu() {
+    return this.mainMenu
   }
 
   closePauseMenu() {

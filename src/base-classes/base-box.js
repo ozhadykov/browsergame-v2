@@ -1,7 +1,6 @@
 export class BaseBox {
     
     constructor({ x = 0, y = 0, height, width }) {
-        console.log(x, y); // This will now correctly log x and y
         this._x = x;
         this._y = y;
         this._height = height;

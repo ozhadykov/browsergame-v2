@@ -62,8 +62,6 @@ export class Level {
                     framesX: 3,
                     framesY: 3
                 })
-                console.log(platformEl);
-                
                 this._platforms.push(platformEl)
               }
             })
