@@ -50,7 +50,7 @@ export class BaseBox {
             return 0
     }
 
-    getWidtht() {
+    getWidth() {
         if (this._width >= 0)
             return this._width
         else

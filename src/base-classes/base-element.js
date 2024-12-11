@@ -8,7 +8,8 @@ export class BaseElement extends BaseBox {
         height,
         width,
         scale,
-        imageSrc
+        imageSrc,
+        imageCropBox
     ) {
         super(x, y, height, width)
         this._scale = scale
@@ -19,7 +20,7 @@ export class BaseElement extends BaseBox {
             this._width * this._scale
         }
         this._image.src = imageSrc
-        this._imageCropBox = new BaseBox()
+        this._imageCropBox = imageCropBox
     }
 
 
@@ -30,6 +31,13 @@ export class BaseElement extends BaseBox {
         // todo: ctx draw image
         ctx.drawImage(
             this._image,
+            this._imageCropBox.getX(),
+            this._imageCropBox.getY(),
+            this._imageCropBox.getHeight(),
+            this._imageCropBox.getWidth(),
+            this.getX(),
+            this.getY(),
+            this.getWidth()
         )
     }
 
