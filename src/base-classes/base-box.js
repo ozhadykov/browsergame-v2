@@ -1,6 +1,10 @@
-export class BaseBox {
+export class Box {
     
     constructor({ x = 0, y = 0, height, width }) {
+        /**
+         * @x is position
+         * @y is position
+         * */
         this._x = x;
         this._y = y;
         this._height = height;
@@ -55,15 +59,5 @@ export class BaseBox {
             return this._width
         else
             return 0
-    }
-
-    isCollidingWith(box) {
-        // ... some collision logic
-        return (
-            box.getY() + box.getHeight() >= this.getY() &&
-            box.getY() <= this.getY() + this.getHeight() &&
-            box.getX() <= this.getX() + this.getWidth() &&
-            box.getX() + box.getWidth() >= this.getX()
-        )
     }
 }

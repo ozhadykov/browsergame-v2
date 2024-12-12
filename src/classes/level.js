@@ -1,4 +1,4 @@
-import { BaseBox, BaseElement } from "../base-classes"
+import { Box, BaseElement } from "../base-classes"
 
 export class Level {
 
@@ -53,7 +53,7 @@ export class Level {
                     height: 16,
                     width: 16,
                     imageSrc: '../../assets/platform/block.png',
-                    imageCropBox: new BaseBox({
+                    imageCropBox: new Box({
                         x: 0,
                         y: 0,
                         height: 16,

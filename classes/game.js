@@ -2,7 +2,7 @@ import Player from "./player.js";
 
 import ElementList from "./elementList.js";
 import { levels } from "../data/levels.js";
-import { BaseBox, BaseElement, Menu } from "../src/base-classes/";
+import { Box, BaseElement, Menu } from "../src/base-classes/";
 import { CanvasManager } from "../src/classes/canvas-manager.js";
 import { Level } from "../src/classes/level.js";
 import Player2 from "../src/classes/player.js";
@@ -18,7 +18,7 @@ export default class Game {
    * @param levelId
    */
 
-  constructor(ctx, levelId = 0) {
+  constructor(canvas, ctx, levelId = 0) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -26,6 +26,7 @@ export default class Game {
     // request animation frame handle
     this.raf = null
     this.ctx = ctx
+    this.canvas = canvas
     this.instance = this
     this.scale = 2
     this.canvasManager = new CanvasManager('#my-canvas')
@@ -38,7 +39,7 @@ export default class Game {
         x: 0,
         y: 0,
         imageSrc: '../assets/background/Background_Kanalisation2.png',
-        imageCropBox: new BaseBox({
+        imageCropBox: new Box({
           y: 5,
           height: this.canvasManager.getCanvas().height,
           width: this.canvasManager.getCanvas().width
@@ -62,7 +63,7 @@ export default class Game {
 
       const jumpChargingBarCanvas = document.getElementById("my-jump-charging-bar");
       const jumpChargingBar = jumpChargingBarCanvas.getContext("2d");
-      Game.instance = new Game(ctx, canvas, jumpChargingBar, jumpChargingBarCanvas)
+      Game.instance = new Game(canvas, ctx, jumpChargingBar, jumpChargingBarCanvas)
     }
     return Game.instance
   }
@@ -81,7 +82,7 @@ export default class Game {
       y: 440,
       scale: 0.35,
       imageSrc: '../assets/Char/CharSheetWalk.png',
-      imageCropBox: new BaseBox({
+      imageCropBox: new Box({
         x: 0, 
         y: 100,
         height: 99,
@@ -173,6 +174,14 @@ export default class Game {
           charginBarCanvas.clientWidth, charginBarCanvas.clientHeight / 10)
       }
     }
+  }
+
+  getCanvas() {
+    return this.canvas
+  }
+
+  getContext() {
+    return this.ctx
   }
 
   getCanvasManager() {

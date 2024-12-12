@@ -1,9 +1,9 @@
 import { Menu } from "./menu.js";
-import { BaseBox } from "./base-box.js";
+import { Box } from "./base-box.js";
 import { BaseElement } from "./base-element.js";
 
 export {
     Menu,
-    BaseBox,
+    Box,
     BaseElement,
 }

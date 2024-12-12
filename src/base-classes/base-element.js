@@ -1,6 +1,6 @@
-import { BaseBox } from "./base-box"
+import { Box } from "./base-box"
 
-export class BaseElement extends BaseBox {
+export class BaseElement extends Box {
     
     constructor ({
         x,

@@ -1,5 +1,6 @@
-import { BaseBox, BaseElement } from "../base-classes";
+import { Box, BaseElement } from "../base-classes";
 import Game from "../../classes/game.js";
+import { HitBox } from "./hit-box.js";
 
 export default class Player2 extends BaseElement {
   constructor(
@@ -18,17 +19,13 @@ export default class Player2 extends BaseElement {
     }) {
     super({x, y, height, width, scale, imageSrc, imageCropBox, framesX, framesY});
       
-    this.velocity = {
-      x: 0,
-      y: 1,
-    }
     this._velocityX = 0
     this._velocityY = 1
 
-    this.gravity = gravity ?? 0.1;
-    this.platformBlocks = platformBlocks ?? [];
+    this._gravity = gravity ?? 0.1;
+    this._platformBlocks = platformBlocks ?? [];
     
-    this._hitBox = new BaseBox({
+    this._hitBox = new HitBox({
         x: this._x,
         y: this._y,
         width: 10,
@@ -37,11 +34,11 @@ export default class Player2 extends BaseElement {
 
     const game = Game.getInstance()
     
-    this._cameraBox = new BaseBox({
+    this._cameraBox = new Box({
         x: this._x,
         y: this._y,
-        width: game.getCanvasManager().getCanvasWidth() / game.getMapScale(),
-        height: game.getCanvasManager().getCanvasHeight() / game.getMapScale(),
+        width: game.getCanvas().width / game.getMapScale(),
+        height: game.getCanvas().height / game.getMapScale(),
     })
 
     this.keys = {
@@ -176,15 +173,19 @@ export default class Player2 extends BaseElement {
     this._x += this._velocityX
     // It is important to use this function 2 times
     this.checkDirection()
-    this.updateHitBox()
+    this._hitBox.updateHitBox(this)
+    // this.updateHitBox()
     this.updateHorizontalCamera()
-    this.checkForHorizontalCollisions()
+    this._hitBox.checkForHorizontalCollisions(this)
+    // this.checkForHorizontalCollisions()
     this.applyGravity()
     // It is important to use this function 2 times
-    this.updateHitBox()
+    // this.updateHitBox()
+    this._hitBox.updateHitBox(this)
     this.updateVerticalCamera()
-    this.checkForVerticalCollisions()
-    this.checkForCollisions()
+    // this.checkForVerticalCollisions()
+    this._hitBox.checkForVerticalCollisions(this)
+    // this.checkForCollisions()
     this.enableMoving()
 
   }
@@ -221,7 +222,7 @@ export default class Player2 extends BaseElement {
   }
 
   applyGravity() {
-    this._velocityY += this.gravity
+    this._velocityY += this._gravity
     this._y += this._velocityY
   }
 
@@ -251,7 +252,7 @@ export default class Player2 extends BaseElement {
     /**
      * @block is of type BaseElement
      */
-    for (const block of this.platformBlocks) {
+    for (const block of this._platformBlocks) {
         if (this._hitBox.isCollidingWith(block)) {
             if (!this.canJump) this.crashSound.play()
             if (this._velocityX > 0) {
@@ -278,7 +279,7 @@ export default class Player2 extends BaseElement {
     /**
      * @block is of type BaseElement
      */
-    for (const block of this.platformBlocks) {
+    for (const block of this._platformBlocks) {
         if (this._hitBox.isCollidingWith(block)){
             this.canJump = true
             if (this._velocityY > 0) {
@@ -304,7 +305,7 @@ export default class Player2 extends BaseElement {
     this._hitBox.setY(this._y)
     this._hitBox.setWidth(60 * this._scale)
     this._hitBox.setHeight(100 * this._scale)
-}
+  }
 
   updateFrames() {
     if (this.walkState) {
@@ -344,10 +345,10 @@ export default class Player2 extends BaseElement {
   }
 
   updateHorizontalCamera() {
-    const canvas = Game.getInstance().getCanvasManager()
+    const canvas = Game.getInstance().canvas
 
-    this._hitBox.getX() + this._hitBox.getWidth() >= canvas.getCanvasWidth() / 2 ?
-        this._cameraBox.setX(- canvas.getCanvasWidth() / 2) : 
+    this._hitBox.getX() + this._hitBox.getWidth() >= canvas.width / 2 ?
+        this._cameraBox.setX(- canvas.width / 2) : 
         this._cameraBox.setX(0)
   }
 
@@ -384,5 +385,33 @@ export default class Player2 extends BaseElement {
 
   getCameraBox() {
     return this._cameraBox
+  }
+
+  getPlatformBlocks() {
+    return this._platformBlocks
+  }
+
+  getCanJump() {
+    return this.canJump
+  }
+
+  setCanJump(value) {
+    this.canJump = value
+  }
+
+  setVelocityY(velocity) {
+    this._velocityY = velocity
+  }
+
+  setVelocityX(velocity) {
+    this._velocityX = velocity
+  }
+  
+  getVelocityY() {
+    return this._velocityY
+  }
+
+  getVelocityX() {
+    return this._velocityX
   }
 }
