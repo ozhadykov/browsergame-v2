@@ -20,44 +20,26 @@ export class Box {
     }
 
     setHeight(height) {
-        if (height >= 0)
-            this._height = height
-        else
-            this._height = 0
+        this._height = height
     }
 
     setWidth(width) {
-        if (width >= 0)
-            this._width = width
-        else
-            this._width = 0
+        this._width = width
     }
 
     getX() {
-        if (this._x >= 0)
-            return this._x
-        else 
-            return 0
+        return this._x
     }
     
     getY() {
-        if (this._y >= 0)
-            return this._y
-        else 
-            return 0
+        return this._y
     }
 
     getHeight() {
-        if (this._height >= 0)
-            return this._height
-        else
-            return 0
+        return this._height
     }
 
     getWidth() {
-        if (this._width >= 0)
-            return this._width
-        else
-            return 0
+        return this._width
     }
 }

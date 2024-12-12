@@ -1,5 +1,4 @@
-import { Box, BaseElement } from "../base-classes";
-import Game from "../../classes/game.js";
+import { BaseElement } from "../base-classes";
 import { HitBox } from "./hit-box.js";
 
 export default class Player2 extends BaseElement {
@@ -30,15 +29,6 @@ export default class Player2 extends BaseElement {
         y: this._y,
         width: 10,
         height: 10
-    })
-
-    const game = Game.getInstance()
-    
-    this._cameraBox = new Box({
-        x: this._x,
-        y: this._y,
-        width: game.getCanvas().width / game.getMapScale(),
-        height: game.getCanvas().height / game.getMapScale(),
     })
 
     this.keys = {
@@ -174,22 +164,12 @@ export default class Player2 extends BaseElement {
     // It is important to use this function 2 times
     this.checkDirection()
     this._hitBox.updateHitBox(this)
-    // this.updateHitBox()
-    this.updateHorizontalCamera()
     this._hitBox.checkForHorizontalCollisions(this)
-    // this.checkForHorizontalCollisions()
     this.applyGravity()
     // It is important to use this function 2 times
-    // this.updateHitBox()
     this._hitBox.updateHitBox(this)
-    this.updateVerticalCamera()
-    // this.checkForVerticalCollisions()
     this._hitBox.checkForVerticalCollisions(this)
-    // this.checkForCollisions()
     this.enableMoving()
-
-    // console.log(this._hitBox);
-    
   }
 
   checkDirection() {
@@ -250,64 +230,6 @@ export default class Player2 extends BaseElement {
 
   }
 
-  checkForHorizontalCollisions() {
-    /**
-     * @block is of type BaseElement
-     */
-    for (const block of this._platformBlocks) {
-        if (this._hitBox.isCollidingWith(block)) {
-            if (!this.canJump) this.crashSound.play()
-            if (this._velocityX > 0) {
-                const offset = this._hitBox.getX() - this._x + this._hitBox.getWidth()
-                this._x = block.getX() - offset - 0.01
-                if (!this.canJump) this._velocityX = -1 * this._velocityX / 1.1
-                else this._velocityX = 0
-                break // Exit loop after handling collision
-            }
-    
-            if (this._velocityX < 0) {
-                const offset = this._hitBox.getX() - this._x
-                this._x = block.getX() + offset + 0.01
-                if (!this.canJump) this._velocityX = -1 * this._velocityX / 1.1
-                else this._velocityX = 0
-                break // Exit loop after handling collision
-            }
-        }
-            
-    }
-  }
-
-  checkForVerticalCollisions() {
-    /**
-     * @block is of type BaseElement
-     */
-    for (const block of this._platformBlocks) {
-        if (this._hitBox.isCollidingWith(block)){
-            this.canJump = true
-            if (this._velocityY > 0) {
-            this._velocityY = 0
-            const offset = this._hitBox.getY() - this._y + this._hitBox.getHeight()
-            this._y = block.getY() - offset - 0.01
-            break // Exit loop after handling collision
-            }
-
-            if (this._velocityY < 0) {
-            this._velocityY = 0
-            const offset = this._hitBox.getY() - this._y
-            this._y = block.getY() + block.getHeight() - offset + 0.01
-            break // Exit loop after handling collision
-            }
-        } else
-            this.canJump = false
-    }
-  }
-
-  updateHitBox() {
-    this._hitBox.setX(this._x + 8)
-    this._hitBox.setY(this._y)
-    this._hitBox.setWidth(60 * this._scale)
-    this._hitBox.setHeight(100 * this._scale)
-  }
 
   updateFrames() {
     if (this.walkState) {
@@ -346,49 +268,6 @@ export default class Player2 extends BaseElement {
     }
   }
 
-  updateHorizontalCamera() {
-    const canvas = Game.getInstance().canvas
-
-    this._hitBox.getX() + this._hitBox.getWidth() >= canvas.width / 2 ?
-        this._cameraBox.setX(- canvas.width / 2) : 
-        this._cameraBox.setX(0)
-  }
-
-  updateVerticalCamera() {
-    this._y - 220 >= 0 ?
-      this._cameraBox.setY(this._y - 220) :
-      this._cameraBox.setY(0)
-  }
-
-  checkForCollisions() {
-    const canvasWidth = Game.getInstance().getCanvasManager().getCanvasWidth()
-    // simple checking, because we will use soon something better :)
-    // horizontal collision checking
-    if (this._x + this._velocityX < 0) {
-      this._x = 0;
-      this._velocityX = -this._velocityX
-    }
-
-    if (this._x + this.width + this._velocityX > canvasWidth) {
-      this._velocityX = -this._velocityX
-      this._x = canvasWidth - this.width
-    }
-
-    if (this._x + this._velocityX < 0) {
-      this._x = 0;
-      this._velocityX = 0
-    }
-
-    if (this._x + this.width + this._velocityX > canvasWidth) {
-      this._velocityX = 0
-      this._x = canvasWidth - this.width
-    }
-  }
-
-  getCameraBox() {
-    return this._cameraBox
-  }
-
   getPlatformBlocks() {
     return this._platformBlocks
   }
@@ -408,6 +287,11 @@ export default class Player2 extends BaseElement {
   getVelocityX() {
     return this._velocityX
   }
+
+  getHitBox() {
+    return this._hitBox
+  }
+
   setCanJump(value) {
     this.canJump = value
   }

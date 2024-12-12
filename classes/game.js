@@ -6,6 +6,7 @@ import { Box, BaseElement, Menu } from "../src/base-classes/";
 import { CanvasManager } from "../src/classes/canvas-manager.js";
 import { Level } from "../src/classes/level.js";
 import Player2 from "../src/classes/player.js";
+import { CameraBox } from "../src/classes/camera-box.js";
 
 export default class Game {
 
@@ -18,7 +19,7 @@ export default class Game {
    * @param levelId
    */
 
-  constructor(canvas, ctx, levelId = 0) {
+  constructor(canvas, ctx, levelId = 1) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -49,6 +50,10 @@ export default class Game {
       })
     })
     this.background = this.level.getBackground()
+    this.cameraBox = new CameraBox({
+      width: this.canvas.width / this.scale,
+      height: this.canvas.height / this.scale
+    })
     this.chargingBar = new CanvasManager('#my-jump-charging-bar')
     this.pauseMenu = new Menu('#pause-menu')
     this.mainMenu = new Menu('#main-menu')
@@ -63,7 +68,7 @@ export default class Game {
 
       const jumpChargingBarCanvas = document.getElementById("my-jump-charging-bar");
       const jumpChargingBar = jumpChargingBarCanvas.getContext("2d");
-      Game.instance = new Game(canvas, ctx, jumpChargingBar, jumpChargingBarCanvas)
+      Game.instance = new Game(canvas, ctx, 1, jumpChargingBarCanvas)
     }
     return Game.instance
   }
@@ -117,10 +122,7 @@ export default class Game {
 
       //finde das kleinere besser aber nur mein geschmack. Falls geändert müssen wir auch den Sprung entsprechend anpassen
       this.ctx.scale(2, 2)
-      this.ctx.translate(
-        this.player.getCameraBox().getX(), 
-        -this.player.getCameraBox().getY())
-
+      
       //--- clear screen
       this.ctx.fillStyle = 'white'
       this.ctx.fillRect(0, 0, this.canvasManager.getCanvas().clientWidth, this.canvasManager.getCanvas().clientHeight)
@@ -131,6 +133,13 @@ export default class Game {
       jumpChargingBarCtx.fillRect(0, 0, 
         jumpChargingBarCanvas.clientWidth, 
         jumpChargingBarCanvas.clientHeight)
+        
+      this.cameraBox.updateHorizontalCamera(this.player.getHitBox())
+      this.cameraBox.updateVerticalCamera(this.player.getHitBox())
+      
+      this.ctx.translate(
+        -this.cameraBox.getX(), 
+        -this.cameraBox.getY())
 
       // drawing elements
       this.elementList.draw(this.ctx, this.canvasManager.getCanvas())
@@ -139,6 +148,7 @@ export default class Game {
       if (this.player.keys.w.pressed) {
         this.drawjumpChargingBar()
       }
+
 
       // calling animation function again
       this.raf = window.requestAnimationFrame(this.tick.bind(this))
