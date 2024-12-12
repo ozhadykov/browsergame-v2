@@ -77,8 +77,6 @@ export default class Player2 extends BaseElement {
 
     // creating event listeners only once, do not need to create them each time, when we re-render
     this.initEventListeners()
-
-    console.log(this);
     
   }
 
@@ -330,7 +328,7 @@ export default class Player2 extends BaseElement {
     } else if (this.canJump) {
       // this.cropBoxPosition = {x: 0, y: 101}
       this._imageCropBox.setX(0)
-      this._imageCropBox.setY(0)
+      this._imageCropBox.setY(101)
     } else {
       if (this.animationJump <= 3) 
         this.animationJump = 3

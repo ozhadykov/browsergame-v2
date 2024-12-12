@@ -105,3 +105,12 @@ Idee des Objektorieterten Programmierens einearbeiten
 4. UML - zusammen am Dienstag
 5. Ton - Bonus
 
+#### Feedback an 12 Dez 2024
+
+- Steuerung anpassen: wenn man Sprung auflädt, muss man auch Richtug wechelsn
+- vershiedene BaseBoxes(plus in Box umgenennen): Hitbox(playerHitbox und alle Collision Funktionen auslagern), CropBox, DrawBox, CameraBox
+- Canvas Manager Klasse löschen
+- getters und setters für alle Klassen
+- vershiedene elementLists in Game Klasse
+- Background wenn man in MainMenu geht fixen
+- Klassendiagram

@@ -145,8 +145,8 @@ export default class Game {
     } else {
       // open pause menu and hiding elements
       this.pauseMenu.show()
-      this.canvasManager.hide()
-      this.chargingBar.hide()
+      this.canvasManager.show()
+      this.chargingBar.show()
     }
   }
 
