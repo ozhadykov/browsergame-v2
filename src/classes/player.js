@@ -196,6 +196,11 @@ export default class Player2 extends BaseElement {
     if(this._velocityX < 0) this.directionInversion = -1
   }
 
+  /**
+   * @override
+   * @param {*} ctx 
+   * @param {*} canvas 
+   */
   draw(ctx, canvas) {
     ctx.save()
     // animation
@@ -297,9 +302,9 @@ export default class Player2 extends BaseElement {
   }
 
   updateHitBox() {
-    this._hitBox.setX(this._x + 30)
+    this._hitBox.setX(this._x + 8)
     this._hitBox.setY(this._y)
-    this._hitBox.setWidth(5 * this._scale)
+    this._hitBox.setWidth(60 * this._scale)
     this._hitBox.setHeight(100 * this._scale)
 }
 
@@ -349,8 +354,8 @@ export default class Player2 extends BaseElement {
   }
 
   updateVerticalCamera() {
-    this._y - 217 >= 0 ?
-      this._cameraBox.setY(this._y - 217) :
+    this._y - 220 >= 0 ?
+      this._cameraBox.setY(this._y - 220) :
       this._cameraBox.setY(0)
   }
 

@@ -75,19 +75,6 @@ export default class Game {
     // creating game elements
     // generating platform blocks
     const platformBlocks = this.level.generatePlatfroms()
-    
-    // this.player = new Player({
-    //   position: {
-    //     x: 0,
-    //     y: 440
-    //   },
-    //   height: 50,
-    //   width: 50,
-    //   scale: 0.75,
-    //   imageSrc: '../assets/Char/CharSheetWalk.png',
-    //   cropBoxPosition: {x: 0, y: 100},
-    //   platformBlocks,
-    // })
 
     this.player = new Player2({
       x: 0,
@@ -104,9 +91,6 @@ export default class Game {
       framesX: 9,
       framesY: 3
     })
-
-    console.log(this.player);
-    
 
     // adding all elements to List
     this.elementList.add(this.background)
