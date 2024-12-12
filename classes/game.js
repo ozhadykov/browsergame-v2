@@ -172,14 +172,10 @@ export default class Game {
 
 
   openPauseMenu() {
-    this.canvas.style.display = "none"
-    this.jumpChargingBarCanvas.style.display = "none"
     document.getElementById('pauseMenu').style.display = "block"
   }
 
   closePauseMenu() {
-    this.canvas.style.display = "block";
-    this.jumpChargingBarCanvas.style.display = "block"
     document.getElementById('pauseMenu').style.display = "none"
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
@@ -190,8 +186,12 @@ export default class Game {
   }
 
   openMainMenu() {
+    document.getElementById('my-canvas').style.display = "none"
+    document.getElementById('my-jumpChargingBarCanvas').style.display = "none"
     document.getElementById('goToMainMenu_ARE_YOU_SURE').style.display = "none"
     document.getElementById('mainMenu').style.display = "block"
+    document.getElementById('mainmenuBackround').style.display = "block"
+
   }
 
   continuePause() {

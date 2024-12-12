@@ -23,6 +23,7 @@ function areYouSureMainMenu() {
   }
 
 function goToMainMenu() {
+  document.getElementById('mainmenuBackround').style.display = "block"
   game.openMainMenu()
 }
 
