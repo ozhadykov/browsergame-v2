@@ -297,10 +297,10 @@ export default class Player2 extends BaseElement {
   }
 
   updateHitBox() {
-    this._hitBox.setX(this._x + 8)
+    this._hitBox.setX(this._x + 30)
     this._hitBox.setY(this._y)
-    this._hitBox.setWidth(27 * this._scale)
-    this._hitBox.setHeight(50 * this._scale)
+    this._hitBox.setWidth(5 * this._scale)
+    this._hitBox.setHeight(100 * this._scale)
 }
 
   updateFrames() {
