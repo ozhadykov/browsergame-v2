@@ -188,6 +188,8 @@ export default class Player2 extends BaseElement {
     // this.checkForCollisions()
     this.enableMoving()
 
+    // console.log(this._hitBox);
+    
   }
 
   checkDirection() {
@@ -395,6 +397,17 @@ export default class Player2 extends BaseElement {
     return this.canJump
   }
 
+  getScale(){
+    return this._scale
+  }
+
+  getVelocityY() {
+    return this._velocityY
+  }
+
+  getVelocityX() {
+    return this._velocityX
+  }
   setCanJump(value) {
     this.canJump = value
   }
@@ -407,11 +420,4 @@ export default class Player2 extends BaseElement {
     this._velocityX = velocity
   }
   
-  getVelocityY() {
-    return this._velocityY
-  }
-
-  getVelocityX() {
-    return this._velocityX
-  }
 }

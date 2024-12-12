@@ -9,13 +9,13 @@ export class HitBox extends Box {
         this._isCollidingVertical = false
     }
 
-    isCollidingWith(playerHitbox) {
+    isCollidingWith(box) {
         // ... some collision logic
         return (
-            playerHitbox.getY() + playerHitbox.getHeight() >= this.getY() &&
-            playerHitbox.getY() <= this.getY() + this.getHeight() &&
-            playerHitbox.getX() <= this.getX() + this.getWidth() &&
-            playerHitbox.getX() + playerHitbox.getWidth() >= this.getX()
+            box.getY() + box.getHeight() >= this.getY() &&
+            box.getY() <= this.getY() + this.getHeight() &&
+            box.getX() <= this.getX() + this.getWidth() &&
+            box.getX() + box.getWidth() >= this.getX()
         )
     }
 
@@ -26,8 +26,8 @@ export class HitBox extends Box {
     updateHitBox(player) {
         this.setX(player.getX() + 8)
         this.setY(player.getY())
-        this.setWidth(27 * this._scale)
-        this.setHeight(50 * this._scale)
+        this.setWidth(50 * player.getScale())
+        this.setHeight(100 * player.getScale())
     }
 
     /**
