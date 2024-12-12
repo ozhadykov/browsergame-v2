@@ -19,8 +19,8 @@ export class BaseElement extends BaseBox {
         this._image = new Image()
         this._image.onload = () => {
             this._imageLoaded = true
-            this._height = this._image.height * this._scale / framesX
-            this._width = this._image.width * this._scale / framesY
+            this._height = this._image.height / framesY * this._scale
+            this._width = this._image.width  / framesX * this._scale
         }
         this._image.src = imageSrc
         this._imageCropBox = imageCropBox

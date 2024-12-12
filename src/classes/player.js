@@ -12,41 +12,37 @@ export default class Player2 extends BaseElement {
       imageSrc,
       imageCropBox,
       gravity,
-      collisionBlocks,
+      platformBlocks,
       framesX,
       framesY
     }) {
     super({x, y, height, width, scale, imageSrc, imageCropBox, framesX, framesY});
-
+      
     this.velocity = {
       x: 0,
       y: 1,
     }
     this._velocityX = 0
-    this.velocityY = 1
+    this._velocityY = 1
 
     this.gravity = gravity ?? 0.1;
-    this.collisionBlocks = collisionBlocks ?? [];
+    this.platformBlocks = platformBlocks ?? [];
     
-    this.hitBox = {
-      position: {
-        x: this.position.x,
-        y: this.position.y,
-      },
-      width: 10,
-      height: 10,
-    }
-    this._hitBox = new BaseBox({})
+    this._hitBox = new BaseBox({
+        x: this._x,
+        y: this._y,
+        width: 10,
+        height: 10
+    })
+
+    const game = Game.getInstance()
     
-    this._cameraBox = new BaseBox({})
-    this.cameraBox = {
-      position: {
-        x: this.position.x,
-        y: this.position.y,
-      },
-      width: Game.getInstance().canvas.width / 2,
-      height: Game.getInstance().canvas.height / 2,
-    }
+    this._cameraBox = new BaseBox({
+        x: this._x,
+        y: this._y,
+        width: game.getCanvasManager().getCanvasWidth() / game.getMapScale(),
+        height: game.getCanvasManager().getCanvasHeight() / game.getMapScale(),
+    })
 
     this.keys = {
       d: {
@@ -72,7 +68,6 @@ export default class Player2 extends BaseElement {
     this.startTime = null;
     this.endTime = null;
 
-    this.cropBoxPosition = cropBoxPosition;
     this.animationStep = 0;
     this.animationJump = 0;
     this.walkState = false;
@@ -82,6 +77,9 @@ export default class Player2 extends BaseElement {
 
     // creating event listeners only once, do not need to create them each time, when we re-render
     this.initEventListeners()
+
+    console.log(this);
+    
   }
 
   initSounds() {
@@ -150,8 +148,8 @@ export default class Player2 extends BaseElement {
 
             this.jumpDuration = this.endTime - this.startTime
             if(this.jumpDuration >= this.maxJumpCharge) this.jumpDuration = this.maxJumpCharge
-            this.velocity.y = -1 * (Math.pow(this.jumpDuration / 350, 2))
-            this.velocity.x = this.jumpDuration / 225 * this.directionInversion
+            this._velocityY = -1 * (Math.pow(this.jumpDuration / 350, 2))
+            this._velocityX = this.jumpDuration / 225 * this.directionInversion
             this.playJumpSound()
             this.inJump = false
           }
@@ -177,7 +175,7 @@ export default class Player2 extends BaseElement {
   }
 
   action() {
-    this.position.x += this.velocity.x
+    this._x += this._velocityX
     // It is important to use this function 2 times
     this.checkDirection()
     this.updateHitBox()
@@ -194,8 +192,8 @@ export default class Player2 extends BaseElement {
   }
 
   checkDirection() {
-    if(this.velocity.x > 0) this.directionInversion = 1
-    if(this.velocity.x < 0) this.directionInversion = -1
+    if(this._velocityX > 0) this.directionInversion = 1
+    if(this._velocityX < 0) this.directionInversion = -1
   }
 
   draw(ctx, canvas) {
@@ -205,40 +203,40 @@ export default class Player2 extends BaseElement {
 
     ctx.scale(this.directionInversion, 1);
     ctx.drawImage(
-      this.image,
-      this.cropBoxPosition.x,
-      this.cropBoxPosition.y,
-      this.cropBox.width,
-      this.cropBox.height,
-      this.position.x * this.directionInversion,
-      this.position.y,
-      this.width * this.directionInversion,
-      this.height
+      this._image,
+      this._imageCropBox.getX(),
+      this._imageCropBox.getY(),
+      this._imageCropBox.getWidth(),
+      this._imageCropBox.getHeight(),
+      this._x * this.directionInversion,
+      this._y,
+      this._width * this.directionInversion,
+      this._height
     )
 
     ctx.restore()
   }
 
   applyGravity() {
-    this.velocity.y += this.gravity
-    this.position.y += this.velocity.y
+    this._velocityY += this.gravity
+    this._y += this._velocityY
   }
 
   enableMoving() {
-    if (this.velocity.x > 0)
-      this.velocity.x -= 0.05
+    if (this._velocityX > 0)
+      this._velocityX -= 0.05
 
-    if (this.velocity.x < 0)
-      this.velocity.x += 0.05
+    if (this._velocityX < 0)
+      this._velocityX += 0.05
 
-    if (this.velocity.x < 0.2 && this.velocity.x > -0.2)
-      this.velocity.x = 0
+    if (this._velocityX < 0.2 && this._velocityX > -0.2)
+      this._velocityX = 0
 
     if (this.keys.d.pressed && this.canJump) {
-      this.velocity.x = 1;
+      this._velocityX = 1;
       this.walkState = true;
     } else if (this.keys.a.pressed && this.canJump) {
-      this.velocity.x = -1
+      this._velocityX = -1
       this.walkState = true;
     } else {
       this.walkState = false;
@@ -247,130 +245,141 @@ export default class Player2 extends BaseElement {
   }
 
   checkForHorizontalCollisions() {
-    for (const block of this.collisionBlocks) {
-      if (this.collision(this.hitBox, block)) {
-        if (!this.canJump) this.crashSound.play()
-        if (this.velocity.x > 0) {
-          const offset = this.hitBox.position.x - this.position.x + this.hitBox.width
-          this.position.x = block.position.x - offset - 0.01
-          if (!this.canJump) this.velocity.x = -1 * this.velocity.x / 1.1
-          else this.velocity.x = 0
-          break // Exit loop after handling collision
+    /**
+     * @block is of type BaseElement
+     */
+    for (const block of this.platformBlocks) {
+        if (this._hitBox.isCollidingWith(block)) {
+            if (!this.canJump) this.crashSound.play()
+            if (this._velocityX > 0) {
+                const offset = this._hitBox.getX() - this._x + this._hitBox.getWidth()
+                this._x = block.getX() - offset - 0.01
+                if (!this.canJump) this._velocityX = -1 * this._velocityX / 1.1
+                else this._velocityX = 0
+                break // Exit loop after handling collision
+            }
+    
+            if (this._velocityX < 0) {
+                const offset = this._hitBox.getX() - this._x
+                this._x = block.getX() + offset + 0.01
+                if (!this.canJump) this._velocityX = -1 * this._velocityX / 1.1
+                else this._velocityX = 0
+                break // Exit loop after handling collision
+            }
         }
-
-        if (this.velocity.x < 0) {
-          const offset = this.hitBox.position.x - this.position.x
-          this.position.x = block.position.x + offset + 0.01
-          if (!this.canJump) this.velocity.x = -1 * this.velocity.x / 1.1
-          else this.velocity.x = 0
-          break // Exit loop after handling collision
-        }
-      }
+            
     }
   }
 
   checkForVerticalCollisions() {
-    for (const block of this.collisionBlocks) {
-      if (this.collision(this.hitBox, block)) {
-        this.canJump = true
-        if (this.velocity.y > 0) {
-          this.velocity.y = 0
-          const offset = this.hitBox.position.y - this.position.y + this.hitBox.height
-          this.position.y = block.position.y - offset - 0.01
-          break // Exit loop after handling collision
-        }
+    /**
+     * @block is of type BaseElement
+     */
+    for (const block of this.platformBlocks) {
+        if (this._hitBox.isCollidingWith(block)){
+            this.canJump = true
+            if (this._velocityY > 0) {
+            this._velocityY = 0
+            const offset = this._hitBox.getY() - this._y + this._hitBox.getHeight()
+            this._y = block.getY() - offset - 0.01
+            break // Exit loop after handling collision
+            }
 
-        if (this.velocity.y < 0) {
-          this.velocity.y = 0
-          const offset = this.hitBox.position.y - this.position.y
-          this.position.y = block.position.y + block.height - offset + 0.01
-          break // Exit loop after handling collision
-        }
-      } else
-        this.canJump = false
+            if (this._velocityY < 0) {
+            this._velocityY = 0
+            const offset = this._hitBox.getY() - this._y
+            this._y = block.getY() + block.getHeight() - offset + 0.01
+            break // Exit loop after handling collision
+            }
+        } else
+            this.canJump = false
     }
   }
 
   updateHitBox() {
-    this.hitBox = {
-      position: {
-        x: this.position.x + 8,
-        y: this.position.y,
-      },
-      width: 27 * this.scale,
-      height: 50 * this.scale,
-    }
-  }
+    this._hitBox.setX(this._x + 8)
+    this._hitBox.setY(this._y)
+    this._hitBox.setWidth(27 * this._scale)
+    this._hitBox.setHeight(50 * this._scale)
+}
 
   updateFrames() {
     if (this.walkState) {
-      if (this.animationstep <= 8) this.animationstep += 0.1
-      else this.animationstep = 0
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationstep), y: 0}
+      if (this.animationstep <= 8) 
+        this.animationstep += 0.1
+      else 
+        this.animationstep = 0
+      
+        // this.cropBoxPosition = {x: 100 * Math.round(this.animationstep), y: 0}
+        this._imageCropBox.setX(100 * Math.round(this.animationstep))
+        this._imageCropBox.setY(0)
     } else if (this.inJump) {
-      if (this.animationJump <= 2) this.animationJump += 0.07
-      else this.animationJump = 2
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 201}
+      if (this.animationJump <= 2) 
+        this.animationJump += 0.07
+      else 
+        this.animationJump = 2
+      
+        // this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 201}
+        this._imageCropBox.setX(100 * Math.round(this.animationJump))
+        this._imageCropBox.setY(201)
     } else if (this.canJump) {
-      this.cropBoxPosition = {x: 0, y: 101}
+      // this.cropBoxPosition = {x: 0, y: 101}
+      this._imageCropBox.setX(0)
+      this._imageCropBox.setY(0)
     } else {
-      if (this.animationJump <= 3) this.animationJump = 3
-      if (this.animationJump <= 6) this.animationJump += 0.03
-      else this.animationJump = 6
-      this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 201}
-    }
-
-    this.cropBox = {
-      height: 99,
-      width: 100
+      if (this.animationJump <= 3) 
+        this.animationJump = 3
+      if (this.animationJump <= 6) 
+        this.animationJump += 0.03
+      else 
+      this.animationJump = 6
+      
+      // this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 201}
+      this._imageCropBox.setX(100 * Math.round(this.animationJump))
+      this._imageCropBox.setY(201)
     }
   }
 
   updateHorizontalCamera() {
-    const canvas = Game.getInstance().canvas
+    const canvas = Game.getInstance().getCanvasManager()
 
-    this.hitBox.position.x + this.hitBox.width >= canvas.width / 2 ?
-      this.cameraBox.position.x = - canvas.width / 2 :
-      this.cameraBox.position.x = 0
+    this._hitBox.getX() + this._hitBox.getWidth() >= canvas.getCanvasWidth() / 2 ?
+        this._cameraBox.setX(- canvas.getCanvasWidth() / 2) : 
+        this._cameraBox.setX(0)
   }
 
   updateVerticalCamera() {
-    this.position.y - 217 >= 0 ?
-      this.cameraBox.position.y = this.position.y - 217 :
-      this.cameraBox.position.y = 0
+    this._y - 217 >= 0 ?
+      this._cameraBox.setY(this._y - 217) :
+      this._cameraBox.setY(0)
   }
 
   checkForCollisions() {
-    const canvas = Game.getInstance().canvas
+    const canvasWidth = Game.getInstance().getCanvasManager().getCanvasWidth()
     // simple checking, because we will use soon something better :)
     // horizontal collision checking
-    if (this.position.x + this.velocity.x < 0) {
-      this.position.x = 0;
-      this.velocity.x = -this.velocity.x
+    if (this._x + this._velocityX < 0) {
+      this._x = 0;
+      this._velocityX = -this._velocityX
     }
 
-    if (this.position.x + this.width + this.velocity.x > canvas.width) {
-      this.velocity.x = -this.velocity.x
-      this.position.x = canvas.width - this.width
+    if (this._x + this.width + this._velocityX > canvasWidth) {
+      this._velocityX = -this._velocityX
+      this._x = canvasWidth - this.width
     }
 
-    if (this.position.x + this.velocity.x < 0) {
-      this.position.x = 0;
-      this.velocity.x = 0
+    if (this._x + this._velocityX < 0) {
+      this._x = 0;
+      this._velocityX = 0
     }
 
-    if (this.position.x + this.width + this.velocity.x > canvas.width) {
-      this.velocity.x = 0
-      this.position.x = canvas.width - this.width
+    if (this._x + this.width + this._velocityX > canvasWidth) {
+      this._velocityX = 0
+      this._x = canvasWidth - this.width
     }
   }
 
-  collision(player, block) {
-    return (
-      player.position.y + player.height >= block.position.y &&
-      player.position.y <= block.position.y + block.height &&
-      player.position.x <= block.position.x + block.width &&
-      player.position.x + player.width >= block.position.x
-    )
+  getCameraBox() {
+    return this._cameraBox
   }
 }

@@ -59,6 +59,11 @@ export class BaseBox {
 
     isCollidingWith(box) {
         // ... some collision logic
-        return false
+        return (
+            box.getY() + box.getHeight() >= this.getY() &&
+            box.getY() <= this.getY() + this.getHeight() &&
+            box.getX() <= this.getX() + this.getWidth() &&
+            box.getX() + box.getWidth() >= this.getX()
+        )
     }
 }

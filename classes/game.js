@@ -27,7 +27,7 @@ export default class Game {
     this.raf = null
     this.ctx = ctx
     this.instance = this
-    
+    this.scale = 2
     this.canvasManager = new CanvasManager('#my-canvas')
     this.elementList = null
     this.player = null
@@ -74,7 +74,7 @@ export default class Game {
 
     // creating game elements
     // generating platform blocks
-    const collisionBlocks = this.level.generatePlatfroms()
+    const platformBlocks = this.level.generatePlatfroms()
     
     // this.player = new Player({
     //   position: {
@@ -86,22 +86,32 @@ export default class Game {
     //   scale: 0.75,
     //   imageSrc: '../assets/Char/CharSheetWalk.png',
     //   cropBoxPosition: {x: 0, y: 100},
-    //   collisionBlocks,
+    //   platformBlocks,
     // })
 
     this.player = new Player2({
       x: 0,
       y: 440,
-      scale: 0.75,
+      scale: 0.35,
       imageSrc: '../assets/Char/CharSheetWalk.png',
-      imageCropBox: new BaseBox({}),
-      collisionBlocks
+      imageCropBox: new BaseBox({
+        x: 0, 
+        y: 100,
+        height: 99,
+        width: 100
+      }),
+      platformBlocks,
+      framesX: 9,
+      framesY: 3
     })
+
+    console.log(this.player);
+    
 
     // adding all elements to List
     this.elementList.add(this.background)
     this.elementList.add(this.player)
-    collisionBlocks.forEach(platform => this.elementList.add(platform))
+    platformBlocks.forEach(platform => this.elementList.add(platform))
 
     // this is important for animation purposes, do not need now
     this.timeOfLastFrame = Date.now()
@@ -122,17 +132,20 @@ export default class Game {
 
       //finde das kleinere besser aber nur mein geschmack. Falls geändert müssen wir auch den Sprung entsprechend anpassen
       this.ctx.scale(2, 2)
-      this.ctx.translate(this.player.cameraBox.position.x, -this.player.cameraBox.position.y)
+      this.ctx.translate(
+        this.player.getCameraBox().getX(), 
+        -this.player.getCameraBox().getY())
 
       //--- clear screen
       this.ctx.fillStyle = 'white'
       this.ctx.fillRect(0, 0, this.canvasManager.getCanvas().clientWidth, this.canvasManager.getCanvas().clientHeight)
 
       const jumpChargingBarCtx = this.chargingBar.getContext()
+      const jumpChargingBarCanvas = this.chargingBar.getCanvas()
       jumpChargingBarCtx.fillStyle = 'white'
       jumpChargingBarCtx.fillRect(0, 0, 
-        this.jumpChargingBarCanvas.clientWidth, 
-        this.jumpChargingBarCanvas.clientHeight)
+        jumpChargingBarCanvas.clientWidth, 
+        jumpChargingBarCanvas.clientHeight)
 
       // drawing elements
       this.elementList.draw(this.ctx, this.canvasManager.getCanvas())
@@ -188,6 +201,10 @@ export default class Game {
 
   getMainMenu() {
     return this.mainMenu
+  }
+
+  getMapScale() {
+    return this.scale
   }
 
   closePauseMenu() {

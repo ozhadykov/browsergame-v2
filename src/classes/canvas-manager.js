@@ -23,4 +23,16 @@ export class CanvasManager extends Menu {
         else 
             throw new Error('Context for canvas not found')
     }
+
+    getCanvasWidth() {
+        if (this._htmlEL)
+            return this._htmlEL.width
+        
+        return 0
+    }
+    getCanvasHeight() {
+        if (this._htmlEL)
+            return this._htmlEL.height
+        return 0
+    }
 }
