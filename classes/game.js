@@ -97,6 +97,10 @@ export default class Game {
       this.currentLevel++;
       this.loadLevel(this.currentLevel);
     }
+    if (this.player.position.y >535) {
+      this.currentLevel--;
+      this.loadLevel(this.currentLevel);
+    }
   }
 
 
