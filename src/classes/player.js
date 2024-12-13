@@ -1,5 +1,6 @@
 import { BaseElement } from "../base-classes";
 import { HitBox } from "./hit-box.js";
+import { Sound } from "../base-classes/sound.js"
 
 export default class Player2 extends BaseElement {
   constructor(
@@ -60,24 +61,14 @@ export default class Player2 extends BaseElement {
     this.walkState = false;
     this.directionInversion = 1;
 
-    this.initSounds()
+    this.sound = new Sound('#sound')
+    this.sound.initSound('walkSound', '../assets/Sounds/walkSoud.mp3')
+    this.sound.initSound('jumpSound', '../assets/Sounds/jumpSoud.mp3')
+    this.sound.initSound('crashSound', '../assets/Sounds/crashSound.mp3')
 
     // creating event listeners only once, do not need to create them each time, when we re-render
     this.initEventListeners()
     
-  }
-
-  initSounds() {
-    this.walkSound = new Audio('../assets/Sounds/walkSoud.mp3')
-    this.walkSound.preload = "auto";
-    this.walkSound.volume = 0.01;
-    this.jumpSound = new Audio('../assets/Sounds/jumpSoud.mp3')
-    this.jumpSound.preload = "auto";
-    this.jumpSound.mozPreservesPitch = false;
-    this.jumpSound.volume = 0.01;
-    this.crashSound = new Audio('../assets/Sounds/crashSound.mp3')
-    this.crashSound.preload = "auto";
-    this.crashSound.volume = 0.02;
   }
 
   initEventListeners() {
@@ -86,13 +77,13 @@ export default class Player2 extends BaseElement {
         case 'd':
           if (!this.inJump) {
             this.keys.d.pressed = true
-            this.walkSound.play()
+            this.sound.palySound("walkSound")
           }
           break
         case 'a':
           if (!this.inJump) {
-          this.keys.a.pressed = true
-          this.walkSound.play()
+            this.keys.a.pressed = true
+            this.sound.palySound("walkSound")
           }
           break
         case 'w':
@@ -101,8 +92,7 @@ export default class Player2 extends BaseElement {
             this.inJump = true
             this.keys.w.pressed = true
             this.chargingJumpTime = Date.now()
-            this.jumpSound.pause()
-            this.jumpSound.load()
+            this.sound.stopSound("jumpSound")
           }
           break
         // todo: move to Game class
@@ -116,13 +106,11 @@ export default class Player2 extends BaseElement {
       switch (e.key) {
         case 'd':
           this.keys.d.pressed = false
-          this.walkSound.pause()
-          this.walkSound.load()
+          this.sound.stopSound("walkSound")
           break
         case 'a':
           this.keys.a.pressed = false
-          this.walkSound.pause()
-          this.walkSound.load()
+          this.sound.stopSound("walkSound")
           break
         case 'w':
           // can Jump funktioniert noch nicht mit neuer Collision 
@@ -146,8 +134,7 @@ export default class Player2 extends BaseElement {
   playJumpSound() {
     //let soundModulation = Math.random() * (1.3 - 0.7) + 0.7
     let soundModulation =3 - this.jumpDuration / 500
-    this.jumpSound.playbackRate = soundModulation;
-    this.jumpSound.play()
+    this.sound.palySound("jumpSound", soundModulation)
   }
  
 
@@ -234,7 +221,7 @@ export default class Player2 extends BaseElement {
   updateFrames() {
     if (this.walkState) {
       if (this.animationstep <= 8) 
-        this.animationstep += 0.1
+        this.animationstep += 0.15
       else 
         this.animationstep = 0
       
@@ -258,7 +245,7 @@ export default class Player2 extends BaseElement {
       if (this.animationJump <= 3) 
         this.animationJump = 3
       if (this.animationJump <= 6) 
-        this.animationJump += 0.03
+        this.animationJump += 0.06
       else 
       this.animationJump = 6
       

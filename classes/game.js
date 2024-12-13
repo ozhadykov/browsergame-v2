@@ -22,7 +22,7 @@ export default class Game {
    * @param levelId
    */
 
-  constructor(canvas, ctx, levelId = 1) {
+  constructor(canvas, ctx, levelId = 0) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -89,7 +89,7 @@ export default class Game {
     this.player = new Player2({
       x: 0,
       y: 440,
-      scale: 0.35,
+      scale: 0.4,
       imageSrc: '../assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0, 
