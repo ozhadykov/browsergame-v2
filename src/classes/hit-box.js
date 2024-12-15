@@ -1,5 +1,6 @@
 import { Box } from "../base-classes/base-box";
 import Game from "../../classes/game";
+import { Sound } from "../base-classes/sound.js"
 
 export class HitBox extends Box {
 
@@ -7,6 +8,8 @@ export class HitBox extends Box {
         super({x, y, height, width})
         this._isCollidingHorizontal = false
         this._isCollidingVertical = false
+        this.sound = new Sound('#sound')
+        this.sound.initSound('crashSound', '../assets/Sounds/crashSound.mp3')
     }
 
     isCollidingWith(box) {
@@ -49,6 +52,7 @@ export class HitBox extends Box {
                 }
     
                 if (player.getVelocityY() < 0) {
+                this.sound.playSound("crashSound")
                 player.setVelocityY(0)
                 const offset = this.getY() - player.getY()
                 player.setY(platformBlock.getY() + platformBlock.getHeight() - offset + 0.01)
@@ -90,8 +94,10 @@ export class HitBox extends Box {
                 if (player.getVelocityX() > 0) {
                     const offset = this.getX() - player.getX() + this.getWidth()
                     player.setX(platformBlock.getX() - offset - 0.01)
-                    if (!player.getCanJump()) 
+                    if (!player.getCanJump()) {
+                        this.sound.playSound("crashSound") 
                         player.setVelocityX(-1 * player.getVelocityX() / 1.1)
+                    }
                     else 
                         player.setVelocityX(0)
                     break // Exit loop after handling collision

@@ -77,13 +77,13 @@ export default class Player2 extends BaseElement {
         case 'd':
           if (!this.inJump) {
             this.keys.d.pressed = true
-            this.sound.palySound("walkSound")
+            this.sound.playSound("walkSound")
           }
           break
         case 'a':
           if (!this.inJump) {
             this.keys.a.pressed = true
-            this.sound.palySound("walkSound")
+            this.sound.playSound("walkSound")
           }
           break
         case 'w':
@@ -134,7 +134,7 @@ export default class Player2 extends BaseElement {
   playJumpSound() {
     //let soundModulation = Math.random() * (1.3 - 0.7) + 0.7
     let soundModulation =3 - this.jumpDuration / 500
-    this.sound.palySound("jumpSound", soundModulation)
+    this.sound.playSound("jumpSound", soundModulation)
   }
  
 

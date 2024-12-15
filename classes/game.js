@@ -8,9 +8,6 @@ import { Level } from "../src/classes/level.js";
 import Player2 from "../src/classes/player.js";
 import { CameraBox } from "../src/classes/camera-box.js";
 
-//test for sounds
-import { Sound } from "../src/base-classes/sound.js";
-
 export default class Game {
 
   static instance = null
@@ -36,7 +33,6 @@ export default class Game {
     this.canvasManager = new CanvasManager('#my-canvas')
     this.elementList = null
     this.player = null
-    this.sound = new Sound('#sound')
     this.level = new Level({
       levelId,
       levelString: levels.at(levelId),
@@ -102,13 +98,6 @@ export default class Game {
       framesY: 3
     })
 
-    //test for Sounds
-
-    this.sound.initSound("hallo", "../assets/Sounds/chipTune.wav")
-    this.sound.initSound("was", "../assets/Sounds/crashSound.mp3")
-    this.sound.initSound("geht?", "../assets/Sounds/jumpSound.mp3")
-    this.sound.palySound("hallo")
-
     // adding all elements to List
     this.elementList.add(this.background)
     this.elementList.add(this.player)
@@ -169,17 +158,6 @@ export default class Game {
       this.pauseMenu.show()
       this.canvasManager.show()
       this.chargingBar.show()
-    }
-  }
-
-  themeManager() {
-    if (!this.player.keys.pause.pressed) 
-      this.theme.pause()
-    else {
-      this.theme = new Audio('../assets/Sounds/chipTune.wav')
-      this.theme.preload = "auto";
-      this.theme.volume = 0.05;
-      this.theme.play()
     }
   }
 

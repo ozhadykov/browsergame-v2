@@ -33,7 +33,7 @@ export class Sound {
         }
     }
 
-    palySound(name, speed) {
+    playSound(name, speed) {
         for (let j = 1; j <= this.maxSounds; j += 1) {
             if (this.soundFiles[j].soundName == name) {
                 this.soundFiles[j].soundAudio.volume = 0.01 * (this.vol / 100)
