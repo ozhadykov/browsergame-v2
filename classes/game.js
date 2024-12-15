@@ -8,6 +8,9 @@ import { Level } from "../src/classes/level.js";
 import Player2 from "../src/classes/player.js";
 import { CameraBox } from "../src/classes/camera-box.js";
 
+//test for sounds
+import { Sound } from "../src/base-classes/sound.js";
+
 export default class Game {
 
   static instance = null
@@ -19,7 +22,7 @@ export default class Game {
    * @param levelId
    */
 
-  constructor(canvas, ctx, levelId = 1) {
+  constructor(canvas, ctx, levelId = 0) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -33,6 +36,7 @@ export default class Game {
     this.canvasManager = new CanvasManager('#my-canvas')
     this.elementList = null
     this.player = null
+    this.sound = new Sound('#sound')
     this.level = new Level({
       levelId,
       levelString: levels.at(levelId),
@@ -85,7 +89,7 @@ export default class Game {
     this.player = new Player2({
       x: 0,
       y: 440,
-      scale: 0.35,
+      scale: 0.4,
       imageSrc: '../assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0, 
@@ -97,6 +101,13 @@ export default class Game {
       framesX: 9,
       framesY: 3
     })
+
+    //test for Sounds
+
+    this.sound.initSound("hallo", "../assets/Sounds/chipTune.wav")
+    this.sound.initSound("was", "../assets/Sounds/crashSound.mp3")
+    this.sound.initSound("geht?", "../assets/Sounds/jumpSound.mp3")
+    this.sound.palySound("hallo")
 
     // adding all elements to List
     this.elementList.add(this.background)
