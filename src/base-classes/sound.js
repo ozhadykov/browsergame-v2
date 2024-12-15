@@ -29,7 +29,6 @@ export class Sound {
                 this.soundFiles[j].soundAudio.preload = "auto"
                 this.soundFiles[j].soundAudio.mozPreservesPitch = false
             }
-            console.log(this.soundFiles[j])
         }
     }
 
@@ -37,7 +36,6 @@ export class Sound {
         for (let j = 1; j <= this.maxSounds; j += 1) {
             if (this.soundFiles[j].soundName == name) {
                 this.soundFiles[j].soundAudio.volume = 0.01 * (this.vol / 100)
-                console.log(0.01 * (this.vol / 100))
                 if (speed)this.soundFiles[j].soundAudio.playbackRate = speed
                 this.soundFiles[j].soundAudio.play() 
             }
