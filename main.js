@@ -7,7 +7,7 @@ const mainMenu = document.getElementById("main-menu");
 
 function startGame() {
   document.getElementById('main-menu-backround').style.display = "none"
-  game.getCanvasManager().show()
+  game.getGameScreen().show()
   game.getChargingBar().show()
   game.getMainMenu().hide()
   game.start(0);

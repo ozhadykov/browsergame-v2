@@ -1,7 +1,7 @@
 import ElementList from "../base-classes/elementList.js";
 import { levels } from "../data/levels.js";
-import { Box, BaseElement, Menu } from "../base-classes/index.js";
-import { CanvasManager } from "./canvas-manager.js";
+import { Box, BaseElement, ScreenManager } from "../base-classes/";
+import { GameScreen } from "./canvas-manager.js";
 import { Level } from "./level.js";
 import Player2 from "./player.js";
 import { CameraBox } from "./camera-box.js";
@@ -28,7 +28,7 @@ export default class Game {
     this.canvas = canvas
     this.instance = this
     this.scale = 2
-    this.canvasManager = new CanvasManager('#my-canvas')
+    this.canvasManager = new GameScreen('#my-canvas')
     this.elementList = null
     this.player = null
     this.level = new Level({
@@ -52,10 +52,10 @@ export default class Game {
       width: this.canvas.width / this.scale,
       height: this.canvas.height / this.scale
     })
-    this.chargingBar = new CanvasManager('#my-jump-charging-bar')
-    this.pauseMenu = new Menu('#pause-menu')
-    this.mainMenu = new Menu('#main-menu')
-    this.areYouSureMenu = new Menu('#are-you-sure-menu')
+    this.chargingBar = new GameScreen('#my-jump-charging-bar')
+    this.pauseMenu = new ScreenManager('#pause-menu')
+    this.mainMenu = new ScreenManager('#main-menu')
+    this.areYouSureMenu = new ScreenManager('#are-you-sure-menu')
 
   }
 
@@ -181,7 +181,7 @@ export default class Game {
     return this.ctx
   }
 
-  getCanvasManager() {
+  getGameScreen() {
     return this.canvasManager
   }
 

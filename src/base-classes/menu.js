@@ -1,4 +1,4 @@
-export class Menu {
+export class ScreenManager {
 
     constructor (selector) {
         this._selector = selector

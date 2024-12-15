@@ -1,6 +1,6 @@
-import { Menu } from "../base-classes/menu";
+import { ScreenManager } from "../base-classes/menu";
 
-export class CanvasManager extends Menu {
+export class GameScreen extends ScreenManager {
 
     /**
      * @param selector; this should be a selector for a querySelector method

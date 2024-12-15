@@ -61,9 +61,9 @@ export default class Player2 extends BaseElement {
     this.walkState = false;
 
     this.sound = new Sound('#sound')
-    this.sound.initSound('walkSound', '../assets/Sounds/walkSoud.mp3')
-    this.sound.initSound('jumpSound', '../assets/Sounds/jumpSoud.mp3')
-    this.sound.initSound('crashSound', '../assets/Sounds/crashSound.mp3')
+    this.sound.initSound('walkSound', '../src/assets/Sounds/walkSoud.mp3')
+    this.sound.initSound('jumpSound', '../src/assets/Sounds/jumpSoud.mp3')
+    this.sound.initSound('crashSound', '../src/assets/Sounds/crashSound.mp3')
 
     // creating event listeners only once, do not need to create them each time, when we re-render
     this.initEventListeners()

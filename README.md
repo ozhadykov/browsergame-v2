@@ -114,3 +114,9 @@ Idee des Objektorieterten Programmierens einearbeiten
 - vershiedene elementLists in Game Klasse
 - Background wenn man in MainMenu geht fixen
 - Klassendiagram
+
+
+
+### Aufagen bis 19.12.2024
+1. Nachdenken was Private ist und dass dann umsetzen. 
+2. Levels.js bearbeiten. Wir wollten Objekt für Level haben.  
