@@ -67,17 +67,26 @@ export class HitBox extends Box {
         // wie kann man das besser machen ?
         const canvasWidth = Game.getInstance().getCanvas().width
 
+        //right canvas border collision:
+        if(player.getX() + player.getWidth() + player.getVelocityX() > canvasWidth) {
+            player.setX(canvasWidth-player.getWidth() )
+        }
+
+        //left canvas border collision:
+        if(player.getX() + player.getVelocityX() < 0) {
+            player.setX(0)
+        }
+
+
         /**
          * @platformBlock is of type BaseElement
          */
         for (const platformBlock of player.getPlatformBlocks()) {
-            if (this.isCollidingWith(platformBlock) || 
-                (player.getX() + player.getVelocityX() < 0 || 
-                player.getX() + player.getWidth() + player.getVelocityX() > canvasWidth)) {
+            if (this.isCollidingWith(platformBlock)) {
                 // todo: Sound class comes soon
                 // if (!player.getCanJump()) this.crashSound.play()
                 if (player.getVelocityX() > 0) {
-                    const offset = this.getX() - player.getX() + this.getWidth()
+                    const offset = this.getX() - player.getX() - this.getWidth()
                     player.setX(platformBlock.getX() - offset - 0.01)
                     if (!player.getCanJump()) 
                         player.setVelocityX(-1 * player.getVelocityX() / 1.1)
