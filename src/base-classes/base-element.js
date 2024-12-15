@@ -11,7 +11,8 @@ export class BaseElement extends Box {
         imageSrc,
         imageCropBox,
         framesX,
-        framesY
+        framesY,
+        _directionInversion = 1
     }) {
         
         super({x, y, height, width})
@@ -24,15 +25,24 @@ export class BaseElement extends Box {
         }
         this._image.src = imageSrc
         this._imageCropBox = imageCropBox
+        this._directionInversion = _directionInversion
+        this._framesX = framesX
+        this._framesY = framesY
+        this._currentFrameX = 0
+        this._currentFrameY = 0
     }
 
 
     draw(ctx) {
         if (!this._image || !this._imageLoaded)
             return 
-        
-        // ctx.save()
 
+        ctx.save()
+        // update Image crop box position for animation
+        this.updateFrames()
+
+        // switchig image
+        ctx.scale(this._directionInversion, 1)
         // todo: ctx draw image
         ctx.drawImage(
             this._image,
@@ -40,17 +50,29 @@ export class BaseElement extends Box {
             this._imageCropBox.getY(),
             this._imageCropBox.getWidth(),
             this._imageCropBox.getHeight(),
-            this.getX(),
-            this.getY(),
-            this.getWidth(),
-            this.getHeight()
+            this._x * this._directionInversion,
+            this._y,
+            this._width * this._directionInversion,
+            this._height
         )
 
-        // ctx.restore()
+        ctx.restore()
     }
 
     action() {
         // ... do some stuff
+    }
+
+    updateFrames() {
+        // .. needed to animate
+    }
+
+    setDirection(direction) {
+        this._directionInversion = direction
+    }
+
+    getDirection() {
+        return this._directionInversion
     }
 
 }

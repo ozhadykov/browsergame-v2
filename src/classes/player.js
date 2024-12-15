@@ -59,7 +59,6 @@ export default class Player2 extends BaseElement {
     this.animationStep = 0;
     this.animationJump = 0;
     this.walkState = false;
-    this.directionInversion = 1;
 
     this.sound = new Sound('#sound')
     this.sound.initSound('walkSound', '../assets/Sounds/walkSoud.mp3')
@@ -122,7 +121,7 @@ export default class Player2 extends BaseElement {
             this.jumpDuration = this.endTime - this.startTime
             if(this.jumpDuration >= this.maxJumpCharge) this.jumpDuration = this.maxJumpCharge
             this._velocityY = -1 * (Math.pow(this.jumpDuration / 350, 2))
-            this._velocityX = this.jumpDuration / 225 * this.directionInversion
+            this._velocityX = this.jumpDuration / 225 * this.getDirection()
             this.playJumpSound()
             this.inJump = false
           }
@@ -160,36 +159,10 @@ export default class Player2 extends BaseElement {
   }
 
   checkDirection() {
-    if(this._velocityX > 0) this.directionInversion = 1
-    if(this._velocityX < 0) this.directionInversion = -1
+    if(this._velocityX > 0) this.setDirection(1)
+    if(this._velocityX < 0) this.setDirection(-1)
   }
-
-  /**
-   * @override
-   * @param {*} ctx 
-   * @param {*} canvas 
-   */
-  draw(ctx, canvas) {
-    ctx.save()
-    // animation
-    this.updateFrames()
-
-    ctx.scale(this.directionInversion, 1);
-    ctx.drawImage(
-      this._image,
-      this._imageCropBox.getX(),
-      this._imageCropBox.getY(),
-      this._imageCropBox.getWidth(),
-      this._imageCropBox.getHeight(),
-      this._x * this.directionInversion,
-      this._y,
-      this._width * this.directionInversion,
-      this._height
-    )
-
-    ctx.restore()
-  }
-
+  
   applyGravity() {
     this._velocityY += this._gravity
     this._y += this._velocityY

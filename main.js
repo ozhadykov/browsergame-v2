@@ -1,5 +1,5 @@
 import './style.css'
-import { Game } from "./classes/index.js";
+import Game from './src/classes/game.js';
 
 
 const game = Game.getInstance()

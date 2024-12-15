@@ -1,12 +1,10 @@
-import Player from "./player.js";
-
-import ElementList from "./elementList.js";
+import ElementList from "../base-classes/elementList.js";
 import { levels } from "../data/levels.js";
-import { Box, BaseElement, Menu } from "../src/base-classes/";
-import { CanvasManager } from "../src/classes/canvas-manager.js";
-import { Level } from "../src/classes/level.js";
-import Player2 from "../src/classes/player.js";
-import { CameraBox } from "../src/classes/camera-box.js";
+import { Box, BaseElement, Menu } from "../base-classes/index.js";
+import { CanvasManager } from "./canvas-manager.js";
+import { Level } from "./level.js";
+import Player2 from "./player.js";
+import { CameraBox } from "./camera-box.js";
 
 export default class Game {
 
@@ -39,7 +37,7 @@ export default class Game {
       background: new BaseElement({
         x: 0,
         y: 0,
-        imageSrc: '../assets/background/Background_Kanalisation2.png',
+        imageSrc: '../src/assets/background/Background_Kanalisation2.png',
         imageCropBox: new Box({
           y: 5,
           height: this.canvasManager.getCanvas().height,
@@ -86,7 +84,7 @@ export default class Game {
       x: 0,
       y: 440,
       scale: 0.4,
-      imageSrc: '../assets/Char/CharSheetWalk.png',
+      imageSrc: '../src/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0, 
         y: 100,

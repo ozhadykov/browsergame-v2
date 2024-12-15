@@ -1,5 +1,5 @@
 import { Box } from "../base-classes";
-import Game from "../../classes/game";
+import Game from "./game";
 
 export class CameraBox extends Box {
 

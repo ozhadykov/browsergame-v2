@@ -52,7 +52,7 @@ export class Level {
                     y: y * 16,
                     height: 16,
                     width: 16,
-                    imageSrc: '../../assets/platform/block.png',
+                    imageSrc: '../../src/assets/platform/block.png',
                     imageCropBox: new Box({
                         x: 0,
                         y: 0,
