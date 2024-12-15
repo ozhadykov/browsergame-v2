@@ -86,7 +86,7 @@ export class HitBox extends Box {
                 // todo: Sound class comes soon
                 // if (!player.getCanJump()) this.crashSound.play()
                 if (player.getVelocityX() > 0) {
-                    const offset = this.getX() - player.getX() - this.getWidth()
+                    const offset = this.getX() - player.getX() + this.getWidth()
                     player.setX(platformBlock.getX() - offset - 0.01)
                     if (!player.getCanJump()) 
                         player.setVelocityX(-1 * player.getVelocityX() / 1.1)
