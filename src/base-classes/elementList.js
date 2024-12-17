@@ -37,4 +37,6 @@ export default class ElementList extends Array {
     }
   }
 
+  clear() { this.elements = []
+  }
 }

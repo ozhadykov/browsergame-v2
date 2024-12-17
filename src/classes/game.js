@@ -17,7 +17,7 @@ export default class Game {
    * @param levelId
    */
 
-  constructor(canvas, ctx, levelId = 0) {
+  constructor(canvas, ctx, levelId) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -29,9 +29,11 @@ export default class Game {
     this.instance = this
     this.scale = 2
     this.canvasManager = new GameScreen('#my-canvas')
-    this.elementList = null
+    this.elementList = new ElementList()
     this.player = null
-    this.level = new Level({
+    this.currentLevelId = 2// Initialize current level id // 
+    this.transitioning = false
+    /* this.level = new Level({
       levelId,
       levelString: levels.at(levelId),
       background: new BaseElement({
@@ -47,7 +49,8 @@ export default class Game {
         framesY: 1
       })
     })
-    this.background = this.level.getBackground()
+    this.background = this.level.getBackground() */
+    //verschoben in loadLevelMethode 
     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scale,
       height: this.canvas.height / this.scale
@@ -71,11 +74,9 @@ export default class Game {
     return Game.instance
   }
 
-  start(level) {
-
-    // creating element List
-    this.elementList = new ElementList()
-
+  start() {
+    this.loadLevel(this.currentLevelId)
+  
     // creating game elements
     // generating platform blocks
     const platformBlocks = this.level.generatePlatfroms()
@@ -108,6 +109,26 @@ export default class Game {
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
 
   }
+
+  loadLevel(levelId) {
+    // Lade Level 
+    this.level = new Level({ 
+      levelId, 
+      levelString: levels.at(levelId), 
+      background: new BaseElement({ 
+        x: 0, y: 0, imageSrc: `../src/assets/background/Background_Level_${levelId}.png`, 
+        imageCropBox: new Box({ 
+          y: 5, 
+          height: this.canvasManager.getCanvas().height, 
+          width: this.canvasManager.getCanvas().width 
+        }), 
+        framesX: 1, 
+        framesY: 1 })
+       }); 
+       this.background = this.level.getBackground ()
+       this.platformBlocks = this.level.generatePlatfroms()
+ 
+    }
 
 
   stop() {
