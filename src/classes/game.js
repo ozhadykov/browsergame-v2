@@ -17,7 +17,7 @@ export default class Game {
    * @param levelId
    */
 
-  constructor(canvas, ctx, levelId) {
+  constructor(canvas, ctx, levelId=0) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -29,17 +29,17 @@ export default class Game {
     this.instance = this
     this.scale = 2
     this.canvasManager = new GameScreen('#my-canvas')
-    this.elementList = new ElementList()
+    this.elementList = null
     this.player = null
-    this.currentLevelId = 2// Initialize current level id // 
+    this.levelId = 0// Initialize level id // 
     this.transitioning = false
-    /* this.level = new Level({
+    this.level = new Level({
       levelId,
       levelString: levels.at(levelId),
       background: new BaseElement({
         x: 0,
         y: 0,
-        imageSrc: '../src/assets/background/Background_Kanalisation2.png',
+        imageSrc: `../src/assets/background/Background_Level_${levelId}.png`,
         imageCropBox: new Box({
           y: 5,
           height: this.canvasManager.getCanvas().height,
@@ -49,9 +49,8 @@ export default class Game {
         framesY: 1
       })
     })
-    this.background = this.level.getBackground() */
-    //verschoben in loadLevelMethode 
-    this.cameraBox = new CameraBox({
+    this.background = this.level.getBackground() 
+     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scale,
       height: this.canvas.height / this.scale
     })
@@ -69,17 +68,18 @@ export default class Game {
 
       const jumpChargingBarCanvas = document.getElementById("my-jump-charging-bar");
       const jumpChargingBar = jumpChargingBarCanvas.getContext("2d");
-      Game.instance = new Game(canvas, ctx, 1, jumpChargingBarCanvas)
+      Game.instance = new Game(canvas, ctx, 1, jumpChargingBarCanvas) // start mit Level 0
     }
     return Game.instance
   }
 
   start() {
-    this.loadLevel(this.currentLevelId)
-  
+    this.elementList = new ElementList()
+
+    
     // creating game elements
     // generating platform blocks
-    const platformBlocks = this.level.generatePlatfroms()
+    let platformBlocks = this.level.generatePlatfroms()
 
     this.player = new Player2({
       x: 0,
@@ -101,6 +101,7 @@ export default class Game {
     this.elementList.add(this.background)
     this.elementList.add(this.player)
     platformBlocks.forEach(platform => this.elementList.add(platform))
+    console.log("Aktualisierte Plattformen im Player:", this.player.getPlatformBlocks())
 
     // this is important for animation purposes, do not need now
     this.timeOfLastFrame = Date.now()
@@ -110,25 +111,67 @@ export default class Game {
 
   }
 
-  loadLevel(levelId) {
-    // Lade Level 
-    this.level = new Level({ 
-      levelId, 
-      levelString: levels.at(levelId), 
-      background: new BaseElement({ 
-        x: 0, y: 0, imageSrc: `../src/assets/background/Background_Level_${levelId}.png`, 
-        imageCropBox: new Box({ 
-          y: 5, 
-          height: this.canvasManager.getCanvas().height, 
-          width: this.canvasManager.getCanvas().width 
-        }), 
-        framesX: 1, 
-        framesY: 1 })
-       }); 
-       this.background = this.level.getBackground ()
-       this.platformBlocks = this.level.generatePlatfroms()
+  nextLevel() {
+  const nextLevelId = (this.level.getLevelId() + 1) % levels.length;
+  console.log(`Current level ID: ${this.level.getLevelId()}`); 
+  console.log(`Next level ID: ${nextLevelId}`)
+// Setze das nächste Level
+this.level = new Level({
+  levelId: nextLevelId, levelString: levels.at(nextLevelId),
+  background: new BaseElement({
+ x: 0, y: 0, 
+    imageSrc: `../src/assets/background/Background_Level_${nextLevelId}.png`, 
+    imageCropBox: new Box({ y: 5, height: this.canvasManager.getCanvas().height, 
+      width: this.canvasManager.getCanvas().width }), 
+      framesX: 1, 
+      framesY: 1 })
+    })
+ this.background = this.level.getBackground()
+  this.elementList.clear(); // Leert die Liste der Elemente
+  this.elementList.add(this.background)
+  let platformBlocks = this.level.generatePlatfroms()
+     // Aktualisieren der Plattformen im Player-Objekt 
+    this.player.setPlatformBlocks(platformBlocks)
+  platformBlocks.forEach(platform => this.elementList.add(platform))
+    this.player.setY(510) // Spielerposition anpassen
+  this.elementList.add(this.player)
+
+}
+
+previousLevel() {
+  const prevLevelId = (this.level.getLevelId() - 1) 
+ // if (prevLevelId<0) {this.prevLevelId = 0}
+  console.log(`Current level ID: ${this.level.getLevelId()}`); 
+  console.log(`Prev level ID: ${prevLevelId}`)
+ // Setze das vorherige Level 
+  this.level = new Level({
+    levelId: prevLevelId, levelString: levels.at(prevLevelId),
+    background: new BaseElement({
+      x: 0, y: 0, imageSrc: `../src/assets/background/Background_Level_${prevLevelId}.png`,
+      imageCropBox: new Box({
+        y: 5, height: this.canvasManager.getCanvas().height,
+        width: this.canvasManager.getCanvas().width
+      }),
+      framesX: 1,
+      framesY: 1
+    })
+  });
+  this.background = this.level.getBackground();
  
-    }
+  this.elementList.clear(); // Leert die Liste der Elemente
+     this.elementList.add(this.background)
+  // Erzeugen und Hinzufügen der Plattform-Elemente 
+     let platformBlocks = this.level.generatePlatfroms()
+     console.log("Generierte Plattformen:", platformBlocks)
+      // Aktualisieren der Plattformen im Player-Objekt 
+     this.player.setPlatformBlocks(platformBlocks)
+      platformBlocks.forEach(platform => this.elementList.add(platform))
+        
+      this.player.setY (0) // Spielerposition anpassen
+  this.elementList.add(this.player)
+  console.log("Aktualisierte Plattformen im Player:", this.player.platformBlocks)
+  console.log("Aktualisierte Plattformen mit getMethode aus Player:", this.player.getPlatformBlocks())
+}
 
 
   stop() {
@@ -162,12 +205,22 @@ export default class Game {
 
       // drawing elements
       this.elementList.draw(this.ctx, this.canvasManager.getCanvas())
+     
       // animating
       this.elementList.action()
       if (this.player.keys.w.pressed) {
         this.drawjumpChargingBar()
       }
+    
 
+     // Check for level transitions 
+     if (this.player.getY() < 50 && this.player.canJump) {
+      this.nextLevel();
+    }
+    else if (this.player.getY() > 539) {
+      this.previousLevel();
+    }
+   
 
       // calling animation function again
       this.raf = window.requestAnimationFrame(this.tick.bind(this))
