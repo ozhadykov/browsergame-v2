@@ -173,14 +173,6 @@ export default class Game {
     }
   }
 
-  getCanvas() {
-    return this.canvas
-  }
-
-  getContext() {
-    return this.ctx
-  }
-
   getGameScreen() {
     return this.canvasManager
   }

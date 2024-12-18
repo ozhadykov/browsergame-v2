@@ -69,7 +69,7 @@ export class HitBox extends Box {
      */
     checkForHorizontalCollisions(player) {
         // wie kann man das besser machen ?
-        const canvasWidth = Game.getInstance().getCanvas().width
+        const canvasWidth = Game.getInstance().getGameScreen().getCanvas().width
 
         //right canvas border collision:
         if(player.getX() + player.getWidth() + player.getVelocityX() > canvasWidth) {
