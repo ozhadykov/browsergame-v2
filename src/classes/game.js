@@ -4,6 +4,7 @@ import { Box, BaseElement, ScreenManager } from "../base-classes/";
 import { GameScreen } from "./canvas-manager.js";
 import { Level } from "./level.js";
 import Player2 from "./player.js";
+import Goal from "./goal.js";
 import { CameraBox } from "./camera-box.js";
 
 export default class Game {
@@ -28,11 +29,12 @@ export default class Game {
     this.canvas = canvas
     this.instance = this
     this.scale = 2
-    this.canvasManager = new GameScreen('#my-canvas')
+    this.gameScreen = new GameScreen('#my-canvas')
     this.elementList = null
     this.player = null
     this.levelId = 0// Initialize level id // 
     this.transitioning = false
+    this.goal = null
     this.level = new Level({
       levelId,
       levelString: levels.at(levelId),
@@ -42,8 +44,8 @@ export default class Game {
         imageSrc: `../src/assets/background/Background_Level_${levelId}.png`,
         imageCropBox: new Box({
           y: 5,
-          height: this.canvasManager.getCanvas().height,
-          width: this.canvasManager.getCanvas().width
+          height: this.gameScreen.getCanvas().height,
+          width: this.gameScreen.getCanvas().width
         }),
         framesX: 1,
         framesY: 1
@@ -88,7 +90,7 @@ export default class Game {
       imageSrc: '../src/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0, 
-        y: 100,
+        y: 0,
         height: 99,
         width: 100
       }),
@@ -97,9 +99,25 @@ export default class Game {
       framesY: 3
     })
 
+    this.goal = new Goal({
+      x: 250,
+      y: 450,
+      scale: 1,
+      imageSrc: '../src/assets/goal/Goal.png',
+      imageCropBox: new Box({
+        x: 0, 
+        y: 0,
+        height: 32,
+        width: 32
+      }),
+      framesX: 1,
+      framesY: 1
+    })
+
     // adding all elements to List
     this.elementList.add(this.background)
     this.elementList.add(this.player)
+    this.elementList.add(this.goal)
     platformBlocks.forEach(platform => this.elementList.add(platform))
    
     // this is important for animation purposes, do not need now
@@ -213,7 +231,7 @@ previousLevel() {
   }
 
   tick() {
-    if (!this.player.keys.pause.pressed) {
+    if (!this.player.keys.pause.pressed && !this.goal.checkForGoalReached(this.player)) {
       this.ctx.save()
 
       //finde das kleinere besser aber nur mein geschmack. Falls geändert müssen wir auch den Sprung entsprechend anpassen
@@ -221,7 +239,7 @@ previousLevel() {
       
       //--- clear screen
       this.ctx.fillStyle = 'white'
-      this.ctx.fillRect(0, 0, this.canvasManager.getCanvas().clientWidth, this.canvasManager.getCanvas().clientHeight)
+      this.ctx.fillRect(0, 0, this.gameScreen.getCanvas().clientWidth, this.gameScreen.getCanvas().clientHeight)
 
       const jumpChargingBarCtx = this.chargingBar.getContext()
       const jumpChargingBarCanvas = this.chargingBar.getCanvas()
@@ -238,8 +256,8 @@ previousLevel() {
         -this.cameraBox.getY())
 
       // drawing elements
-      this.elementList.draw(this.ctx, this.canvasManager.getCanvas())
-     
+      this.elementList.draw(this.ctx, this.gameScreen.getCanvas())
+      
       // animating
       this.elementList.action()
       if (this.player.keys.w.pressed) {
@@ -260,10 +278,15 @@ previousLevel() {
       this.raf = window.requestAnimationFrame(this.tick.bind(this))
       this.ctx.restore()
     } else {
+      if(this.goal.checkForGoalReached(this.player)){
+        this.gameScreen.hide()
+        this.chargingBar.hide()
+        this.mainMenu.show()
+      } else
       // open pause menu and hiding elements
       this.pauseMenu.show()
-      this.canvasManager.show()
-      this.chargingBar.show()
+      this.gameScreen.hide()
+      this.chargingBar.hide()
     }
   }
 
@@ -281,16 +304,8 @@ previousLevel() {
     }
   }
 
-  getCanvas() {
-    return this.canvas
-  }
-
-  getContext() {
-    return this.ctx
-  }
-
   getGameScreen() {
-    return this.canvasManager
+    return this.gameScreen
   }
 
   getChargingBar() {
@@ -306,26 +321,26 @@ previousLevel() {
   }
 
   closePauseMenu() {
-    this.canvasManager.show()
-    this.chargingBar.hide()
+    this.gameScreen.show()
+    this.chargingBar.show()
     this.pauseMenu.hide()
     // why? i did not understand (c) Omar :) would like to know more
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 
   areYouSureMainMenu() {
-    document.getElementById('pause-menu').style.display = "none"
-    document.getElementById('are-you-sure-menu').style.display = "block"
+    this.pauseMenu.hide()
+    this.areYouSureMenu.show()
   }
 
   openMainMenu() {
-    document.getElementById('are-you-sure-menu').style.display = "none"
-    document.getElementById('main-menu').style.display = "block"
+    this.areYouSureMenu.hide()
+    this.mainMenu.show()
   }
 
   continuePause() {
-    document.getElementById('are-you-sure-menu').style.display = "none"
-    document.getElementById('pause-menu').style.display = " block"
+    this.areYouSureMenu.hide()
+    this.pauseMenu.show()
   }
 }
 
