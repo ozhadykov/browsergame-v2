@@ -89,7 +89,7 @@ export default class Game {
       imageSrc: '../src/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0, 
-        y: 100,
+        y: 0,
         height: 99,
         width: 100
       }),
@@ -105,7 +105,7 @@ export default class Game {
       imageSrc: '../src/assets/goal/Goal.png',
       imageCropBox: new Box({
         x: 0, 
-        y: 100,
+        y: 0,
         height: 32,
         width: 32
       }),
@@ -159,8 +159,7 @@ export default class Game {
 
       // drawing elements
       this.elementList.draw(this.ctx, this.gameScreen.getCanvas())
-      this.goal.drawGoal(this.ctx, this.goal) 
-
+      
       // animating
       this.elementList.action()
       if (this.player.keys.w.pressed) {

@@ -16,11 +16,6 @@ export default class Goal extends BaseElement {
     }) {
     super({x, y, height, width, scale, imageSrc, imageCropBox, framesX, framesY });
     }
-    //testing
-    drawGoal(ctx, goal){
-        ctx.fillStyle = `rgba(255,0,0,0.5)`
-        ctx.fillRect(goal._x, goal._y, goal._imageCropBox._width, goal._imageCropBox._height)
-    }
     checkForGoalReached(player){
       if(
       player._hitBox.getX() + player._hitBox.getWidth() >= this.getX() && player._hitBox.getY() + player._hitBox.getHeight()>= this.getY() &&
