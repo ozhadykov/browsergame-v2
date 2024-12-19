@@ -68,7 +68,7 @@ export default class Game {
 
       const jumpChargingBarCanvas = document.getElementById("my-jump-charging-bar");
       const jumpChargingBar = jumpChargingBarCanvas.getContext("2d");
-      Game.instance = new Game(canvas, ctx, 0, jumpChargingBarCanvas) // start mit Level 0
+      Game.instance = new Game(canvas, ctx, 1, jumpChargingBarCanvas) // start mit Level 0
     }
     return Game.instance
   }
@@ -151,12 +151,8 @@ this.level = new Level({
 
   this.elementList.clear(); // Leert die Liste der Elemente
   this.elementList.add(this.background)
-  
-  /*    // Aktualisieren der Plattformen im Player-Objekt 
-    this.player.setPlatformBlocks(platformBlocks)
-   */
   platformBlocks.forEach(platform => this.elementList.add(platform))
-   // this.player.setY(510) // Spielerposition anpassen
+ 
   this.elementList.add(this.player)
 
 }
@@ -205,17 +201,10 @@ previousLevel() {
 
   this.elementList.clear(); // Leert die Liste der Elemente
      this.elementList.add(this.background)
-  /* // Erzeugen und Hinzufügen der Plattform-Elemente 
-     let platformBlocks = this.level.generatePlatfroms()
-     console.log("Generierte Plattformen:", platformBlocks)
-      // Aktualisieren der Plattformen im Player-Objekt 
-     this.player.setPlatformBlocks(platformBlocks) */
-      platformBlocks.forEach(platform => this.elementList.add(platform))
+        platformBlocks.forEach(platform => this.elementList.add(platform))
         
-   //   this.player.setY (0) // Spielerposition anpassen
-  this.elementList.add(this.player)
-  console.log("Aktualisierte Plattformen im Player:", this.player.platformBlocks)
-  console.log("Aktualisierte Plattformen mit getMethode aus Player:", this.player.getPlatformBlocks())
+     this.elementList.add(this.player)
+ 
 }
 
 
