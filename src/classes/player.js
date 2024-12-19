@@ -65,7 +65,6 @@ export default class Player2 extends BaseElement {
     this.sound.initSound('jumpSound', '../src/assets/Sounds/jumpSoud.mp3')
     this.sound.initSound('crashSound', '../src/assets/Sounds/crashSound.mp3')
 
-    // creating event listeners only once, do not need to create them each time, when we re-render
     this.initEventListeners()
     
   }

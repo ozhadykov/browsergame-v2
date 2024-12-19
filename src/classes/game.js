@@ -114,6 +114,7 @@ export default class Game {
   nextLevel() {
       //speichere Position
   const posX = this.player.getX() 
+  const direction = this.player.getDirection()
   const nextLevelId = (this.level.getLevelId() + 1) % levels.length;
   console.log(`Current level ID: ${this.level.getLevelId()}`); 
   console.log(`Next level ID: ${nextLevelId}`)
@@ -152,7 +153,7 @@ this.level = new Level({
   this.elementList.clear(); // Leert die Liste der Elemente
   this.elementList.add(this.background)
   platformBlocks.forEach(platform => this.elementList.add(platform))
- 
+ this.player.setDirection(direction)
   this.elementList.add(this.player)
 
 }
@@ -160,6 +161,7 @@ this.level = new Level({
 previousLevel() {
   //speichere Position
   const posX = this.player.getX() 
+  const direction = this.player.getDirection()
   const prevLevelId = (this.level.getLevelId() - 1) 
  // if (prevLevelId<0) {this.prevLevelId = 0}
   console.log(`Current level ID: ${this.level.getLevelId()}`); 
@@ -202,7 +204,7 @@ previousLevel() {
   this.elementList.clear(); // Leert die Liste der Elemente
      this.elementList.add(this.background)
         platformBlocks.forEach(platform => this.elementList.add(platform))
-        
+        this.player.setDirection(direction)  
      this.elementList.add(this.player)
  
 }
