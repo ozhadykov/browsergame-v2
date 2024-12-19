@@ -4,8 +4,10 @@ import { Sound } from "../base-classes/sound.js"
 
 export class HitBox extends Box {
 
-    constructor({ x, y, height, width}) {
-        super({x, y, height, width})
+    constructor({ x, y, height, width, gameScaleX, gameScaleY}) {
+        super({x, y, height, width, gameScaleX, gameScaleY})
+        this._gameScaleX = gameScaleX
+        this._gameScaleY = gameScaleY
         this._isCollidingHorizontal = false
         this._isCollidingVertical = false
         this.sound = new Sound('#sound')
@@ -43,6 +45,7 @@ export class HitBox extends Box {
          */
         for (const platformBlock of player.getPlatformBlocks()) {
             if (this.isCollidingWith(platformBlock)){
+                
                 player.setCanJump(true)
                 if (player.getVelocityY() > 0) {
                     player.setVelocityY(0)
@@ -89,8 +92,6 @@ export class HitBox extends Box {
          */
         for (const platformBlock of player.getPlatformBlocks()) {
             if (this.isCollidingWith(platformBlock)) {
-                // todo: Sound class comes soon
-                // if (!player.getCanJump()) this.crashSound.play()
                 if (player.getVelocityX() > 0) {
                     const offset = this.getX() - player.getX() + this.getWidth()
                     player.setX(platformBlock.getX() - offset - 0.01)

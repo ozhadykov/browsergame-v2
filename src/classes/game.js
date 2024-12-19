@@ -27,6 +27,8 @@ export default class Game {
     this.canvas = canvas;
     this.instance = this;
     this.scale = 2;
+    this.gameScaleX = 1;
+    this.gameScaleY = 3;
     this.gameScreen = new GameScreen("#my-canvas");
     this.elementList = null;
     this.player = null;
@@ -39,16 +41,21 @@ export default class Game {
       background: new BaseElement({
         x: 0,
         y: 0,
-        imageSrc: `../src/assets/background/Background_Level_${levelId}.png`,
+        gameScaleX: this.gameScaleX,
+        gameScaleY: this.gameScaleY,
+        imageSrc: `../src/assets/background/Background_komplett.png`,
         imageCropBox: new Box({
+          gameScaleX: this.gameScaleX,
+          gameScaleY: this.gameScaleY,
           y: 5,
-          height: this.gameScreen.getCanvas().height,
-          width: this.gameScreen.getCanvas().width,
+          height: this.gameScreen.getCanvas().height * this.gameScaleY,
+          width: this.gameScreen.getCanvas().width * this.gameScaleX,
         }),
         framesX: 1,
         framesY: 1,
       }),
     });
+    console.log(this.level.getBackground())
     this.background = this.level.getBackground();
     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scale,
@@ -81,8 +88,12 @@ export default class Game {
       x: 0,
       y: 440,
       scale: 0.4,
+      gameScaleX: this.gameScaleX,
+      gameScaleY: this.gameScaleY,
       imageSrc: "../src/assets/Char/CharSheetWalk.png",
       imageCropBox: new Box({
+        gameScaleX: this.gameScaleX,
+        gameScaleY: this.gameScaleY,
         x: 0,
         y: 0,
         height: 99,
@@ -92,7 +103,7 @@ export default class Game {
       framesX: 9,
       framesY: 3,
     });
-
+    console.log(this.player)
     this.goal = new Goal({
       x: 250,
       y: 450,
@@ -120,112 +131,7 @@ export default class Game {
     // here we are requiring window to reload to max framerate possible
     this.raf = window.requestAnimationFrame(this.tick.bind(this));
   }
-
-  nextLevel() {
-    //speichere Position
-    const posX = this.player.getX();
-    const direction = this.player.getDirection();
-    const nextLevelId = (this.level.getLevelId() + 1) % levels.length;
-
-    // Setze das nächste Level
-    this.level = new Level({
-      levelId: nextLevelId,
-      levelString: levels.at(nextLevelId),
-      background: new BaseElement({
-        x: 0,
-        y: 0,
-        imageSrc: `../src/assets/background/Background_Level_${nextLevelId}.png`,
-        imageCropBox: new Box({
-          y: 5,
-          height: this.gameScreen.getCanvas().height,
-          width: this.gameScreen.getCanvas().width,
-        }),
-        framesX: 1,
-        framesY: 1,
-      }),
-    });
-    this.background = this.level.getBackground();
-
-    // generating platform blocks
-    let platformBlocks = this.level.generatePlatfroms();
-
-    this.player = new Player2({
-      x: posX,
-      y: 510, // Spielerposition anpassen
-      scale: 0.4,
-      imageSrc: "../src/assets/Char/CharSheetWalk.png",
-      imageCropBox: new Box({
-        x: 0,
-        y: 100,
-        height: 99,
-        width: 100,
-      }),
-      platformBlocks,
-      framesX: 9,
-      framesY: 3,
-    });
-
-    this.elementList.clear(); // Leert die Liste der Elemente
-    this.elementList.add(this.background);
-    platformBlocks.forEach((platform) => this.elementList.add(platform));
-    this.player.setDirection(direction);
-    this.elementList.add(this.player);
-  }
-
-  previousLevel() {
-    //speichere Position
-    const posX = this.player.getX();
-    const direction = this.player.getDirection();
-    const prevLevelId = this.level.getLevelId() - 1;
-    // if (prevLevelId<0) {this.prevLevelId = 0}
-    console.log(`Current level ID: ${this.level.getLevelId()}`);
-    console.log(`Prev level ID: ${prevLevelId}`);
-    // Setze das vorherige Level
-    this.level = new Level({
-      levelId: prevLevelId,
-      levelString: levels.at(prevLevelId),
-      background: new BaseElement({
-        x: 0,
-        y: 0,
-        imageSrc: `../src/assets/background/Background_Level_${prevLevelId}.png`,
-        imageCropBox: new Box({
-          y: 5,
-          height: this.gameScreen.getCanvas().height,
-          width: this.gameScreen.getCanvas().width,
-        }),
-        framesX: 1,
-        framesY: 1,
-      }),
-    });
-
-    this.background = this.level.getBackground();
-
-    // generating platform blocks
-    let platformBlocks = this.level.generatePlatfroms();
-
-    this.player = new Player2({
-      x: posX,
-      y: 0, // Spielerposition anpassen
-      scale: 0.4,
-      imageSrc: "../src/assets/Char/CharSheetWalk.png",
-      imageCropBox: new Box({
-        x: 0,
-        y: 100,
-        height: 99,
-        width: 100,
-      }),
-      platformBlocks,
-      framesX: 9,
-      framesY: 3,
-    });
-
-    this.elementList.clear(); // Leert die Liste der Elemente
-    this.elementList.add(this.background);
-    platformBlocks.forEach((platform) => this.elementList.add(platform));
-    this.player.setDirection(direction);
-    this.elementList.add(this.player);
-  }
-
+ 
   stop() {
     window.cancelAnimationFrame(this.raf);
   }
@@ -238,7 +144,7 @@ export default class Game {
       this.ctx.save();
 
       //finde das kleinere besser aber nur mein geschmack. Falls geändert müssen wir auch den Sprung entsprechend anpassen
-      this.ctx.scale(2, 2);
+      this.ctx.scale(2 * this.gameScaleX, 2 * this.gameScaleY);
 
       //--- clear screen
       this.ctx.fillStyle = "white";
@@ -272,14 +178,14 @@ export default class Game {
       if (this.player.keys.w.pressed) {
         this.drawjumpChargingBar();
       }
-
+/* 
       // Check for level transitions
       if (this.player.getY() < 50 && this.player.canJump) {
         this.nextLevel();
       } else if (this.player.getY() > 539) {
         this.previousLevel();
       }
-
+ */
       // calling animation function again
       this.raf = window.requestAnimationFrame(this.tick.bind(this));
       this.ctx.restore();

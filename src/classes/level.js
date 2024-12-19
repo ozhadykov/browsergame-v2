@@ -42,10 +42,12 @@ export class Level {
 
         if (levelEl !== "-") {
           const platformEl = new BaseElement({
-            x: x * 16,
-            y: y * 16,
+            x: x * 16 / 1,
+            y: y * 16 / 3,
             height: 16,
             width: 16,
+            gameScaleX: 1,
+            gameScaleY: 3,
             imageSrc: "../../src/assets/platform/block.png",
             imageCropBox: new Box({
               x: platformTypePosition[levelEl].x,

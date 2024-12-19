@@ -7,6 +7,8 @@ export class BaseElement extends Box {
         y,
         height,
         width,
+        gameScaleX,
+        gameScaleY,
         scale = 1,
         imageSrc,
         imageCropBox,
@@ -15,7 +17,9 @@ export class BaseElement extends Box {
         _directionInversion = 1
     }) {
 
-        super({ x, y, height, width })
+        super({ x, y, height, width, gameScaleX, gameScaleY})
+        this._gameScaleX = gameScaleX,
+        this._gameScaleY = gameScaleY,
         this._scale = scale
         this._image = new Image()
         this._image.onload = () => {
@@ -52,8 +56,8 @@ export class BaseElement extends Box {
             this._imageCropBox.getHeight(),
             this._x * this._directionInversion,
             this._y,
-            this._width * this._directionInversion,
-            this._height
+            this._width * this._directionInversion / this._gameScaleX,
+            this._height / this._gameScaleY
         )
 
         ctx.restore()

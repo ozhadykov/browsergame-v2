@@ -15,12 +15,16 @@ export default class Player2 extends BaseElement {
       gravity,
       platformBlocks,
       framesX,
-      framesY
+      framesY,
+      gameScaleX,
+      gameScaleY,
     }) {
-    super({x, y, height, width, scale, imageSrc, imageCropBox, framesX, framesY});
+    super({x, y, height, width, scale, imageSrc, imageCropBox, framesX, framesY, gameScaleX, gameScaleY});
       
     this._velocityX = 0
     this._velocityY = 1
+    this.gameScaleX = gameScaleX
+    this.gameScaleY = gameScaleY
 
     this._gravity = gravity ?? 0.1;
     this._platformBlocks = platformBlocks ?? [];
@@ -29,7 +33,9 @@ export default class Player2 extends BaseElement {
         x: this._x,
         y: this._y,
         width: 10,
-        height: 10
+        height: 10,
+        gameScaleX: this.gameScaleX,
+        gameScaleY: this.gameScaleY,
     })
 
     this.keys = {
@@ -236,6 +242,13 @@ export default class Player2 extends BaseElement {
   }
 
   getScale(){
+    return this._scale
+  }
+
+  getScaleX(){
+    return this._scale
+  }
+  getScaleY(){
     return this._scale
   }
 
