@@ -115,5 +115,11 @@ export class HitBox extends Box {
                 
         }
       }
+    checkForGoalReached(player, gaol){
+        console.log("TEst")
+        if(this.isCollidingWith(gaol.imageCropBox)){
+            return (console.log("goal reached"))
+        }
+    }
 
 }
