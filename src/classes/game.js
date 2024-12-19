@@ -68,7 +68,7 @@ export default class Game {
 
       const jumpChargingBarCanvas = document.getElementById("my-jump-charging-bar");
       const jumpChargingBar = jumpChargingBarCanvas.getContext("2d");
-      Game.instance = new Game(canvas, ctx, 1, jumpChargingBarCanvas) // start mit Level 0
+      Game.instance = new Game(canvas, ctx, 0, jumpChargingBarCanvas) // start mit Level 0
     }
     return Game.instance
   }
