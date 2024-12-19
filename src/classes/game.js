@@ -101,8 +101,7 @@ export default class Game {
     this.elementList.add(this.background)
     this.elementList.add(this.player)
     platformBlocks.forEach(platform => this.elementList.add(platform))
-    console.log("Aktualisierte Plattformen im Player:", this.player.getPlatformBlocks())
-
+   
     // this is important for animation purposes, do not need now
     this.timeOfLastFrame = Date.now()
 
@@ -116,8 +115,7 @@ export default class Game {
   const posX = this.player.getX() 
   const direction = this.player.getDirection()
   const nextLevelId = (this.level.getLevelId() + 1) % levels.length;
-  console.log(`Current level ID: ${this.level.getLevelId()}`); 
-  console.log(`Next level ID: ${nextLevelId}`)
+
  // Setze das nächste Level
 this.level = new Level({
   levelId: nextLevelId, levelString: levels.at(nextLevelId),
