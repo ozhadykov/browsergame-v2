@@ -1,8 +1,8 @@
 import { Box } from "./base-box"
 
 export class BaseElement extends Box {
-    
-    constructor ({
+
+    constructor({
         x,
         y,
         height,
@@ -14,14 +14,14 @@ export class BaseElement extends Box {
         framesY,
         _directionInversion = 1
     }) {
-        
-        super({x, y, height, width})
+
+        super({ x, y, height, width })
         this._scale = scale
         this._image = new Image()
         this._image.onload = () => {
             this._imageLoaded = true
             this._height = this._image.height / framesY * this._scale
-            this._width = this._image.width  / framesX * this._scale
+            this._width = this._image.width / framesX * this._scale
         }
         this._image.src = imageSrc
         this._imageCropBox = imageCropBox
@@ -35,7 +35,7 @@ export class BaseElement extends Box {
 
     draw(ctx) {
         if (!this._image || !this._imageLoaded)
-            return 
+            return
 
         ctx.save()
         // update Image crop box position for animation
