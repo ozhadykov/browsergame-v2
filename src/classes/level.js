@@ -27,6 +27,8 @@ export class Level {
     setLevel(levelId, levelString) {
         this._levelId = levelId
         this._levelString = levelString
+
+        this.generatePlatfroms()
     }
 
     getBackground() {

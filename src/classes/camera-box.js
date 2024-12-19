@@ -16,8 +16,8 @@ export class CameraBox extends Box {
     }
 
     updateVerticalCamera(hitBox) {
-        hitBox.getY() - 220 >= 0 ?
-        this.setY(hitBox.getY() - 220) :
+        hitBox.getY() - 50 >= 0 ?
+        this.setY(hitBox.getY() - 50) :
         this.setY(0)
     }
 }
