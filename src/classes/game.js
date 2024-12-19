@@ -68,7 +68,7 @@ export default class Game {
 
       const jumpChargingBarCanvas = document.getElementById("my-jump-charging-bar");
       const jumpChargingBar = jumpChargingBarCanvas.getContext("2d");
-      Game.instance = new Game(canvas, ctx, 1, jumpChargingBarCanvas) // start mit Level 0
+      Game.instance = new Game(canvas, ctx, 0, jumpChargingBarCanvas) // start mit Level 0
     }
     return Game.instance
   }
@@ -112,10 +112,12 @@ export default class Game {
   }
 
   nextLevel() {
+      //speichere Position
+  const posX = this.player.getX() 
   const nextLevelId = (this.level.getLevelId() + 1) % levels.length;
   console.log(`Current level ID: ${this.level.getLevelId()}`); 
   console.log(`Next level ID: ${nextLevelId}`)
-// Setze das nächste Level
+ // Setze das nächste Level
 this.level = new Level({
   levelId: nextLevelId, levelString: levels.at(nextLevelId),
   background: new BaseElement({
@@ -127,18 +129,41 @@ this.level = new Level({
       framesY: 1 })
     })
  this.background = this.level.getBackground()
+
+  // generating platform blocks
+  let platformBlocks = this.level.generatePlatfroms()
+
+  this.player = new Player2({
+    x: posX,
+    y: 510, // Spielerposition anpassen
+    scale: 0.4,
+    imageSrc: '../src/assets/Char/CharSheetWalk.png',
+    imageCropBox: new Box({
+      x: 0, 
+      y: 100,
+      height: 99,
+      width: 100
+    }),
+    platformBlocks,
+    framesX: 9,
+    framesY: 3
+  })
+
   this.elementList.clear(); // Leert die Liste der Elemente
   this.elementList.add(this.background)
-  let platformBlocks = this.level.generatePlatfroms()
-     // Aktualisieren der Plattformen im Player-Objekt 
+  
+  /*    // Aktualisieren der Plattformen im Player-Objekt 
     this.player.setPlatformBlocks(platformBlocks)
+   */
   platformBlocks.forEach(platform => this.elementList.add(platform))
-    this.player.setY(510) // Spielerposition anpassen
+   // this.player.setY(510) // Spielerposition anpassen
   this.elementList.add(this.player)
 
 }
 
 previousLevel() {
+  //speichere Position
+  const posX = this.player.getX() 
   const prevLevelId = (this.level.getLevelId() - 1) 
  // if (prevLevelId<0) {this.prevLevelId = 0}
   console.log(`Current level ID: ${this.level.getLevelId()}`); 
@@ -156,18 +181,38 @@ previousLevel() {
       framesY: 1
     })
   });
-  this.background = this.level.getBackground();
+
+   this.background = this.level.getBackground();
  
+    // generating platform blocks
+    let platformBlocks = this.level.generatePlatfroms()
+
+    this.player = new Player2({
+      x: posX,
+      y: 0, // Spielerposition anpassen
+      scale: 0.4,
+      imageSrc: '../src/assets/Char/CharSheetWalk.png',
+      imageCropBox: new Box({
+        x: 0, 
+        y: 100,
+        height: 99,
+        width: 100
+      }),
+      platformBlocks,
+      framesX: 9,
+      framesY: 3
+    })
+
   this.elementList.clear(); // Leert die Liste der Elemente
      this.elementList.add(this.background)
-  // Erzeugen und Hinzufügen der Plattform-Elemente 
+  /* // Erzeugen und Hinzufügen der Plattform-Elemente 
      let platformBlocks = this.level.generatePlatfroms()
      console.log("Generierte Plattformen:", platformBlocks)
       // Aktualisieren der Plattformen im Player-Objekt 
-     this.player.setPlatformBlocks(platformBlocks)
+     this.player.setPlatformBlocks(platformBlocks) */
       platformBlocks.forEach(platform => this.elementList.add(platform))
         
-      this.player.setY (0) // Spielerposition anpassen
+   //   this.player.setY (0) // Spielerposition anpassen
   this.elementList.add(this.player)
   console.log("Aktualisierte Plattformen im Player:", this.player.platformBlocks)
   console.log("Aktualisierte Plattformen mit getMethode aus Player:", this.player.getPlatformBlocks())

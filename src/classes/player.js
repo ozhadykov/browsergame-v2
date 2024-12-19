@@ -252,12 +252,12 @@ export default class Player2 extends BaseElement {
     return this._hitBox
   }
 
-  setPlatformBlocks(platformBlocks) { 
+  /* setPlatformBlocks(platformBlocks) { 
     console.log("Setze neue Plattformblöcke:", platformBlocks)
     this.length = 0
     this.platformBlocks = platformBlocks
     console.log("Aktualisierte Plattformblöcke im Spielerobjekt:", this.platformBlocks)
-  }
+  } */
 
   setCanJump(value) {
     this.canJump = value
