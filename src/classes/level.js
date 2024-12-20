@@ -49,12 +49,9 @@ export class Level {
               // TODO: Define, what kind of platform should be created
               
               if (levelEl !== '-') {
-                // console.log(y * 16, x * 16);
                 const platformEl = new BaseElement({
                     x: x * 16,
                     y: y * 16,
-                    height: 16,
-                    width: 16,
                     imageSrc: '../../src/assets/platform/block.png',
                     imageCropBox: new Box({
                         x: 0,

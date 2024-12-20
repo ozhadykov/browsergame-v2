@@ -10,6 +10,7 @@ export default class Player2 extends BaseElement {
       height,
       width,
       scale,
+      scaleY,
       imageSrc,
       imageCropBox,
       gravity,
@@ -17,7 +18,7 @@ export default class Player2 extends BaseElement {
       framesX,
       framesY
     }) {
-    super({x, y, height, width, scale, imageSrc, imageCropBox, framesX, framesY});
+    super({x, y, height, width, scale, scaleY, imageSrc, imageCropBox, framesX, framesY});
       
     this._velocityX = 0
     this._velocityY = 1
@@ -76,6 +77,7 @@ export default class Player2 extends BaseElement {
           if (!this.inJump) {
             this.keys.d.pressed = true
             this.sound.playSound("walkSound")
+            console.log(this)
           }
           break
         case 'a':
@@ -237,6 +239,10 @@ export default class Player2 extends BaseElement {
 
   getScale(){
     return this._scale
+  }
+
+  getScaleY(){
+    return this._scaleY
   }
 
   getVelocityY() {
