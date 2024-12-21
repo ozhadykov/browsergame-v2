@@ -81,7 +81,7 @@ export default class Game {
 
     this.player = new Player2({
       x: 0,
-      y: 100,
+      y: 0,
       scale: 0.3,
       scaleY: 6,
       scaleX: 2,
@@ -96,7 +96,6 @@ export default class Game {
       framesX: 9,
       framesY: 3
     })
-    console.log(this.player)
 
     this.goal = new Goal({
       x: 250,

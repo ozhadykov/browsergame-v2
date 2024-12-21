@@ -1,6 +1,6 @@
-import { BaseElement } from "../base-classes";
-import { HitBox } from "./hit-box.js";
-import { Sound } from "../base-classes/sound.js"
+import {BaseElement} from "../base-classes";
+import {HitBox} from "./hit-box.js";
+import {Sound} from "../base-classes/sound.js"
 
 export default class Player2 extends BaseElement {
   constructor(
@@ -20,18 +20,18 @@ export default class Player2 extends BaseElement {
       framesY
     }) {
     super({x, y, height, width, scale, scaleY, scaleX, imageSrc, imageCropBox, framesX, framesY});
-      
+
     this._velocityX = 0
     this._velocityY = 1
 
     this._gravity = gravity ?? 0.1;
     this._platformBlocks = platformBlocks ?? [];
-    
+
     this._hitBox = new HitBox({
-        x: this._x,
-        y: this._y,
-        width: 10,
-        height: 10
+      x: this._x,
+      y: this._y,
+      width: 10,
+      height: 10
     })
 
     this.keys = {
@@ -66,7 +66,7 @@ export default class Player2 extends BaseElement {
     this.sound.initSound('crashSound', '../src/assets/Sounds/crashSound.mp3')
 
     this.initEventListeners()
-    
+
   }
 
   initEventListeners() {
@@ -76,7 +76,6 @@ export default class Player2 extends BaseElement {
           if (!this.inJump) {
             this.keys.d.pressed = true
             this.sound.playSound("walkSound")
-            console.log(this)
           }
           break
         case 'a':
@@ -94,7 +93,6 @@ export default class Player2 extends BaseElement {
             this.sound.stopSound("jumpSound")
           }
           break
-        // todo: move to Game class
         case 'Escape':
           this.keys.pause.pressed = true
           break
@@ -119,7 +117,7 @@ export default class Player2 extends BaseElement {
             this.stoppedPressingJump()
 
             this.jumpDuration = this.endTime - this.startTime
-            if(this.jumpDuration >= this.maxJumpCharge) this.jumpDuration = this.maxJumpCharge
+            if (this.jumpDuration >= this.maxJumpCharge) this.jumpDuration = this.maxJumpCharge
             this._velocityY = -1 * (Math.pow(this.jumpDuration / 350, 2))
             this._velocityX = this.jumpDuration / 225 * this.getDirection()
             this.playJumpSound()
@@ -131,11 +129,10 @@ export default class Player2 extends BaseElement {
   }
 
   playJumpSound() {
-    //let soundModulation = Math.random() * (1.3 - 0.7) + 0.7
-    let soundModulation =3 - this.jumpDuration / 500
+    let soundModulation = 3 - this.jumpDuration / 500
     this.sound.playSound("jumpSound", soundModulation)
   }
- 
+
 
   startedPressingJump() {
     this.startTime = Date.now()
@@ -159,10 +156,10 @@ export default class Player2 extends BaseElement {
   }
 
   checkDirection() {
-    if(this._velocityX > 0) this.setDirection(1)
-    if(this._velocityX < 0) this.setDirection(-1)
+    if (this._velocityX > 0) this.setDirection(1)
+    if (this._velocityX < 0) this.setDirection(-1)
   }
-  
+
   applyGravity() {
     this._velocityY += this._gravity
     this._y += this._velocityY
@@ -193,36 +190,29 @@ export default class Player2 extends BaseElement {
 
   updateFrames() {
     if (this.walkState) {
-      if (this.animationstep <= 8) 
+      if (this.animationstep <= 8)
         this.animationstep += 0.15
-      else 
+      else
         this.animationstep = 0
-      
-        // this.cropBoxPosition = {x: 100 * Math.round(this.animationstep), y: 0}
-        this._imageCropBox.setX(100 * Math.round(this.animationstep))
-        this._imageCropBox.setY(0)
+      this._imageCropBox.setX(100 * Math.round(this.animationstep))
+      this._imageCropBox.setY(0)
     } else if (this.inJump) {
-      if (this.animationJump <= 2) 
+      if (this.animationJump <= 2)
         this.animationJump += 0.07
-      else 
+      else
         this.animationJump = 2
-      
-        // this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 201}
-        this._imageCropBox.setX(100 * Math.round(this.animationJump))
-        this._imageCropBox.setY(201)
+      this._imageCropBox.setX(100 * Math.round(this.animationJump))
+      this._imageCropBox.setY(201)
     } else if (this.canJump) {
-      // this.cropBoxPosition = {x: 0, y: 101}
       this._imageCropBox.setX(0)
       this._imageCropBox.setY(101)
     } else {
-      if (this.animationJump <= 3) 
+      if (this.animationJump <= 3)
         this.animationJump = 3
-      if (this.animationJump <= 6) 
+      if (this.animationJump <= 6)
         this.animationJump += 0.06
-      else 
-      this.animationJump = 6
-      
-      // this.cropBoxPosition = {x: 100 * Math.round(this.animationJump), y: 201}
+      else
+        this.animationJump = 6
       this._imageCropBox.setX(100 * Math.round(this.animationJump))
       this._imageCropBox.setY(201)
     }
@@ -236,11 +226,11 @@ export default class Player2 extends BaseElement {
     return this.canJump
   }
 
-  getScaleX(){
+  getScaleX() {
     return this._scaleX
   }
 
-  getScaleY(){
+  getScaleY() {
     return this._scaleY
   }
 
@@ -267,5 +257,5 @@ export default class Player2 extends BaseElement {
   setVelocityX(velocity) {
     this._velocityX = velocity
   }
-  
+
 }
