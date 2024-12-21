@@ -30,7 +30,7 @@ export default class Game {
     this.scaleY = 4
     this.gameScreen = new GameScreen('#my-canvas')
     this.elementList = null
-    this.player = null
+    this._player = null
     this.goal = null
     this._level = null
     this._background = null
@@ -61,12 +61,12 @@ export default class Game {
     // creating game elements
 
     // generating Level
-    const levelMeta = levelsMeta.find(level => level.id === levelId)
+    const levelMeta = levelsMeta.find(level => level.getLevelId() === levelId)
     this._level = new Level({
-      levelId,
-      levelString: levelMeta.levelMarkup,
+      levelId: levelMeta.getLevelId(),
+      levelString: levelMeta.getLevelMarkup(),
       background: new BaseElement({
-        imageSrc: levelMeta.backgroundImgSrc,
+        imageSrc: levelMeta.getBackgroundImgSrc(),
         imageCropBox: new Box({
           height: this.gameScreen.getCanvas().height * 3,
           width: this.gameScreen.getCanvas().width
@@ -80,11 +80,12 @@ export default class Game {
     // generating platform blocks
     const platformBlocks = this._level.generatePlatfroms()
 
-    this.player = new Player2({
-      x: 0,
-      y: 0,
-      scaleY: this.scaleY,
-      scaleX: this.scaleX,
+    // creating player
+    this._player = new Player2({
+      x: levelMeta.getPlayerStartPositionX(),
+      y: levelMeta.getPlayerStartPositionY(),
+      scaleY: levelMeta.getPlayerScaleY(),
+      scaleX: levelMeta.getPlayerScaleX(),
       imageSrc: '../src/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0,
@@ -97,6 +98,7 @@ export default class Game {
       framesY: 3
     })
 
+    // creating goal
     this.goal = new Goal({
       x: 250,
       y: 450,
@@ -114,7 +116,7 @@ export default class Game {
 
     // adding all elements to List
     this.elementList.add(this._background)
-    this.elementList.add(this.player)
+    this.elementList.add(this._player)
     this.elementList.add(this.goal)
     platformBlocks.forEach(platform => this.elementList.add(platform))
 
@@ -131,7 +133,7 @@ export default class Game {
   }
 
   tick() {
-    if (!this.player.keys.pause.pressed && !this.goal.checkForGoalReached(this.player)) {
+    if (!this._player.keys.pause.pressed && !this.goal.checkForGoalReached(this._player)) {
       this.ctx.save()
       this.ctx.scale(this.scaleX, this.scaleY)
 
@@ -146,8 +148,8 @@ export default class Game {
         jumpChargingBarCanvas.clientWidth,
         jumpChargingBarCanvas.clientHeight)
 
-      this.cameraBox.updateHorizontalCamera(this.player.getHitBox())
-      this.cameraBox.updateVerticalCamera(this.player.getHitBox())
+      this.cameraBox.updateHorizontalCamera(this._player.getHitBox())
+      this.cameraBox.updateVerticalCamera(this._player.getHitBox())
 
       this.ctx.translate(
         -this.cameraBox.getX(),
@@ -158,7 +160,7 @@ export default class Game {
 
       // animating
       this.elementList.action()
-      if (this.player.keys.w.pressed) {
+      if (this._player.keys.w.pressed) {
         this.drawjumpChargingBar()
       }
 
@@ -166,7 +168,7 @@ export default class Game {
       this.raf = window.requestAnimationFrame(this.tick.bind(this))
       this.ctx.restore()
     } else {
-      if (this.goal.checkForGoalReached(this.player)) {
+      if (this.goal.checkForGoalReached(this._player)) {
         this.gameScreen.hide()
         this.chargingBar.hide()
         this.mainMenu.show()
@@ -179,14 +181,14 @@ export default class Game {
   }
 
   drawjumpChargingBar() {
-    for (let i = 0; i <= this.player.maxJumpCharge; i += this.player.maxJumpCharge / 10) { // auch mit /20; /100 möglich
-      if (Date.now() - this.player.chargingJumpTime >= i) {
+    for (let i = 0; i <= this._player.maxJumpCharge; i += this._player.maxJumpCharge / 10) { // auch mit /20; /100 möglich
+      if (Date.now() - this._player.chargingJumpTime >= i) {
         const charginBarCanvas = this.chargingBar.getCanvas()
         const charginBarCtx = this.chargingBar.getContext()
 
         charginBarCtx.fillStyle = `rgb(${(255 - i / 5)},0 , 0)`
         charginBarCtx.fillRect(0,
-          charginBarCanvas.clientHeight - charginBarCanvas.clientHeight * (i / this.player.maxJumpCharge),
+          charginBarCanvas.clientHeight - charginBarCanvas.clientHeight * (i / this._player.maxJumpCharge),
           charginBarCanvas.clientWidth, charginBarCanvas.clientHeight / 10)
       }
     }

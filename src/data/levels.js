@@ -9,9 +9,11 @@
 // h - bottom center
 // i - bottom right corner
 
+import LevelMeta from "../classes/levels/level-meta.js";
+
 const levelsMeta = [
-  {
-    id: 1,
+  new LevelMeta({
+    levelId: 1,
     backgroundImgSrc: '../src/assets/background/Backround_komplett.png',
     levelMarkup: `------------------------------------------------------------+
   ------------------------------------------------------------+
@@ -220,7 +222,7 @@ const levelsMeta = [
     playerStartPositionY: 1550,
     playerScaleX: 2,
     playerScaleY: 6,
-  },
+  }),
 ];
 
 const platformTypePosition = {
