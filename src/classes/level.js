@@ -11,7 +11,6 @@ export class Level {
 
     getLevelId() {
         if (this._levelId !== undefined && this._levelId !== null)
-      //  if (this._levelId)
             return this._levelId
         else
             return -1

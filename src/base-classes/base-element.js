@@ -68,7 +68,7 @@ export class BaseElement extends Box {
     }
 
     updateFrames() {
-        // .. needed to animate
+        // ... needed to animate
     }
 
     setDirection(direction) {
