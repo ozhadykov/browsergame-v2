@@ -11,6 +11,7 @@ export default class Player2 extends BaseElement {
       width,
       scale,
       scaleY,
+      scaleX,
       imageSrc,
       imageCropBox,
       gravity,
@@ -18,7 +19,7 @@ export default class Player2 extends BaseElement {
       framesX,
       framesY
     }) {
-    super({x, y, height, width, scale, scaleY, imageSrc, imageCropBox, framesX, framesY});
+    super({x, y, height, width, scale, scaleY, scaleX, imageSrc, imageCropBox, framesX, framesY});
       
     this._velocityX = 0
     this._velocityY = 1
@@ -50,14 +51,12 @@ export default class Player2 extends BaseElement {
 
     this.canJump = true;
     this.inJump = false;
-    this.lastPressedRight = false;
     this.jumpDuration = null;
     this.maxJumpCharge = 950; // Einstellungsvariable für Sprung-Limiter
     this.chargingJumpTime = 0;
     this.startTime = null;
     this.endTime = null;
 
-    this.animationStep = 0;
     this.animationJump = 0;
     this.walkState = false;
 
@@ -237,8 +236,8 @@ export default class Player2 extends BaseElement {
     return this.canJump
   }
 
-  getScale(){
-    return this._scale
+  getScaleX(){
+    return this._scaleX
   }
 
   getScaleY(){

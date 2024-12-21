@@ -28,7 +28,7 @@ export default class Game {
     this.ctx = ctx
     this.canvas = canvas
     this.scaleX = 2
-    this.scaleY = 6
+    this.scaleY = 4
     this.gameScreen = new GameScreen('#my-canvas')
     this.elementList = null
     this.player = null
@@ -39,6 +39,8 @@ export default class Game {
       background: new BaseElement({
         x: 0,
         y: 0,
+        scaleX: 1,
+        scaleY: 1,
         imageSrc: `../src/assets/background/Backround_komplett.png`,
         imageCropBox: new Box({
           height: this.gameScreen.getCanvas().height * 3,
@@ -76,12 +78,13 @@ export default class Game {
     // creating game elements
     // generating platform blocks
     const platformBlocks = this.level.generatePlatfroms()
-    console.log(platformBlocks)
+
     this.player = new Player2({
       x: 0,
-      y: 1500,
+      y: 100,
       scale: 0.3,
       scaleY: 6,
+      scaleX: 2,
       imageSrc: '../src/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0,

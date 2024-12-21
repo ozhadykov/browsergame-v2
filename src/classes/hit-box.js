@@ -24,18 +24,18 @@ export class HitBox extends Box {
 
     /**
      * 
-     * @param {Player} player 
+     * @param {Player2} player
      */
     updateHitBox(player) {
         this.setX(player.getX() + 8)
         this.setY(player.getY())
-        this.setWidth(50 * player.getScale())
-        this.setHeight(100 * player.getScale())
+        this.setWidth(50 / player.getScaleX())
+        this.setHeight(100 / player.getScaleY())
     }
 
     /**
      * 
-     * @param {Player} player 
+     * @param {Player2} player
      */
     checkForVerticalCollisions(player) {
         /**
@@ -65,7 +65,7 @@ export class HitBox extends Box {
 
     /**
      * 
-     * @param {Player} player 
+     * @param {Player2} player
      */
     checkForHorizontalCollisions(player) {
         // wie kann man das besser machen ?
