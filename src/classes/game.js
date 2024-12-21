@@ -1,8 +1,8 @@
 import ElementList from "../base-classes/elementList.js";
-import {levels} from "../data/levels.js";
+import {levelsMeta} from "../data/levels.js";
 import {Box, BaseElement, ScreenManager} from "../base-classes/";
 import {GameScreen} from "./canvas-manager.js";
-import {Level} from "./level.js";
+import {Level} from "./levels/level.js";
 import Player2 from "./player.js";
 import Goal from "./goal.js";
 import {CameraBox} from "./camera-box.js";
@@ -15,10 +15,9 @@ export default class Game {
    *
    * @param ctx
    * @param canvas
-   * @param levelId
    */
 
-  constructor(canvas, ctx, levelId = 0) {
+  constructor(canvas, ctx) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -33,24 +32,8 @@ export default class Game {
     this.elementList = null
     this.player = null
     this.goal = null
-    this.level = new Level({
-      levelId,
-      levelString: levels.at(levelId),
-      background: new BaseElement({
-        x: 0,
-        y: 0,
-        scaleX: 1,
-        scaleY: 1,
-        imageSrc: `../src/assets/background/Backround_komplett.png`,
-        imageCropBox: new Box({
-          height: this.gameScreen.getCanvas().height * 3,
-          width: this.gameScreen.getCanvas().width
-        }),
-        framesX: 1,
-        framesY: 1
-      })
-    })
-    this.background = this.level.getBackground()
+    this._level = null
+    this._background = null
     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scaleX,
       height: this.canvas.height / this.scaleY
@@ -67,24 +50,41 @@ export default class Game {
       const canvas = document.getElementById("my-canvas");
       const ctx = canvas.getContext("2d");
 
-      Game.instance = new Game(canvas, ctx, 0) // start mit Level 0
+      Game.instance = new Game(canvas, ctx)
     }
     return Game.instance
   }
 
-  start() {
+  start(levelId) {
     this.elementList = new ElementList()
 
     // creating game elements
+
+    // generating Level
+    const levelMeta = levelsMeta.find(level => level.id === levelId)
+    this._level = new Level({
+      levelId,
+      levelString: levelMeta.levelMarkup,
+      background: new BaseElement({
+        imageSrc: levelMeta.backgroundImgSrc,
+        imageCropBox: new Box({
+          height: this.gameScreen.getCanvas().height * 3,
+          width: this.gameScreen.getCanvas().width
+        }),
+      })
+    })
+
+    // generating background
+    this._background = this._level.getBackground()
+
     // generating platform blocks
-    const platformBlocks = this.level.generatePlatfroms()
+    const platformBlocks = this._level.generatePlatfroms()
 
     this.player = new Player2({
       x: 0,
       y: 0,
-      scale: 0.3,
-      scaleY: 6,
-      scaleX: 2,
+      scaleY: this.scaleY,
+      scaleX: this.scaleX,
       imageSrc: '../src/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0,
@@ -113,7 +113,7 @@ export default class Game {
     })
 
     // adding all elements to List
-    this.elementList.add(this.background)
+    this.elementList.add(this._background)
     this.elementList.add(this.player)
     this.elementList.add(this.goal)
     platformBlocks.forEach(platform => this.elementList.add(platform))

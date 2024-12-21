@@ -9,7 +9,6 @@ export default class Player2 extends BaseElement {
       y,
       height,
       width,
-      scale,
       scaleY,
       scaleX,
       imageSrc,
@@ -19,7 +18,7 @@ export default class Player2 extends BaseElement {
       framesX,
       framesY
     }) {
-    super({x, y, height, width, scale, scaleY, scaleX, imageSrc, imageCropBox, framesX, framesY});
+    super({x, y, height, width, scaleY, scaleX, imageSrc, imageCropBox, framesX, framesY});
 
     this._velocityX = 0
     this._velocityY = 1

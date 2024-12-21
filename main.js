@@ -10,7 +10,7 @@ function startGame() {
   game.getGameScreen().show()
   game.getChargingBar().show()
   game.getMainMenu().hide()
-  game.start(0);
+  game.start(1);
 }
 
 function closePauseMenu() {

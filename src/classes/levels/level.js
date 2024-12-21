@@ -1,5 +1,5 @@
-import {Box, BaseElement} from "../base-classes"
-import {platformTypePosition} from "../data/levels.js";
+import {Box, BaseElement} from "../../base-classes/index.js"
+import {platformTypePosition} from "../../data/levels.js";
 
 export class Level {
 
