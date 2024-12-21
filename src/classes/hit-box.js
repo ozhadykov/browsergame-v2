@@ -27,9 +27,9 @@ export class HitBox extends Box {
      * @param {Player2} player
      */
     updateHitBox(player) {
-        this.setX(player.getX() + 8)
+        this.setX(player.getX() + 12)
         this.setY(player.getY())
-        this.setWidth(50 / player.getScaleX())
+        this.setWidth(45 / player.getScaleX())
         this.setHeight(100 / player.getScaleY())
     }
 
@@ -72,14 +72,14 @@ export class HitBox extends Box {
         const canvasWidth = Game.getInstance().getGameScreen().getCanvas().width
 
         //right canvas border collision:
-        if(player.getX() + player.getWidth() + player.getVelocityX() > canvasWidth) {
-            player.setX(canvasWidth-player.getWidth() )
+        if(this.getX() + this.getWidth() + player.getVelocityX() > canvasWidth) {
+            player.setX(canvasWidth - (this.getX() - player.getX() + this.getWidth()) - 0.01)
             return
         }
 
         //left canvas border collision:
-        if(player.getX() + player.getVelocityX() < 0) {
-            player.setX(0)
+        if(this.getX() + player.getVelocityX() < 0) {
+            player.setX(0.01 - (this.getX() - player.getX()))
             return
         }
 
@@ -105,8 +105,8 @@ export class HitBox extends Box {
         
                 if (player.getVelocityX() < 0) {
                     const offset = this.getX() - player.getX()
-                    player.setX(platformBlock.getX() + offset + 0.01)
-                    if (!player.getCanJump()) 
+                    player.setX(platformBlock.getX() + platformBlock.getWidth() - offset + 0.01)
+                    if (!player.getCanJump())
                         player.setVelocityX(-1 * player.getVelocityX() / 1.1)
                     else player.setVelocityX(0)
                     break // Exit loop after handling collision

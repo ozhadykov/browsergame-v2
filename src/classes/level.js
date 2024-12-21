@@ -49,7 +49,6 @@ export class Level {
         // TODO: Define, what kind of platform should be created
 
         if (levelEl !== '-') {
-          console.log(levelEl)
           const platformEl = new BaseElement({
             x: x * 16,
             y: y * 8,
