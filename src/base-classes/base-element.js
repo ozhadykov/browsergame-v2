@@ -8,6 +8,8 @@ export class BaseElement extends Box {
         height,
         width,
         scale = 1,
+        scaleX = 1,
+        scaleY = 1,
         imageSrc,
         imageCropBox,
         framesX,
@@ -17,11 +19,13 @@ export class BaseElement extends Box {
 
         super({ x, y, height, width })
         this._scale = scale
+        this._scaleY = scaleY
+        this._scaleX = scaleX
         this._image = new Image()
         this._image.onload = () => {
             this._imageLoaded = true
-            this._height = this._image.height / framesY * this._scale
-            this._width = this._image.width / framesX * this._scale
+            this._height = this._image.height / framesY / this._scaleY
+            this._width = this._image.width / framesX / this._scaleX
         }
         this._image.src = imageSrc
         this._imageCropBox = imageCropBox
@@ -64,7 +68,7 @@ export class BaseElement extends Box {
     }
 
     updateFrames() {
-        // .. needed to animate
+        // ... needed to animate
     }
 
     setDirection(direction) {
