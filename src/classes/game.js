@@ -5,7 +5,7 @@ import {GameScreen} from "./canvas-manager.js";
 import {Level} from "./levels/level.js";
 import Player2 from "./player.js";
 import Goal from "./goal.js";
-import {CameraBox} from "./camera-box.js";
+import {CameraBox} from "./boxes/camera-box.js";
 
 export default class Game {
 
@@ -204,10 +204,6 @@ export default class Game {
 
   getMainMenu() {
     return this.mainMenu
-  }
-
-  getMapScale() {
-    return this.scale
   }
 
   closePauseMenu() {

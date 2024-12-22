@@ -18,7 +18,11 @@ export class ScreenManager {
             this._htmlEL.style.display = 'none'
             this._shown = false
         }
-    } 
+    }
+
+    getSelector(){
+        return this._selector
+    }
 
     isShown() {
         return this._shown

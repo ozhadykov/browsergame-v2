@@ -1,6 +1,6 @@
-import { Box } from "../base-classes/base-box";
-import Game from "./game.js";
-import { Sound } from "../base-classes/sound.js"
+import { Box } from "../../base-classes/base-box.js";
+import Game from "../game.js";
+import { Sound } from "../../base-classes/sound.js"
 
 export class HitBox extends Box {
 

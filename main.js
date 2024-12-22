@@ -1,9 +1,14 @@
 import './style.css'
 import Game from './src/classes/game.js';
+import MenuManager from "./src/classes/menu-manager.js";
+import menusSelectors from "./src/data/menus.js";
+import {mainMenuSelector, areYouSureMenuSelector, pauseMenuSelector} from "./src/data/menu-constants.js";
 
 
 const game = Game.getInstance()
-const mainMenu = document.getElementById("main-menu");
+// create and initialise MenuManger
+const menuManager = new MenuManager(menusSelectors)
+menuManager.init()
 
 function startGame() {
   document.getElementById('main-menu-background').style.display = "none"

@@ -1,5 +1,5 @@
 import {BaseElement} from "../base-classes";
-import {HitBox} from "./hit-box.js";
+import {HitBox} from "./boxes/hit-box.js";
 import {Sound} from "../base-classes/sound.js"
 
 export default class Player2 extends BaseElement {
