@@ -60,7 +60,44 @@ export default class Game {
     this.mainMenu = new ScreenManager('#main-menu')
     this.areYouSureMenu = new ScreenManager('#are-you-sure-menu')
 
+    //Timer:
+    this.time = 0; 
+    this.timerRunning = false; 
+    this.intervalId = null; 
   }
+
+  startTimer() {
+    if (!this.timerRunning) {
+      this.timerRunning = true; 
+      this.intervalId = setInterval(() => {
+        if (this.timerRunning) {
+          this.time++;
+          console.log(`Time: ${this.time}`); // Optional: Log time for testing
+        }
+      }, 1000); // 1-second interval
+    }
+  }
+
+  stopTimer() {
+    if (this.timerRunning) {
+      this.timerRunning = false; 
+      clearInterval(this.intervalId); 
+      this.intervalId = null; // Clear the interval ID
+    }
+  }
+
+  resetTimer() {
+    this.stopTimer(); 
+    this.time = 0; 
+    console.log("Timer reset."); // Optional: Log reset
+  }
+
+  formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60); // Ganze Minuten
+    const remainingSeconds = seconds % 60; // Übrige Sekunden
+    return `${minutes} : ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`; 
+  }
+  
 
   static getInstance() {
     if (!Game.instance) {
@@ -73,6 +110,7 @@ export default class Game {
   }
 
   start() {
+    this.startTimer()
     this.elementList = new ElementList()
 
     // creating game elements
@@ -98,8 +136,8 @@ export default class Game {
     })
 
     this.goal = new Goal({
-      x: 250,
-      y: 450,
+      x: 100,
+      y: 0,
       scale: 1,
       imageSrc: '../src/assets/goal/Goal.png',
       imageCropBox: new Box({
@@ -127,6 +165,7 @@ export default class Game {
   }
 
   stop() {
+    this.stopTimer()
     window.cancelAnimationFrame(this.raf)
   }
 
@@ -167,15 +206,24 @@ export default class Game {
       this.ctx.restore()
     } else {
       if (this.goal.checkForGoalReached(this.player)) {
+        //show time in end screen
+        this.stopTimer()
+        this.ctx.font = "20px Arial";
+        this.ctx.fillText(this.time,900,30);
         this.gameScreen.hide()
         this.chargingBar.hide()
         this.mainMenu.show()
       } else
         // open pause menu and hiding elements
-        this.pauseMenu.show()
-      this.gameScreen.hide()
+      this.stopTimer()
+      this.pauseMenu.show()
+      this.gameScreen.show()
       this.chargingBar.hide()
     }
+
+    //timer:
+    this.ctx.font = "20px Arial";
+    this.ctx.fillText(this.formatTime(this.time),900,30);
   }
 
   drawjumpChargingBar() {
@@ -209,6 +257,7 @@ export default class Game {
   }
 
   closePauseMenu() {
+    this.startTimer()
     this.gameScreen.show()
     this.chargingBar.show()
     this.pauseMenu.hide()
@@ -222,6 +271,8 @@ export default class Game {
   }
 
   openMainMenu() {
+    this.stopTimer()
+    this.resetTimer()
     this.areYouSureMenu.hide()
     this.mainMenu.show()
   }
