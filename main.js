@@ -6,7 +6,7 @@ const game = Game.getInstance()
 const mainMenu = document.getElementById("main-menu");
 
 function startGame() {
-  document.getElementById('main-menu-backround').style.display = "none"
+  document.getElementById('main-menu-background').style.display = "none"
   game.getGameScreen().show()
   game.getChargingBar().show()
   game.getMainMenu().hide()
@@ -15,7 +15,7 @@ function startGame() {
 
 function closePauseMenu() {
   game.closePauseMenu()
-  game.player.keys.pause.pressed = false
+  game._player.keys.pause.pressed = false
 }
 
 function areYouSureMainMenu() {

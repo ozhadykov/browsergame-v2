@@ -14,6 +14,7 @@ import LevelMeta from "../classes/levels/level-meta.js";
 const levelsMeta = [
   new LevelMeta({
     levelId: 1,
+    levelName: "Halle (Saale)",
     backgroundImgSrc: '../src/assets/background/Backround_komplett.png',
     levelMarkup: `------------------------------------------------------------+
   ------------------------------------------------------------+

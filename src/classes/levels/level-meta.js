@@ -2,6 +2,7 @@ class LevelMeta {
 
   constructor({
     levelId,
+    levelName,
     levelMarkup,
     backgroundImgSrc,
     playerStartPositionX,
@@ -10,6 +11,7 @@ class LevelMeta {
     playerScaleY
   }) {
     this._levelId = levelId
+    this._levelName = levelName
     this._levelMarkup = levelMarkup
     this._backgroundImgSrc = backgroundImgSrc
     this._playerStartPositionX = playerStartPositionX

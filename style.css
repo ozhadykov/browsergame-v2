@@ -53,10 +53,7 @@ canvas {
     width: 500px;
 }
 
-#main-menu-start-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
+.btn {
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -69,15 +66,19 @@ canvas {
     width: 100%;
 }
 
-#main-menu button:hover {
+.btn:hover {
     background-color: #00ff1e;
     transform: scale(1.05);
-    /* Button wird größer, wenn mit Maus drüber*/
 }
 
-#main-menu button:active {
+.btn:hover {
     transform: scale(1.05);
-    /* Button wird leicht kleiner, wenn er gedrückt wird */
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
 }
 
 #main-menu-backround {
@@ -104,37 +105,11 @@ canvas {
     width: 500px;
 }
 
-#pause-menu h1 {
+.h1 {
     font-size: 3em;
     margin-bottom: 20px;
     letter-spacing: 1px;
-}
-
-#pause-menu button {
-    background-color: #4CAF50;
     color: white;
-    border: none;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1.2em;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    margin-top: 15px;
-    width: 100%;
-}
-
-#pause-menu button:hover {
-    background-color: #00ff1e;
-    transform: scale(1.1);
-    /* Button wird größer, wenn mit Maus drüber*/
-}
-
-#pause-menu button:active {
-    transform: scale(1.05);
-    /* Button wird leicht kleiner, wenn er gedrückt wird */
 }
 
 #are-you-sure-menu {
@@ -159,35 +134,4 @@ canvas {
     font-size: 2em;
     margin-bottom: 20px;
     letter-spacing: 1px;
-}
-
-#are-you-sure-menu button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1.2em;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    margin-top: 15px;
-    width: 100%;
-}
-
-#are-you-sure-menu button:hover {
-    background-color: #00ff1e;
-    transform: scale(1.1);
-    /* Button wird größer, wenn mit Maus drüber*/
-}
-
-#are-you-sure-menu button:active {
-    transform: scale(1.05);
-    /* Button wird leicht kleiner, wenn er gedrückt wird */
-}
-
-h1 {
-    color: white;
 }
