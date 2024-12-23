@@ -1,13 +1,13 @@
 import './style.css'
 import Game from './src/classes/game.js';
-import MenuManager from "./src/classes/menu-manager.js";
+import MenuManager from "./src/classes/menu/menu-manager.js";
 import menusSelectors from "./src/data/menus.js";
 import {mainMenuSelector, areYouSureMenuSelector, pauseMenuSelector} from "./src/data/menu-constants.js";
-
+import {menus} from "./src/data/menus.js";
 
 const game = Game.getInstance()
 // create and initialise MenuManger
-const menuManager = new MenuManager(menusSelectors)
+const menuManager = new MenuManager(menusSelectors, menus)
 menuManager.init()
 
 function startGame() {

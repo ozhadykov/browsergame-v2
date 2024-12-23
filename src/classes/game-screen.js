@@ -1,9 +1,9 @@
-import { ScreenManager } from "../base-classes/menu";
+import { ScreenManager } from "../base-classes";
 
 export class GameScreen extends ScreenManager {
 
     /**
-     * @param selector; this should be a selector for a querySelector method
+     * @param selector this should be a selector for a querySelector method
      */
     constructor (selector) {
         super(selector)

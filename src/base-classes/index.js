@@ -1,4 +1,4 @@
-import { ScreenManager } from "./menu.js";
+import { ScreenManager } from "./screen-manager.js";
 import { Box } from "./base-box.js";
 import { BaseElement } from "./base-element.js";
 

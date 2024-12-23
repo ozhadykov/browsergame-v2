@@ -28,6 +28,10 @@ class LevelMeta {
     return this._levelMarkup
   }
 
+  getLevelName() {
+    return this._levelName
+  }
+
   getBackgroundImgSrc() {
     return this._backgroundImgSrc
   }
