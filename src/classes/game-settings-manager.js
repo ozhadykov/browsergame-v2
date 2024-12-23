@@ -1,0 +1,4 @@
+class GameSettingsManager {
+
+  constructor() {}
+}
