@@ -1,6 +1,6 @@
 import ElementList from "../base-classes/elementList.js";
 import {levelsMeta} from "../data/levels.js";
-import {Box, BaseElement, ScreenManager} from "../base-classes/";
+import {Box, BaseElement, Screen} from "../base-classes/";
 import {GameScreen} from "./game-screen.js";
 import {Level} from "./levels/level.js";
 import Player2 from "./player.js";
@@ -28,7 +28,7 @@ export default class Game {
     this.canvas = canvas
     this.scaleX = 2
     this.scaleY = 4
-    this.gameScreen = new GameScreen('#my-canvas')
+    this.gameScreen = new GameScreen({selector: '#my-canvas'})
     this.elementList = null
     this._player = null
     this.goal = null
@@ -38,10 +38,8 @@ export default class Game {
       width: this.canvas.width / this.scaleX,
       height: this.canvas.height / this.scaleY
     })
-    this.chargingBar = new GameScreen('#my-jump-charging-bar')
-    this.pauseMenu = new ScreenManager('#pause-menu')
-    this.mainMenu = new ScreenManager('#main-menu')
-    this.areYouSureMenu = new ScreenManager('#are-you-sure-menu')
+    this.chargingBar = new GameScreen({selector: '#my-jump-charging-bar'})
+    this.mainMenu = new Screen('#main-menu')
 
   }
 
@@ -167,14 +165,10 @@ export default class Game {
       this.ctx.restore()
     } else {
       if (this.goal.checkForGoalReached(this._player)) {
-        this.gameScreen.hide()
-        this.chargingBar.hide()
         this.mainMenu.show()
-      } else
-        // open pause menu and hiding elements
-        this.pauseMenu.show()
-      this.gameScreen.hide()
-      this.chargingBar.hide()
+      }
+
+      this.stop()
     }
     // calling animation function again
     this.raf = window.requestAnimationFrame(this.tick.bind(this))

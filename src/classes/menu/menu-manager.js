@@ -29,7 +29,7 @@ class MenuManager {
         triggers.forEach(trigger => {
           if (trigger.getSelector().length > 0)
             document.querySelector(trigger.getSelector()).addEventListener(trigger.getEvtType(), () => {
-              console.log('triggering', trigger.getEvtType())
+              console.log('triggering', trigger.getEvtType(), menu.getSelector())
               this.show(menu.getSelector())
             })
           else

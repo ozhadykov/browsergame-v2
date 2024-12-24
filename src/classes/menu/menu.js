@@ -1,4 +1,4 @@
-import {ScreenManager} from "../../base-classes/index.js";
+import {Screen} from "../../base-classes/index.js";
 
 
 /*
@@ -8,23 +8,16 @@ import {ScreenManager} from "../../base-classes/index.js";
 * @triggers for initialising event Listener
 * @showWithMe[] array of selectors to be shown with picked menu in default: []
 * */
-class Menu extends ScreenManager {
+class Menu extends Screen {
 
-  constructor({selector, id, name, background, triggers = [], showWithMe = []}) {
-    super(selector)
+  constructor({selector, id, name, background, triggers, showWithMe}) {
+    super({selector, background, triggers, showWithMe});
     this._id = id
     this._name = name
-    this._background = background
-    this._triggers = triggers
-    this._showWithMe = showWithMe
   }
 
   init() {
     // ... generate HTML
-  }
-
-  getTriggers() {
-    return this._triggers
   }
 
 }

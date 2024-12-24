@@ -1,4 +1,4 @@
-class MenuTrigger {
+class ScreenTrigger {
   constructor({ evtType, evtKey = '', selector = ''}) {
     this._selector = selector
     this._evtType = evtType
@@ -19,4 +19,4 @@ class MenuTrigger {
 
 }
 
-export default MenuTrigger
+export default ScreenTrigger

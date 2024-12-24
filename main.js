@@ -11,11 +11,11 @@ menuManager.init()
 
 function startGame() {
   document.getElementById('main-menu-background').style.display = "none"
-  game.getChargingBar().show()
   game.start(1);
 }
 
 function closePauseMenu() {
+  console.log('false pressed')
   game._player.keys.pause.pressed = false
 }
 

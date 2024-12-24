@@ -18,7 +18,8 @@
 
 import {mainMenuSelector, pauseMenuSelector, areYouSureMenuSelector} from "./menu-constants.js"
 import Menu from "../classes/menu/menu.js";
-import MenuTrigger from "../classes/menu/menu-trigger.js";
+import ScreenTrigger from "../classes/menu/screen-trigger.js";
+import {GameScreen} from "../classes/game-screen.js";
 
 export const menus = [
   new Menu({
@@ -27,7 +28,7 @@ export const menus = [
     id: mainMenuSelector,
     background: '',
     triggers: [
-      new MenuTrigger({selector: '#yes-main-menu', evtType: 'click'})
+      new ScreenTrigger({selector: '#yes-main-menu', evtType: 'click'})
     ],
   }),
   new Menu({
@@ -36,8 +37,8 @@ export const menus = [
     id: pauseMenuSelector,
     background: '',
     triggers: [
-      new MenuTrigger({evtType: 'keydown', evtKey: 'Escape'}),
-      new MenuTrigger({evtType: 'click', selector: '#no-continue-pause'}),
+      new ScreenTrigger({evtType: 'keydown', evtKey: 'Escape'}),
+      new ScreenTrigger({evtType: 'click', selector: '#no-continue-pause'}),
     ],
   }),
   new Menu({
@@ -46,17 +47,25 @@ export const menus = [
     id: areYouSureMenuSelector,
     background: '',
     triggers: [
-      new MenuTrigger({selector: '#go-to-main-menu', evtType: 'click'})
+      new ScreenTrigger({selector: '#go-to-main-menu', evtType: 'click'})
     ],
   }),
-  new Menu({
+  new GameScreen({
     selector: '#my-canvas',
     name: 'My Canvas',
     id: 'my-canvas',
-    background: '',
     triggers: [
-      new MenuTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
-      new MenuTrigger({selector: '#continue-btn', evtType: 'click'})
+      new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
+      new ScreenTrigger({selector: '#continue-btn', evtType: 'click'})
+    ]
+  }),
+  new GameScreen({
+    selector: '#my-jump-charging-bar',
+    name: 'Jump Charging',
+    id: 'my-jump-charging-bar',
+    triggers: [
+      new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
+      new ScreenTrigger({selector: '#continue-btn', evtType: 'click'})
     ]
   })
 ]
