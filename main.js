@@ -2,7 +2,6 @@ import './style.css'
 import Game from './src/classes/game.js';
 import MenuManager from "./src/classes/menu/menu-manager.js";
 import menusSelectors from "./src/data/menus.js";
-import {mainMenuSelector, areYouSureMenuSelector, pauseMenuSelector} from "./src/data/menu-constants.js";
 import {menus} from "./src/data/menus.js";
 
 const game = Game.getInstance()
@@ -12,14 +11,11 @@ menuManager.init()
 
 function startGame() {
   document.getElementById('main-menu-background').style.display = "none"
-  game.getGameScreen().show()
   game.getChargingBar().show()
-  game.getMainMenu().hide()
   game.start(1);
 }
 
 function closePauseMenu() {
-  game.closePauseMenu()
   game._player.keys.pause.pressed = false
 }
 

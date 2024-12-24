@@ -164,8 +164,6 @@ export default class Game {
         this.drawjumpChargingBar()
       }
 
-      // calling animation function again
-      this.raf = window.requestAnimationFrame(this.tick.bind(this))
       this.ctx.restore()
     } else {
       if (this.goal.checkForGoalReached(this._player)) {
@@ -178,6 +176,8 @@ export default class Game {
       this.gameScreen.hide()
       this.chargingBar.hide()
     }
+    // calling animation function again
+    this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 
   drawjumpChargingBar() {
@@ -210,7 +210,6 @@ export default class Game {
     this.gameScreen.show()
     this.chargingBar.show()
     this.pauseMenu.hide()
-    this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 
 }

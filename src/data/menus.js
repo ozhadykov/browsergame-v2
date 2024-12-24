@@ -48,6 +48,16 @@ export const menus = [
     triggers: [
       new MenuTrigger({selector: '#go-to-main-menu', evtType: 'click'})
     ],
+  }),
+  new Menu({
+    selector: '#my-canvas',
+    name: 'My Canvas',
+    id: 'my-canvas',
+    background: '',
+    triggers: [
+      new MenuTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
+      new MenuTrigger({selector: '#continue-btn', evtType: 'click'})
+    ]
   })
 ]
 
