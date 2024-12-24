@@ -202,15 +202,5 @@ export default class Game {
     return this.chargingBar
   }
 
-  getMainMenu() {
-    return this.mainMenu
-  }
-
-  closePauseMenu() {
-    this.gameScreen.show()
-    this.chargingBar.show()
-    this.pauseMenu.hide()
-  }
-
 }
 
