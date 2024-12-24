@@ -69,7 +69,7 @@ export default class Player2 extends BaseElement {
   }
 
   initEventListeners() {
-    window.addEventListener('keydown', e => {
+    document.addEventListener('keydown', e => {
       switch (e.key) {
         case 'd':
           if (!this.inJump) {
@@ -98,7 +98,7 @@ export default class Player2 extends BaseElement {
       }
     })
 
-    window.addEventListener('keyup', e => {
+    document.addEventListener('keyup', e => {
       switch (e.key) {
         case 'd':
           this.keys.d.pressed = false

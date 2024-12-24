@@ -23,22 +23,5 @@ function closePauseMenu() {
   game._player.keys.pause.pressed = false
 }
 
-function areYouSureMainMenu() {
-  game.areYouSureMainMenu()
-  }
-
-function goToMainMenu() {
-  game.openMainMenu()
-}
-
-function continuePause()  {
-  game.continuePause()
-}
-
-
-
 document.getElementById("main-menu-start-btn").onclick = startGame
 document.getElementById("continue-btn").onclick = closePauseMenu
-document.getElementById("go-to-main-menu").onclick = areYouSureMainMenu
-document.getElementById("yes-main-menu").onclick = goToMainMenu
-document.getElementById("no-continue-pause").onclick = continuePause

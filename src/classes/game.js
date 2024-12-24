@@ -210,23 +210,8 @@ export default class Game {
     this.gameScreen.show()
     this.chargingBar.show()
     this.pauseMenu.hide()
-    // why? i did not understand (c) Omar :) would like to know more
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 
-  areYouSureMainMenu() {
-    this.pauseMenu.hide()
-    this.areYouSureMenu.show()
-  }
-
-  openMainMenu() {
-    this.areYouSureMenu.hide()
-    this.mainMenu.show()
-  }
-
-  continuePause() {
-    this.areYouSureMenu.hide()
-    this.pauseMenu.show()
-  }
 }
 

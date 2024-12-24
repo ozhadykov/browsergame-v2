@@ -4,8 +4,6 @@
 // and other menus, it will make Game class super messy
 // here we can write logic on open and close of all menus
 
-import {ScreenManager} from "../../base-classes/index.js";
-
 class MenuManager {
   constructor(menusSelectors, menus) {
     // this._menus = []
@@ -21,7 +19,29 @@ class MenuManager {
     // and set up all event listeners
 
     // first set up trigger keys
-    this._menus.forEach(menu => menu.init())
+    this._menus.forEach(menu => {
+      // get triggers from each menu
+      const triggers = menu.getTriggers()
+
+      // check if triggers are valid
+      if (triggers.length > 0) {
+        // loop through and set event listeners
+        triggers.forEach(trigger => {
+          if (trigger.getSelector().length > 0)
+            document.querySelector(trigger.getSelector()).addEventListener(trigger.getEvtType(), () => {
+              console.log('triggering', trigger.getEvtType())
+              this.show(menu.getSelector())
+            })
+          else
+            document.addEventListener(trigger.getEvtType(), (evt) => {
+              if (evt.key === trigger.getEvtKey()) {
+                console.log('triggering', trigger.getEvtType())
+                this.show(menu.getSelector())
+              }
+            })
+        })
+      }
+    })
   }
 
   // If we show a menu, we will always show one menu

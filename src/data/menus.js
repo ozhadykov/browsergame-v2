@@ -18,6 +18,7 @@
 
 import {mainMenuSelector, pauseMenuSelector, areYouSureMenuSelector} from "./menu-constants.js"
 import Menu from "../classes/menu/menu.js";
+import MenuTrigger from "../classes/menu/menu-trigger.js";
 
 export const menus = [
   new Menu({
@@ -26,7 +27,7 @@ export const menus = [
     id: mainMenuSelector,
     background: '',
     triggers: [
-      {selector: '#yes-main-menu', evtType: 'click'},
+      new MenuTrigger({selector: '#yes-main-menu', evtType: 'click'})
     ],
   }),
   new Menu({
@@ -35,8 +36,8 @@ export const menus = [
     id: pauseMenuSelector,
     background: '',
     triggers: [
-      {selector: 'window', evtType: 'keydown', evtKey: 'Escape'},
-      {selector: '#no-continue-pause', evtType: 'click'}
+      new MenuTrigger({evtType: 'keydown', evtKey: 'Escape'}),
+      new MenuTrigger({evtType: 'click', selector: '#no-continue-pause'}),
     ],
   }),
   new Menu({
@@ -45,7 +46,7 @@ export const menus = [
     id: areYouSureMenuSelector,
     background: '',
     triggers: [
-      {selector: '#go-to-main-menu', evtType: 'click'}
+      new MenuTrigger({selector: '#go-to-main-menu', evtType: 'click'})
     ],
   })
 ]
