@@ -17,9 +17,9 @@
 // on the right is the selector of next screens or action, from screens-actions.js
 
 import {mainMenuSelector, pauseMenuSelector, areYouSureMenuSelector} from "./menu-constants.js"
-import MenuScreen from "../classes/screens/menuScreen.js";
+import MenuScreen from "../classes/screens/menu-screen.js";
 import ScreenTrigger from "../classes/screens/screen-trigger.js";
-import {GameScreen} from "../classes/game-screen.js";
+import {GameScreen} from "../classes/screens/game-screen.js";
 
 export const menus = [
   new MenuScreen({
