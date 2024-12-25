@@ -1,9 +1,10 @@
 export class Screen {
 
-  constructor({selector, background = '', triggers = [], showWithMe = []}) {
+  constructor({selector, backgroundSelector = '', triggers = [], showWithMe = []}) {
     this._selector = selector
     this._htmlEL = document.querySelector(this._selector)
-    this._background = background
+    if (backgroundSelector.length > 0)
+      this._background = document.querySelector(backgroundSelector)
     this._triggers = triggers
     this._showWithMe = showWithMe
     this._shown = false
@@ -14,6 +15,8 @@ export class Screen {
       this._htmlEL.style.display = 'block'
       this._shown = true
     }
+    if (this._background)
+      this._background.style.display = 'block'
   }
 
   hide() {
@@ -21,10 +24,16 @@ export class Screen {
       this._htmlEL.style.display = 'none'
       this._shown = false
     }
+    if (this._background)
+      this._background.style.display = 'none'
   }
 
   getSelector() {
     return this._selector
+  }
+
+  getBackgroundSelector() {
+    return this._background
   }
 
   getTriggers() {

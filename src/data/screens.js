@@ -1,6 +1,6 @@
-// Menus is an array for menus
-// We will store here different menus, which we will need in game
-// also this is very useful if we have multiple menus
+// Menus is an array for screens
+// We will store here different screens, which we will need in game
+// also this is very useful if we have multiple screens
 
 // each screens will have own id, it should be same with an id in html
 // if you want to add a screens, you just have to add one more element here
@@ -20,13 +20,14 @@ import {mainMenuSelector, pauseMenuSelector, areYouSureMenuSelector} from "./men
 import MenuScreen from "../classes/screens/menu-screen.js";
 import ScreenTrigger from "../classes/screens/screen-trigger.js";
 import {GameScreen} from "../classes/screens/game-screen.js";
+import {Screen} from "../base-classes/index.js";
 
-export const menus = [
+export const screens = [
   new MenuScreen({
     selector: mainMenuSelector,
     name: 'Main menu',
     id: mainMenuSelector,
-    background: '',
+    backgroundSelector: '#main-menu-background',
     triggers: [
       new ScreenTrigger({selector: '#yes-main-menu', evtType: 'click'})
     ],
@@ -35,7 +36,6 @@ export const menus = [
     selector: pauseMenuSelector,
     name: 'Pause menu',
     id: pauseMenuSelector,
-    background: '',
     triggers: [
       new ScreenTrigger({evtType: 'keydown', evtKey: 'Escape'}),
       new ScreenTrigger({evtType: 'click', selector: '#no-continue-pause'}),
@@ -46,7 +46,6 @@ export const menus = [
     selector: areYouSureMenuSelector,
     name: 'Are You Sure',
     id: areYouSureMenuSelector,
-    background: '',
     triggers: [
       new ScreenTrigger({selector: '#go-to-main-menu', evtType: 'click'})
     ],

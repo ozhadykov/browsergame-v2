@@ -1,8 +1,7 @@
 import {Screen} from "../../base-classes/index.js";
 
-
 /*
-* @id for each screens
+* @id for each screen
 * @selector html selector, mostly id
 * @background for now may be just source for image
 * @triggers for initialising event Listener
@@ -10,8 +9,8 @@ import {Screen} from "../../base-classes/index.js";
 * */
 class MenuScreen extends Screen {
 
-  constructor({selector, id, name, background, triggers, showWithMe}) {
-    super({selector, background, triggers, showWithMe});
+  constructor({selector, id, name, backgroundSelector, triggers, showWithMe}) {
+    super({selector, backgroundSelector, triggers, showWithMe});
     this._id = id
     this._name = name
   }

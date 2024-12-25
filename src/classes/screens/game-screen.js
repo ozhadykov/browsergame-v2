@@ -1,4 +1,4 @@
-import {Screen} from "../base-classes";
+import {Screen} from "../../base-classes/index.js";
 
 export class GameScreen extends Screen {
 
@@ -8,8 +8,8 @@ export class GameScreen extends Screen {
    * @param background
    * @param showWithMe[]
    */
-  constructor({selector, triggers, background, showWithMe}) {
-    super({selector, triggers, background, showWithMe})
+  constructor({selector, triggers, backgroundSelector, showWithMe}) {
+    super({selector, triggers, backgroundSelector, showWithMe})
     this._ctx = this._htmlEL.getContext("2d")
   }
 

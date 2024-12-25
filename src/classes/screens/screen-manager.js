@@ -1,8 +1,8 @@
 // this class is a "helper" class
 // Main goal is to divide Menus Logic from game Class
 // because now we have only 3 screens, but if we want to have settings, sound settings
-// and other menus, it will make Game class super messy
-// here we can write logic on open and close of all menus
+// and other screens, it will make Game class super messy
+// here we can write logic on open and close of all screens
 
 class ScreenManager {
   constructor(screens) {
@@ -41,6 +41,7 @@ class ScreenManager {
   // so here we are hiding every screen and show only one
   // which selector is passed as param
   show(selector) {
+    // hide everything
     this._screens.forEach((screen) => screen.hide())
     this._screens.find(screen => screen.getSelector() === selector).show()
 

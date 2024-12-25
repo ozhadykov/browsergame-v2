@@ -1,7 +1,7 @@
 import ElementList from "../base-classes/elementList.js";
 import {levelsMeta} from "../data/levels.js";
 import {Box, BaseElement, Screen} from "../base-classes/";
-import {GameScreen} from "./game-screen.js";
+import {GameScreen} from "./screens/game-screen.js";
 import {Level} from "./levels/level.js";
 import Player2 from "./player.js";
 import Goal from "./goal.js";
