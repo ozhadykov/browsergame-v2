@@ -1,13 +1,12 @@
 import './style.css'
 import Game from './src/classes/game.js';
-import MenuManager from "./src/classes/menu/menu-manager.js";
-import menusSelectors from "./src/data/menus.js";
+import ScreenManager from "./src/classes/screens/screen-manager.js";
 import {menus} from "./src/data/menus.js";
 
-const game = Game.getInstance()
 // create and initialise MenuManger
-const menuManager = new MenuManager(menusSelectors, menus)
+const menuManager = new ScreenManager(menus)
 menuManager.init()
+const game = Game.getInstance()
 
 function startGame() {
   document.getElementById('main-menu-background').style.display = "none"
@@ -15,8 +14,8 @@ function startGame() {
 }
 
 function closePauseMenu() {
-  console.log('false pressed')
-  game._player.keys.pause.pressed = false
+  game._isPaused = false
+  game.tick()
 }
 
 document.getElementById("main-menu-start-btn").onclick = startGame

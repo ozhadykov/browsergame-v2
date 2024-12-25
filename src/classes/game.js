@@ -33,14 +33,19 @@ export default class Game {
     this._player = null
     this.goal = null
     this._level = null
+    this._isPaused = false
     this._background = null
     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scaleX,
       height: this.canvas.height / this.scaleY
     })
     this.chargingBar = new GameScreen({selector: '#my-jump-charging-bar'})
-    this.mainMenu = new Screen('#main-menu')
+    this.mainMenu = new Screen('#main-screens')
 
+    document.addEventListener("keydown", (e) => {
+      if (e.key === 'Escape')
+        this._isPaused = true
+    })
   }
 
   static getInstance() {
@@ -55,7 +60,7 @@ export default class Game {
 
   start(levelId) {
     this.elementList = new ElementList()
-
+    this._isPaused = false
     // creating game elements
 
     // generating Level
@@ -131,7 +136,7 @@ export default class Game {
   }
 
   tick() {
-    if (!this._player.keys.pause.pressed && !this.goal.checkForGoalReached(this._player)) {
+    if (!this._isPaused && !this.goal.checkForGoalReached(this._player)) {
       this.ctx.save()
       this.ctx.scale(this.scaleX, this.scaleY)
 
@@ -167,8 +172,8 @@ export default class Game {
       if (this.goal.checkForGoalReached(this._player)) {
         this.mainMenu.show()
       }
-
       this.stop()
+      return
     }
     // calling animation function again
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
@@ -190,10 +195,6 @@ export default class Game {
 
   getGameScreen() {
     return this.gameScreen
-  }
-
-  getChargingBar() {
-    return this.chargingBar
   }
 
 }
