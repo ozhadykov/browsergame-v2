@@ -31,6 +31,10 @@ export class Screen {
     return this._triggers
   }
 
+  getShowWithArr() {
+    return this._showWithMe
+  }
+
   isShown() {
     return this._shown
   }

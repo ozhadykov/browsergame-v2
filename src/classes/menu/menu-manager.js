@@ -28,14 +28,13 @@ class MenuManager {
         // loop through and set event listeners
         triggers.forEach(trigger => {
           if (trigger.getSelector().length > 0)
-            document.querySelector(trigger.getSelector()).addEventListener(trigger.getEvtType(), () => {
-              console.log('triggering', trigger.getEvtType(), menu.getSelector())
-              this.show(menu.getSelector())
-            })
+            document.querySelector(trigger.getSelector())
+              .addEventListener(trigger.getEvtType(), () => {
+                this.show(menu.getSelector())
+              })
           else
             document.addEventListener(trigger.getEvtType(), (evt) => {
               if (evt.key === trigger.getEvtKey()) {
-                console.log('triggering', trigger.getEvtType())
                 this.show(menu.getSelector())
               }
             })
@@ -50,6 +49,18 @@ class MenuManager {
   show(selector) {
     this._menus.forEach((menu) => menu.hide())
     this._menus.find(menu => menu.getSelector() === selector).show()
+
+    // show element itself
+    const menuToShow = this._menus.find(menu => menu.getSelector() === selector)
+    menuToShow.show()
+
+    // show other elements which are supposed to be shown with it
+    menuToShow.getShowWithArr().forEach(menuSelector => {
+      // find Screen/Menu in all Menus
+      const menuObj = this._menus.find(menu => menu.getSelector() === menuSelector)
+      if (menuObj && !menuObj.isShown())
+        menuObj.show()
+    })
   }
 }
 

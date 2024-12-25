@@ -57,7 +57,8 @@ export const menus = [
     triggers: [
       new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
       new ScreenTrigger({selector: '#continue-btn', evtType: 'click'})
-    ]
+    ],
+    showWithMe: ['#my-jump-charging-bar']
   }),
   new GameScreen({
     selector: '#my-jump-charging-bar',
@@ -66,7 +67,8 @@ export const menus = [
     triggers: [
       new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
       new ScreenTrigger({selector: '#continue-btn', evtType: 'click'})
-    ]
+    ],
+    showWithMe: ['#my-canvas'],
   })
 ]
 

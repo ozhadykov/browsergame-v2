@@ -4,11 +4,12 @@ export class GameScreen extends Screen {
 
   /**
    * @param selector this should be a selector for a querySelector method
-   * @param triggers
+   * @param triggers[]
    * @param background
+   * @param showWithMe[]
    */
-  constructor({selector, triggers, background}) {
-    super({selector, triggers, background})
+  constructor({selector, triggers, background, showWithMe}) {
+    super({selector, triggers, background, showWithMe})
     this._ctx = this._htmlEL.getContext("2d")
   }
 
