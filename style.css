@@ -1,12 +1,12 @@
 * {
     padding: 0;
     margin: 0;
-    background-color: rgb(36, 51, 51);
     font-family: "Pixelify Sans", sans-serif;
 }
 
 html,
 body {
+    background-color: rgb(36, 51, 51);
     width: 100%;
     height: 100%;
 }
@@ -56,6 +56,17 @@ canvas {
     display: none;
 }
 
+#levels-box {
+    display: block;
+    height: 15rem;
+}
+
+.scrollable {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0 0.8rem;
+}
+
 .btn {
     padding: 15px 32px;
     text-align: center;
@@ -70,12 +81,8 @@ canvas {
 }
 
 .btn:hover {
-    background-color: #00ff1e;
-    transform: scale(1.05);
-}
-
-.btn:hover {
-    transform: scale(1.05);
+    background-color: #1cdb34;
+    transform: scale(1.03);
 }
 
 .btn-primary {

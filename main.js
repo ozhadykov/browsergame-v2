@@ -6,10 +6,12 @@ import {screens} from "./src/data/screens.js";
 // create and initialise MenuManger
 const menuManager = new ScreenManager(screens)
 menuManager.init()
+
 const game = Game.getInstance()
 
 document.getElementById("main-menu-start-btn")
   .addEventListener("click", () => game.start(1));
+
 document.getElementById("continue-btn")
   .addEventListener("click", () => {
     game._isPaused = false
