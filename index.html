@@ -13,45 +13,48 @@
 </head>
 
 <body>
-  <div class="content">
-    <div id="main-menu" class="menu">
-      <h1 class="h1">Main Menu</h1>
-      <button id="main-menu-start-btn" class="btn btn-primary">Start</button>
-      <button id="main-menu-choose-level" class="btn btn-primary">Level auswählen</button>
-      <button id="main-menu-settings-btn" class="btn btn-primary">Einstellungen</button>
-    </div>
-    <img id="main-menu-background" src="src/assets/mainmenu/mainmenubackround.webp">
+<div class="content">
+  <div id="main-menu" class="menu">
+    <h1 class="h1">Main Menu</h1>
+    <button id="main-menu-start-btn" class="btn btn-primary">Start</button>
+    <button id="main-menu-choose-level" class="btn btn-primary">Level auswählen</button>
+    <button id="main-menu-settings-btn" class="btn btn-primary">Einstellungen</button>
+  </div>
+  <img id="main-menu-background" src="src/assets/mainmenu/mainmenubackround.webp">
 
-    <div id="pause-menu" class="menu menu-hidden">
-      <h1 class="h1">Spiel pausiert</h1>
-      <button id="continue-btn" class="btn btn-primary">Fortsetzen</button>
-      <button id="go-to-main-menu" class="btn btn-primary">Zum Hauptmenü</button>
-    </div>
+  <div id="pause-menu" class="menu menu-hidden">
+    <h1 class="h1">Spiel pausiert</h1>
+    <button id="continue-btn" class="btn btn-primary">Fortsetzen</button>
+    <button id="go-to-main-menu" class="btn btn-primary">Zum Hauptmenü</button>
+  </div>
 
-    <div id="are-you-sure-menu" class="menu menu-hidden">
-      <h1 class="h3">Dein Fortschritt wird nicht gespeichert!</h1>
-      <h1 class="h3">Dennoch zum Hauptmenü zurückkehren?</h1>
-      <button id="yes-main-menu" class="btn btn-primary">Ja</button>
-      <button id="no-continue-pause" class="btn btn-primary">Nein</button>
-    </div>
+  <div id="are-you-sure-menu" class="menu menu-hidden">
+    <h1 class="h3">Dein Fortschritt wird nicht gespeichert!</h1>
+    <h1 class="h3">Dennoch zum Hauptmenü zurückkehren?</h1>
+    <button id="yes-main-menu" class="btn btn-primary">Ja</button>
+    <button id="no-continue-pause" class="btn btn-primary">Nein</button>
+  </div>
 
-    <div id="choose-level-menu" class="menu menu-hidden">
+  <div id="choose-level-menu" class="menu menu-hidden">
+    <div class="menu-header">
+      <i class="bi bi-chevron-left cursor-pointer h3"></i>
       <h1 class="h1">Level auswählen</h1>
-      <div id="levels-box" class="scrollable">
-        <button class="btn btn-primary">Level 1: Halle (Saale)</button>
-        <button class="btn btn-primary">Level 2</button>
-        <button class="btn btn-primary">Level 3</button>
-        <button class="btn btn-primary">Level 4</button>
-        <button class="btn btn-primary">Level 5</button>
-      </div>
     </div>
+    <div id="levels-box" class="scrollable">
+      <button class="btn btn-primary">Level 1: Halle (Saale)</button>
+      <button class="btn btn-primary">Level 2</button>
+      <button class="btn btn-primary">Level 3</button>
+      <button class="btn btn-primary">Level 4</button>
+      <button class="btn btn-primary">Level 5</button>
+    </div>
+  </div>
 
-    <div id="level-preview" class="menu menu-hidden">
-      <h1 class="h1">Level Übersicht</h1>
-    </div>
+  <div id="level-preview" class="menu menu-hidden">
+    <h1 class="h1">Level Übersicht</h1>
+  </div>
 
   <canvas id="my-canvas" width="960" height="540" style="display: none"></canvas>
-  <canvas id ="my-jump-charging-bar" width ="50" height="300" style="display: none"></canvas>
+  <canvas id="my-jump-charging-bar" width="50" height="300" style="display: none"></canvas>
   <script type="module" src="main.js"></script>
 </body>
 

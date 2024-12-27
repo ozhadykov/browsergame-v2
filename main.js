@@ -8,7 +8,9 @@ const menuManager = new ScreenManager(screens)
 menuManager.init()
 
 // also need to dynamically generate all menus from levels.js and push them into Menu manager
+// level-preview-screen and choose Level (simple menu with btns)
 
+// add button to go back
 const game = Game.getInstance()
 
 document.getElementById("main-menu-start-btn")

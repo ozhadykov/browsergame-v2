@@ -1,3 +1,5 @@
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
 * {
     padding: 0;
     margin: 0;
@@ -56,6 +58,17 @@ canvas {
     display: none;
 }
 
+.menu-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
 #levels-box {
     display: block;
     height: 15rem;
@@ -68,7 +81,6 @@ canvas {
 }
 
 .btn {
-    padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -87,6 +99,7 @@ canvas {
 
 .btn-primary {
     background-color: #4CAF50;
+    padding: 15px 32px;
     color: white;
     border: none;
 }
