@@ -17,7 +17,7 @@ export default class Game {
    * @param canvas
    */
 
-  constructor(canvas, ctx) {
+  constructor({canvas, ctx, triggers}) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -26,6 +26,7 @@ export default class Game {
     this.raf = null
     this.ctx = ctx
     this.canvas = canvas
+    this._triggers = triggers
     this.scaleX = 2
     this.scaleY = 4
     this.gameScreen = new GameScreen({selector: '#my-canvas'})
@@ -42,10 +43,18 @@ export default class Game {
     this.chargingBar = new GameScreen({selector: '#my-jump-charging-bar'})
     this.mainMenu = new Screen('#main-screens')
 
+    // listening to escape, so that we could be independent of screen manager
+    // and game could control only its own logic
     document.addEventListener("keydown", (e) => {
       if (e.key === 'Escape')
         this._isPaused = true
     })
+
+    // listening to triggers.
+    // we want to define, if this is resume game or start level
+    this.initResumeOrPauseTriggers()
+
+    Game.instance = this
   }
 
   static getInstance() {
@@ -53,7 +62,7 @@ export default class Game {
       const canvas = document.getElementById("my-canvas");
       const ctx = canvas.getContext("2d");
 
-      Game.instance = new Game(canvas, ctx)
+      Game.instance = new Game({canvas, ctx})
     }
     return Game.instance
   }
@@ -199,6 +208,10 @@ export default class Game {
 
   isPaused() {
     return this._isPaused
+  }
+
+  initResumeOrPauseTriggers() {
+
   }
 
 }
