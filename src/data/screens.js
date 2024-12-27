@@ -20,7 +20,6 @@ import {mainMenuSelector, pauseMenuSelector, areYouSureMenuSelector, chooseLevel
 import MenuScreen from "../classes/screens/menu-screen.js";
 import ScreenTrigger from "../classes/screens/screen-trigger.js";
 import {GameScreen} from "../classes/screens/game-screen.js";
-import {Screen} from "../base-classes/index.js";
 
 export const screens = [
   new MenuScreen({
