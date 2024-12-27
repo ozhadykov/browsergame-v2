@@ -7,6 +7,8 @@ import {screens} from "./src/data/screens.js";
 const menuManager = new ScreenManager(screens)
 menuManager.init()
 
+// also need to dynamically generate all menus from levels.js and push them into Menu manager
+
 const game = Game.getInstance()
 
 document.getElementById("main-menu-start-btn")

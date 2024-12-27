@@ -14,25 +14,30 @@ class ScreenManager {
     // and set up all event listeners
     // first set up trigger keys
     this._screens.forEach(screen => {
-      // get triggers from each screen
-      const triggers = screen.getTriggers()
+      if (!screen.isInitialised()) {
+        // get triggers from each screen
+        const triggers = screen.getTriggers()
 
-      // check if triggers are valid
-      if (triggers.length > 0) {
-        // loop through and set event listeners
-        triggers.forEach(trigger => {
-          if (trigger.getSelector().length > 0)
-            document.querySelector(trigger.getSelector())
-              .addEventListener(trigger.getEvtType(), () => {
-                this.show(screen.getSelector())
+        // check if triggers are valid
+        if (triggers.length > 0) {
+          // loop through and set event listeners
+          triggers.forEach(trigger => {
+            if (trigger.getSelector().length > 0)
+              document.querySelector(trigger.getSelector())
+                .addEventListener(trigger.getEvtType(), () => {
+                  this.show(screen.getSelector())
+                })
+            else
+              document.addEventListener(trigger.getEvtType(), (evt) => {
+                if (evt.key === trigger.getEvtKey()) {
+                  this.show(screen.getSelector())
+                }
               })
-          else
-            document.addEventListener(trigger.getEvtType(), (evt) => {
-              if (evt.key === trigger.getEvtKey()) {
-                this.show(screen.getSelector())
-              }
-            })
-        })
+          })
+
+          // mark as initialised
+          screen.setInitialised(true)
+        }
       }
     })
   }
@@ -41,6 +46,7 @@ class ScreenManager {
   // so here we are hiding every screen and show only one
   // which selector is passed as param
   show(selector) {
+    console.log(selector)
     // hide everything
     this._screens.forEach((screen) => screen.hide())
     this._screens.find(screen => screen.getSelector() === selector).show()
@@ -56,6 +62,13 @@ class ScreenManager {
       if (screenObj && !screenObj.isShown())
         screenObj.show()
     })
+  }
+
+  addScreen(screen) {
+    if (screen.getSelector().length > 0) {
+      this._screens.push(screen)
+      this.init()
+    }
   }
 }
 

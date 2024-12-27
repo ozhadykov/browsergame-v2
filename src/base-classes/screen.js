@@ -8,6 +8,7 @@ export class Screen {
     this._triggers = triggers
     this._showWithMe = showWithMe
     this._shown = false
+    this._initialised = false
   }
 
   show() {
@@ -26,6 +27,14 @@ export class Screen {
     }
     if (this._background)
       this._background.style.display = 'none'
+  }
+
+  setInitialised(initialised) {
+    this._initialised = initialised
+  }
+
+  isInitialised() {
+    return this._initialised
   }
 
   getSelector() {
