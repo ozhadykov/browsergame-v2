@@ -28,7 +28,7 @@
 
   <div id="pause-menu" class="menu d-none">
     <div class="menu-header">
-      <h1 class="h1">Spiel pausiert</h1>
+      <h1 class="h1 menu-header-text">Spiel pausiert</h1>
     </div>
     <div class="menu-body">
       <button id="continue-btn" class="btn btn-primary">Fortsetzen</button>
@@ -37,10 +37,13 @@
   </div>
 
   <div id="are-you-sure-menu" class="menu d-none">
-    <h1 class="h3">Dein Fortschritt wird nicht gespeichert!</h1>
-    <h1 class="h3">Dennoch zum Hauptmenü zurückkehren?</h1>
-    <button id="yes-main-menu" class="btn btn-primary">Ja</button>
-    <button id="no-continue-pause" class="btn btn-primary">Nein</button>
+    <div class="menu-header">
+      <h1 class="h3">Dein Fortschritt wird nicht gespeichert! <br> Dennoch zum Hauptmenü zurückkehren?</h1>
+    </div>
+    <div class="menu-body">
+      <button id="yes-main-menu" class="btn btn-primary">Ja</button>
+      <button id="no-continue-pause" class="btn btn-primary">Nein</button>
+    </div>
   </div>
 
   <div id="choose-level-menu" class="menu d-none">
@@ -48,11 +51,11 @@
       <button id="go-back-to-main-menu" class="cursor-pointer h3 btn-chevron">
         <i class="bi bi-chevron-left"></i>
       </button>
-      <h1 class="h1">Level auswählen</h1>
+      <h1 class="h1 menu-header-text">Level auswählen</h1>
     </div>
     <div class="menu-body">
       <div id="levels-box" class="scrollable">
-        <button class="btn btn-primary">Level 1: Halle (Saale)</button>
+        <button id="choose-level-1" class="btn btn-primary">Level 1: Halle (Saale)</button>
         <button class="btn btn-primary">Level 2</button>
         <button class="btn btn-primary">Level 3</button>
         <button class="btn btn-primary">Level 4</button>
@@ -62,11 +65,28 @@
   </div>
 
   <div id="level-preview-1" class="menu d-none">
-    <h1 class="h1">Level Übersicht</h1>
+    <div class="menu-header" style="gap: 1rem">
+      <button id="go-back-to-choose-level" class="cursor-pointer h3 btn-chevron">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <h1 class="h1 menu-header-text">Level Information</h1>
+    </div>
+    <div class="menu-body">
+      <div class="h4 text-left">Name: Halle (Saale)</div>
+      <div class="level-info text-left">
+        <div class="text-md">Best Time: 5:34</div>
+        <div class="text-md">Played: 19 times</div>
+      </div>
+    </div>
+    <div class="menu-footer">
+      <div class="button-container">
+        <button id="start-level" data-level-id="1" class="btn btn-primary">Start</button>
+      </div>
+    </div>
   </div>
 
-  <canvas id="my-canvas" width="960" height="540" style="display: none"></canvas>
-  <canvas id="my-jump-charging-bar" width="50" height="300" style="display: none"></canvas>
+  <canvas id="my-canvas" width="960" height="540" class="d-none"></canvas>
+  <canvas id="my-jump-charging-bar" width="50" height="300" class="d-none"></canvas>
   <script type="module" src="main.js"></script>
 </body>
 

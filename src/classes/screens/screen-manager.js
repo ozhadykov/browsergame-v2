@@ -4,6 +4,8 @@
 // and other screens, it will make Game class super messy
 // here we can write logic on open and close of all screens
 
+import Game from "../game.js";
+
 class ScreenManager {
   constructor(screens) {
     this._screens = screens
@@ -30,7 +32,10 @@ class ScreenManager {
             else
               document.addEventListener(trigger.getEvtType(), (evt) => {
                 if (evt.key === trigger.getEvtKey()) {
-                  this.show(screen.getSelector())
+                  // check for pause menu
+                  // may be it can be done better, but now i do not have any ideas
+                  if (evt.key === 'Escape' && !Game.getInstance().isPaused())
+                    this.show(screen.getSelector())
                 }
               })
           })

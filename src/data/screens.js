@@ -38,7 +38,18 @@ export const screens = [
     id: chooseLevel,
     backgroundSelector: '#main-menu-background',
     triggers: [
-      new ScreenTrigger({selector: '#main-menu-choose-level', evtType: 'click'})
+      new ScreenTrigger({selector: '#main-menu-choose-level', evtType: 'click'}),
+      new ScreenTrigger({selector: '#go-back-to-choose-level', evtType: 'click'})
+    ]
+  }),
+  // dev only
+  new MenuScreen({
+    selector: '#level-preview-1',
+    name: 'Level Name',
+    id: 'level-preview-1',
+    backgroundSelector: '#main-menu-background',
+    triggers: [
+      new ScreenTrigger({selector: '#choose-level-1', evtType: 'click'}),
     ]
   }),
   new MenuScreen({

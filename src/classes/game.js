@@ -33,7 +33,7 @@ export default class Game {
     this._player = null
     this.goal = null
     this._level = null
-    this._isPaused = false
+    this._isPaused = true
     this._background = null
     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scaleX,
@@ -195,6 +195,10 @@ export default class Game {
 
   getGameScreen() {
     return this.gameScreen
+  }
+
+  isPaused() {
+    return this._isPaused
   }
 
 }
