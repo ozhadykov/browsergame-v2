@@ -29,7 +29,8 @@ export const screens = [
     id: mainMenuSelector,
     backgroundSelector: '#main-menu-background',
     triggers: [
-      new ScreenTrigger({selector: '#yes-main-menu', evtType: 'click'})
+      new ScreenTrigger({selector: '#yes-main-menu', evtType: 'click'}),
+      new ScreenTrigger({selector: '#go-back-to-main-menu', evtType: 'click'})
     ],
   }),
   new MenuScreen({

@@ -15,17 +15,25 @@
 <body>
 <div class="content">
   <div id="main-menu" class="menu">
-    <h1 class="h1">Main Menu</h1>
-    <button id="main-menu-start-btn" class="btn btn-primary">Start</button>
-    <button id="main-menu-choose-level" class="btn btn-primary">Level auswählen</button>
-    <button id="main-menu-settings-btn" class="btn btn-primary">Einstellungen</button>
+    <div class="menu-header">
+      <h1 class="h1">Main Menu</h1>
+    </div>
+    <div class="menu-body">
+      <button id="main-menu-start-btn" class="btn btn-primary">Start</button>
+      <button id="main-menu-choose-level" class="btn btn-primary">Level auswählen</button>
+      <button id="main-menu-settings-btn" class="btn btn-primary">Einstellungen</button>
+    </div>
   </div>
   <img id="main-menu-background" src="src/assets/mainmenu/mainmenubackround.webp">
 
   <div id="pause-menu" class="menu menu-hidden">
-    <h1 class="h1">Spiel pausiert</h1>
-    <button id="continue-btn" class="btn btn-primary">Fortsetzen</button>
-    <button id="go-to-main-menu" class="btn btn-primary">Zum Hauptmenü</button>
+    <div class="menu-header">
+      <h1 class="h1">Spiel pausiert</h1>
+    </div>
+    <div class="menu-body">
+      <button id="continue-btn" class="btn btn-primary">Fortsetzen</button>
+      <button id="go-to-main-menu" class="btn btn-primary">Zum Hauptmenü</button>
+    </div>
   </div>
 
   <div id="are-you-sure-menu" class="menu menu-hidden">
@@ -35,17 +43,21 @@
     <button id="no-continue-pause" class="btn btn-primary">Nein</button>
   </div>
 
-  <div id="choose-level-menu" class="menu menu-hidden">
-    <div class="menu-header">
-      <i class="bi bi-chevron-left cursor-pointer h3"></i>
+  <div id="choose-level-menu" class="menu d-none">
+    <div class="menu-header" style="gap: 1rem">
+      <button id="go-back-to-main-menu" class="cursor-pointer h3 btn-chevron">
+        <i class="bi bi-chevron-left"></i>
+      </button>
       <h1 class="h1">Level auswählen</h1>
     </div>
-    <div id="levels-box" class="scrollable">
-      <button class="btn btn-primary">Level 1: Halle (Saale)</button>
-      <button class="btn btn-primary">Level 2</button>
-      <button class="btn btn-primary">Level 3</button>
-      <button class="btn btn-primary">Level 4</button>
-      <button class="btn btn-primary">Level 5</button>
+    <div class="menu-body">
+      <div id="levels-box" class="scrollable">
+        <button class="btn btn-primary">Level 1: Halle (Saale)</button>
+        <button class="btn btn-primary">Level 2</button>
+        <button class="btn btn-primary">Level 3</button>
+        <button class="btn btn-primary">Level 4</button>
+        <button class="btn btn-primary">Level 5</button>
+      </div>
     </div>
   </div>
 
