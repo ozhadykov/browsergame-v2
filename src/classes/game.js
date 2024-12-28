@@ -41,7 +41,7 @@ export default class Game {
         y: 0,
         scaleX: 1,
         scaleY: 1,
-        imageSrc: `../src/assets/background/Backround_komplett.png`,
+        imageSrc: `../src/assets/background/Background_komplett.png`,
         imageCropBox: new Box({
           height: this.gameScreen.getCanvas().height * 3,
           width: this.gameScreen.getCanvas().width
