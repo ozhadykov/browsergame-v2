@@ -73,13 +73,13 @@ export default class Player2 extends BaseElement {
     window.addEventListener('keydown', e => {
       switch (e.key) {
         case 'd':
-          if (!this.inJump) {
+          if (this.canJump && !this.inJump) {
             this.keys.d.pressed = true
             this.sound.playSound("walkSound")
           }
           break
         case 'a':
-          if (!this.inJump) {
+          if (this.canJump && !this.inJump) {
             this.keys.a.pressed = true
             this.sound.playSound("walkSound")
           }

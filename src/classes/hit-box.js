@@ -74,12 +74,14 @@ export class HitBox extends Box {
         //right canvas border collision:
         if(player.getX() + player.getWidth() + player.getVelocityX() > canvasWidth) {
             player.setX(canvasWidth-player.getWidth() )
+            player.setVelocityX(-1 * player.getVelocityX() / 1.1)
             return
         }
 
         //left canvas border collision:
         if(player.getX() + player.getVelocityX() < 0) {
             player.setX(0)
+            player.setVelocityX(-1 * player.getVelocityX() / 1.1)
             return
         }
 
