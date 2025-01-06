@@ -41,7 +41,7 @@ export default class Game {
         y: 0,
         scaleX: 1,
         scaleY: 1,
-        imageSrc: `../src/assets/background/Background_komplett.png`,
+        imageSrc: `../src/assets/background/Halle.png`,
         imageCropBox: new Box({
           height: this.gameScreen.getCanvas().height * 3,
           width: this.gameScreen.getCanvas().width
@@ -119,7 +119,7 @@ export default class Game {
 
     this.player = new Player2({
       x: 0,
-      y: 1566,
+      y: 1600,
       scale: 0.3,
       scaleY: 5,
       scaleX: 2,
@@ -137,9 +137,9 @@ export default class Game {
 
     this.goal = new Goal({
       x: 100,
-      y: 0,
+      y: 20,
       scale: 1,
-      imageSrc: '../src/assets/goal/Goal.png',
+      imageSrc: '../src/assets/goal/goal.png',
       imageCropBox: new Box({
         x: 0,
         y: 0,
@@ -169,6 +169,7 @@ export default class Game {
     window.cancelAnimationFrame(this.raf)
   }
 
+  
   tick() {
     this.gameScreen.updateFrame()
     if (!this.player.keys.pause.pressed && !this.goal.checkForGoalReached(this.player)) {
@@ -208,20 +209,26 @@ export default class Game {
     } else {
       if (this.goal.checkForGoalReached(this.player)) {
         //show time in end screen
-        this.stopTimer()
-        this.ctx.font = "20px Arial";
-        this.ctx.fillText(this.time,900,30);
+        this.resetTimer()
         this.gameScreen.hide()
         this.gameScreen.hideFrame()
         this.chargingBar.hide()
-        this.mainMenu.show()
-      } else
+         this.ctx.font = "20px Arial";
+       this.ctx.fillText(this.time,900,30)
+       this.ctx.beginPath()
+       this.mainMenu.show()
+             } 
+              else{
         // open pause menu and hiding elements
       this.stopTimer()
       this.pauseMenu.show()
       this.gameScreen.show()
+
+      }
+
       this.gameScreen.displayFrame()
       this.chargingBar.show()
+
     }
 
     //timer:
@@ -265,7 +272,6 @@ export default class Game {
     this.gameScreen.displayFrame()
     this.chargingBar.show()
     this.pauseMenu.hide()
-    // why? i did not understand (c) Omar :) would like to know more
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 
