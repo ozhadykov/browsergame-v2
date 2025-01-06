@@ -20,8 +20,10 @@ import {mainMenuSelector, pauseMenuSelector, areYouSureMenuSelector, chooseLevel
 import MenuScreen from "../classes/screens/menu-screen.js";
 import ScreenTrigger from "../classes/screens/screen-trigger.js";
 import {GameScreen} from "../classes/screens/game-screen.js";
+import Button from "../base-classes/button.js";
 
 export const screens = [
+  // main screens
   new MenuScreen({
     selector: mainMenuSelector,
     name: 'Main menu',
@@ -31,6 +33,9 @@ export const screens = [
       new ScreenTrigger({selector: '#yes-main-menu', evtType: 'click'}),
       new ScreenTrigger({selector: '#go-back-to-main-menu', evtType: 'click'})
     ],
+    // buttons: [
+    //   new Button({id: 'some-id', label: 'this is my button', classList: 'btn btn-primary', dataLevelId: 'test'})
+    // ]
   }),
   new MenuScreen({
     selector: chooseLevel,
@@ -39,10 +44,11 @@ export const screens = [
     backgroundSelector: '#main-menu-background',
     triggers: [
       new ScreenTrigger({selector: '#main-menu-choose-level', evtType: 'click'}),
-      new ScreenTrigger({selector: '#go-back-to-choose-level', evtType: 'click'})
+      new ScreenTrigger({selector: '#go-back-to-choose-level', evtType: 'click'}),
+      new ScreenTrigger({selector: '#go-back-to-choose-level-2', evtType: 'click'})
     ]
   }),
-  // dev only
+  // Level Screens
   new MenuScreen({
     selector: '#level-preview-1',
     name: 'Level Name',
@@ -52,6 +58,16 @@ export const screens = [
       new ScreenTrigger({selector: '#choose-level-1', evtType: 'click'}),
     ]
   }),
+  new MenuScreen({
+    selector: '#level-preview-2',
+    name: 'Leipzig',
+    id: 'level-preview-2',
+    backgroundSelector: '#main-menu-background',
+    triggers: [
+      new ScreenTrigger({selector: '#choose-level-2', evtType: 'click'})
+    ]
+  }),
+  // pause screens
   new MenuScreen({
     selector: pauseMenuSelector,
     name: 'Pause menu',
@@ -71,13 +87,15 @@ export const screens = [
     ],
     showWithMe: ['#my-canvas']
   }),
+  // canvas screens
   new GameScreen({
     selector: '#my-canvas',
     name: 'My Canvas',
     id: 'my-canvas',
     triggers: [
       new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
-      new ScreenTrigger({selector: '#continue-btn', evtType: 'click'})
+      new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),
+      new ScreenTrigger({selector: '#start-level-1', evtType: 'click'})
     ],
     showWithMe: ['#my-jump-charging-bar']
   }),
@@ -87,7 +105,8 @@ export const screens = [
     id: 'my-jump-charging-bar',
     triggers: [
       new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
-      new ScreenTrigger({selector: '#continue-btn', evtType: 'click'})
+      new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),
+      new ScreenTrigger({selector: '#start-level-1', evtType: 'click'})
     ],
     showWithMe: ['#my-canvas'],
   })

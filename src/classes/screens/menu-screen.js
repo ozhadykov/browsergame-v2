@@ -9,10 +9,11 @@ import {Screen} from "../../base-classes/index.js";
 * */
 class MenuScreen extends Screen {
 
-  constructor({selector, id, name, backgroundSelector, triggers, showWithMe}) {
+  constructor({selector, id, name, backgroundSelector, triggers, showWithMe, buttons}) {
     super({selector, backgroundSelector, triggers, showWithMe});
     this._id = id
     this._name = name
+    this._buttons = buttons
   }
 
   init() {
