@@ -29,7 +29,7 @@ export default class Game {
     this.canvas = canvas
     this.scaleX = 2
     this.scaleY = 4
-    this.gameScreen = new GameScreen('#my-canvas')
+    this.gameScreen = new GameScreen('#my-canvas', true, 'gameFrame')
     this.elementList = null
     this.player = null
     this.goal = null
@@ -121,7 +121,7 @@ export default class Game {
       x: 0,
       y: 1600,
       scale: 0.3,
-      scaleY: 6,
+      scaleY: 5,
       scaleX: 2,
       imageSrc: '../src/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
@@ -171,6 +171,7 @@ export default class Game {
 
   
   tick() {
+    this.gameScreen.updateFrame()
     if (!this.player.keys.pause.pressed && !this.goal.checkForGoalReached(this.player)) {
       this.ctx.save()
       this.ctx.scale(this.scaleX, this.scaleY)
@@ -210,6 +211,7 @@ export default class Game {
         //show time in end screen
         this.resetTimer()
         this.gameScreen.hide()
+        this.gameScreen.hideFrame()
         this.chargingBar.hide()
          this.ctx.font = "20px Arial";
        this.ctx.fillText(this.time,900,30)
@@ -221,7 +223,12 @@ export default class Game {
       this.stopTimer()
       this.pauseMenu.show()
       this.gameScreen.show()
-      this.chargingBar.hide()}
+
+      }
+
+      this.gameScreen.displayFrame()
+      this.chargingBar.show()
+
     }
 
     //timer:
@@ -262,9 +269,9 @@ export default class Game {
   closePauseMenu() {
     this.startTimer()
     this.gameScreen.show()
+    this.gameScreen.displayFrame()
     this.chargingBar.show()
     this.pauseMenu.hide()
-    // why? i did not understand (c) Omar :) would like to know more
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 
