@@ -136,10 +136,10 @@ export default class Game {
     })
 
     this.goal = new Goal({
-      x: 400,
-      y: 0,
+      x: 100,
+      y: 20,
       scale: 1,
-      imageSrc: '../src/assets/goal/Goal.png',
+      imageSrc: '../src/assets/goal/goal.png',
       imageCropBox: new Box({
         x: 0,
         y: 0,
@@ -208,7 +208,7 @@ export default class Game {
     } else {
       if (this.goal.checkForGoalReached(this.player)) {
         //show time in end screen
-        this.stopTimer()
+        this.resetTimer()
         this.gameScreen.hide()
         this.chargingBar.hide()
          this.ctx.font = "20px Arial";
