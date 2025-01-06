@@ -16,7 +16,7 @@ menuManager.init()
 // add button to go back
 
 // idea: dynamically create triggers for start game function
-// first step get triggers, now hardcoded
+// first step is: get triggers, now hardcoded
 // each trigger is a html button with data attribute, which contains inside level id
 // our level ids are from 1 to infinity :)
 // also we can store in data attribute text, so if in data attribute inside text
@@ -25,11 +25,3 @@ const triggers = ['#main-menu-start-btn', '#continue-btn']
 const game = new Game({canvas, ctx, triggers})
 // const game = Game.getInstance()
 
-document.getElementById("main-menu-start-btn")
-  .addEventListener("click", () => game.start(1));
-
-document.getElementById("continue-btn")
-  .addEventListener("click", () => {
-    game._isPaused = false
-    game.tick()
-  })

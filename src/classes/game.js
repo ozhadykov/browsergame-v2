@@ -15,6 +15,7 @@ export default class Game {
    *
    * @param ctx
    * @param canvas
+   * @param triggers
    */
 
   constructor({canvas, ctx, triggers}) {
@@ -44,14 +45,14 @@ export default class Game {
     this.mainMenu = new Screen('#main-screens')
 
     // listening to escape, so that we could be independent of screen manager
-    // and game could control only its own logic
+    //  and the game could control only its own logic
     document.addEventListener("keydown", (e) => {
       if (e.key === 'Escape')
         this._isPaused = true
     })
 
     // listening to triggers.
-    // we want to define, if this is resume game or start level
+    // we want to define if this is a resume game or start level
     this.initResumeOrPauseTriggers()
 
     Game.instance = this
@@ -210,8 +211,27 @@ export default class Game {
     return this._isPaused
   }
 
-  initResumeOrPauseTriggers() {
+  resume() {
+    this._isPaused = false
+    this.tick()
+  }
 
+  initResumeOrPauseTriggers() {
+    this._triggers.forEach(trigger => {
+      const triggerEl = document.querySelector(trigger)
+      triggerEl.addEventListener('click', () => {
+        // check dataset value
+        const levelId = triggerEl.dataset.levelId
+        if (levelId){
+          if (levelId === 'continue')
+            // if it is "continue", then resume
+            this.resume()
+          else
+            // if not, start another level
+            this.start(levelId)
+        }
+      })
+    })
   }
 
 }
