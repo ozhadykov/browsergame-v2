@@ -41,7 +41,7 @@ export default class Game {
         y: 0,
         scaleX: 1,
         scaleY: 1,
-        imageSrc: `../src/assets/background/Background_komplett.png`,
+        imageSrc: `../src/assets/background/Halle.png`,
         imageCropBox: new Box({
           height: this.gameScreen.getCanvas().height * 3,
           width: this.gameScreen.getCanvas().width
@@ -119,7 +119,7 @@ export default class Game {
 
     this.player = new Player2({
       x: 0,
-      y: 0,
+      y: 1600,
       scale: 0.3,
       scaleY: 6,
       scaleX: 2,
@@ -136,7 +136,7 @@ export default class Game {
     })
 
     this.goal = new Goal({
-      x: 100,
+      x: 400,
       y: 0,
       scale: 1,
       imageSrc: '../src/assets/goal/Goal.png',
@@ -169,6 +169,7 @@ export default class Game {
     window.cancelAnimationFrame(this.raf)
   }
 
+  
   tick() {
     if (!this.player.keys.pause.pressed && !this.goal.checkForGoalReached(this.player)) {
       this.ctx.save()
@@ -208,17 +209,19 @@ export default class Game {
       if (this.goal.checkForGoalReached(this.player)) {
         //show time in end screen
         this.stopTimer()
-        this.ctx.font = "20px Arial";
-        this.ctx.fillText(this.time,900,30);
         this.gameScreen.hide()
         this.chargingBar.hide()
-        this.mainMenu.show()
-      } else
+         this.ctx.font = "20px Arial";
+       this.ctx.fillText(this.time,900,30)
+       this.ctx.beginPath()
+       this.mainMenu.show()
+             } 
+              else{
         // open pause menu and hiding elements
       this.stopTimer()
       this.pauseMenu.show()
       this.gameScreen.show()
-      this.chargingBar.hide()
+      this.chargingBar.hide()}
     }
 
     //timer:
