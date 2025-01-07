@@ -42,10 +42,10 @@ export class GameScreen extends ScreenManager {
                 if (gameFrame) {
                     const gameCanvas = document.getElementById('my-canvas')
                     const canvasRect = gameCanvas.getBoundingClientRect();
-                    gameFrame.style.top = `${canvasRect.top - 256}px`;
-                    gameFrame.style.left = `${canvasRect.left - 479}px`;
-                    gameFrame.style.width = `${canvasRect.width + 970}px`;
-                    gameFrame.style.height = `${canvasRect.height + 570}px`;    
+                    gameFrame.style.top = `${canvasRect.top - 1166}px`;
+                    gameFrame.style.left = `${canvasRect.left - 81}px`;
+                    gameFrame.style.width = `${canvasRect.width + 314}px`;
+                    gameFrame.style.height = `${canvasRect.height + 1260}px`;    
                 } else {
                     throw new Error(`gameFrame with id ${this._frameID} not found`)
                 }
