@@ -15,7 +15,7 @@ const levelsMeta = [
   new LevelMeta({
     levelId: '1',
     levelName: "Halle (Saale)",
-    backgroundImgSrc: '../src/assets/background/Backround_komplett.png',
+    backgroundImgSrc: '../src/assets/background/Halle.png',
     levelMarkup: `------------------------------------------------------------+
   ------------------------------------------------------------+
   ------------------------------------------------------------+
@@ -222,7 +222,7 @@ const levelsMeta = [
     playerStartPositionX: 10,
     playerStartPositionY: 1550,
     playerScaleX: 2,
-    playerScaleY: 6,
+    playerScaleY: 5,
   }),
   new LevelMeta({
     levelId: '2',
@@ -434,7 +434,7 @@ const levelsMeta = [
     playerStartPositionX: 10,
     playerStartPositionY: 1550,
     playerScaleX: 2,
-    playerScaleY: 6,
+    playerScaleY: 5,
   }),
 ];
 

@@ -30,7 +30,7 @@ canvas {
 }
 
 
-#gameFrame {
+#game-frame {
     position: absolute;
     pointer-events: none;
     z-index: 2;

@@ -30,7 +30,7 @@ export default class Game {
     this._triggers = triggers
     this.scaleX = 2
     this.scaleY = 4
-    this.gameScreen = new GameScreen({selector: '#my-canvas', hasFrame: true, frameID: 'gameFrame'})
+    this.gameScreen = new GameScreen({selector: '#my-canvas', hasFrame: true, frameID: 'game-frame'})
     this.elementList = null
     this._player = null
     this.goal = null
@@ -108,6 +108,8 @@ export default class Game {
 
   start(levelId) {
     this.startTimer()
+    this.gameScreen.updateFrame()
+    this.gameScreen.displayFrame()
     this.elementList = new ElementList()
     this._isPaused = false
     // creating game elements
