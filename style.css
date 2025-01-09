@@ -97,6 +97,18 @@ canvas {
     position: fixed;
 }
 
+#tutorial-menu {
+    background: rgba(255, 255, 255, 0.6);
+    margin: auto;
+    display: block;
+    padding: 0px;
+    position: fixed;
+    z-index: 3;
+    width: 200px;
+    left: 5px;
+    font-size: 20px;
+}
+
 #pause-menu {
     display: none;
     /* erstmal unsichtbar */
@@ -201,4 +213,8 @@ canvas {
 
 h1 {
     color: white;
+}
+
+h2 {
+    color: black;
 }

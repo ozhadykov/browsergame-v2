@@ -12,6 +12,7 @@ function startGame() {
   game.getChargingBar().show()
   game.getMainMenu().hide()
   game.start(0);
+  game.getTutorial().show()
 }
 
 function closePauseMenu() {

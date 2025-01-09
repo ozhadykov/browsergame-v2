@@ -59,6 +59,7 @@ export default class Game {
     this.pauseMenu = new ScreenManager('#pause-menu')
     this.mainMenu = new ScreenManager('#main-menu')
     this.areYouSureMenu = new ScreenManager('#are-you-sure-menu')
+    this.tutorialMenu = new ScreenManager('#tutorial-menu')
 
     //Timer:
     this.time = 0; 
@@ -136,9 +137,8 @@ export default class Game {
     })
 
     this.goal = new Goal({
-      x: 100,
-      y: 20,
-      scale: 1,
+      x: 50,
+      y: 5,
       imageSrc: '../src/assets/goal/goal.png',
       imageCropBox: new Box({
         x: 0,
@@ -261,6 +261,9 @@ export default class Game {
   getMainMenu() {
     return this.mainMenu
   }
+  getTutorial() {
+    return this.tutorialMenu
+  }
 
   getMapScale() {
     return this.scale
@@ -284,6 +287,7 @@ export default class Game {
     this.stopTimer()
     this.resetTimer()
     this.areYouSureMenu.hide()
+    this.gameScreen.hide()
     this.mainMenu.show()
   }
 
