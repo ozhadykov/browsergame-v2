@@ -13,7 +13,6 @@ export class Screen {
 
   show() {
     if (this._htmlEL) {
-      // this._htmlEL.style.display = 'block'
       this._htmlEL.classList.remove('d-none')
       this._shown = true
     }
@@ -23,7 +22,6 @@ export class Screen {
 
   hide() {
     if (this._htmlEL) {
-      // this._htmlEL.style.display = 'none'
       this._htmlEL.classList.add('d-none')
 
       this._shown = false

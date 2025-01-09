@@ -92,11 +92,6 @@ export const screens = [
   new GameFrameScreen({
     selector: '#game-frame',
     id: 'game-frame',
-    // triggers: [
-    //   new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
-    //   new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),
-    //   new ScreenTrigger({selector: '#start-level-1', evtType: 'click'})
-    // ]
   }),
   new GameScreen({
     selector: '#my-canvas',
@@ -105,7 +100,8 @@ export const screens = [
     triggers: [
       new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
       new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),
-      new ScreenTrigger({selector: '#start-level-1', evtType: 'click'})
+      new ScreenTrigger({selector: '#start-level-1', evtType: 'click'}),
+      new ScreenTrigger({selector: '#start-level-2', evtType: 'click'})
     ],
     showWithMe: ['#my-jump-charging-bar', '#game-frame'],
   }),
@@ -113,11 +109,5 @@ export const screens = [
     selector: '#my-jump-charging-bar',
     name: 'Jump Charging',
     id: 'my-jump-charging-bar',
-    // triggers: [
-    //   new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
-    //   new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),
-    //   new ScreenTrigger({selector: '#start-level-1', evtType: 'click'})
-    // ],
-    // showWithMe: ['#my-canvas'],
   })
 ]

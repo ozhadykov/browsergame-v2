@@ -227,7 +227,7 @@ const levelsMeta = [
   new LevelMeta({
     levelId: '2',
     levelName: "Leipzig",
-    backgroundImgSrc: '../src/assets/background/Backround_komplett.png',
+    backgroundImgSrc: '../src/assets/background/Berlin.png',
     levelMarkup: `------------------------------------------------------------+
   ------------------------------------------------------------+
   ------------------------------------------------------------+
