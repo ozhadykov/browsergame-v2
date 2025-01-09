@@ -15,21 +15,6 @@ export class GameScreen extends Screen {
     this._ctx = this._htmlEL.getContext("2d")
   }
 
-  hideFrame() {
-    if (this._hasFrame) {
-      if (this._frameID) {
-        let gameFrame = document.getElementById(this._frameID)
-        if (gameFrame) {
-          gameFrame.style.display = 'none'
-        } else {
-          throw new Error(`gameFrame with id ${this._frameID} not found`)
-        }
-      } else {
-        throw new Error('frameID not set')
-      }
-    }
-  }
-
   getCanvas() {
     if (this._htmlEL)
       return this._htmlEL
