@@ -1,40 +1,31 @@
 import './style.css'
 import Game from './src/classes/game.js';
+import ScreenManager from "./src/classes/screens/screen-manager.js";
+import {screens} from "./src/data/screens.js"
 
+// get canvas and context
+const canvas = document.getElementById("my-canvas");
+const ctx = canvas.getContext("2d");
 
-const game = Game.getInstance()
-const mainMenu = document.getElementById("main-menu");
+// create level Preview screens from levels.js
+// create Choose Level Screen 
+// add triggers from Level Prview screens in choose level screen
+// create new array with screens.js, choose Level and level preview screens
 
-function startGame() {
-  document.getElementById('main-menu-backround').style.display = "none"
-  game.getGameScreen().show()
-  game.getGameScreen().displayFrame()
-  game.getChargingBar().show()
-  game.getMainMenu().hide()
-  game.start(0);
-}
+// create and initialise MenuManger in init function menu manager attaches html from menus
+const screenManager = new ScreenManager(screens)
+screenManager.init()
 
-function closePauseMenu() {
-  game.closePauseMenu()
-  game.player.keys.pause.pressed = false
-}
+// also need to dynamically generate all menus from levels.js and push them into Menu manager
+// level-preview-screen and choose Level (simple menu with btns)
+// add button to go back
 
-function areYouSureMainMenu() {
-  game.areYouSureMainMenu()
-  }
+// idea: dynamically create triggers for start game function and also generate ScreenTriggers for screens.js (my-canvas and charging bar)
+// first step is: get triggers, now hardcoded
+// each trigger is a html button with data attribute, which contains inside level id
+// our level ids are from 1 to infinity :)
+// also we can store in data attribute text, so if in data attribute inside text
+// 'continue', it means, that we are in pause menu or similar and can just call resumeFromMenu
+const triggers = ['#main-menu-start-btn', '#continue-btn', '#start-level-1', '#start-level-2']
+const game = new Game({canvas, ctx, triggers, screenManager})
 
-function goToMainMenu() {
-  game.openMainMenu()
-}
-
-function continuePause()  {
-  game.continuePause()
-}
-
-
-
-document.getElementById("main-menu-start-btn").onclick = startGame
-document.getElementById("continue-btn").onclick = closePauseMenu
-document.getElementById("go-to-main-menu").onclick = areYouSureMainMenu
-document.getElementById("yes-main-menu").onclick = goToMainMenu
-document.getElementById("no-continue-pause").onclick = continuePause

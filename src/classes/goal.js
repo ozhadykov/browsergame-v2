@@ -1,5 +1,5 @@
 import { BaseElement } from "../base-classes";
-import { HitBox } from "./hit-box.js";
+import { HitBox } from "./boxes/hit-box.js";
 
 export default class Goal extends BaseElement {
   constructor(

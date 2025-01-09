@@ -1,6 +1,6 @@
-import { BaseElement } from "../base-classes";
-import { HitBox } from "./hit-box.js";
-import { Sound } from "../base-classes/sound.js";
+import {BaseElement} from "../base-classes";
+import {HitBox} from "./boxes/hit-box.js";
+import {Sound} from "../base-classes/sound.js"
 
 export default class Player2 extends BaseElement {
   constructor({
@@ -8,7 +8,6 @@ export default class Player2 extends BaseElement {
     y,
     height,
     width,
-    scale,
     scaleY,
     scaleX,
     imageSrc,
@@ -23,14 +22,13 @@ export default class Player2 extends BaseElement {
       y,
       height,
       width,
-      scale,
       scaleY,
       scaleX,
       imageSrc,
       imageCropBox,
       framesX,
-      framesY,
-    });
+      framesY
+    })
 
     this._velocityX = 0;
     this._velocityY = 1;
@@ -81,7 +79,7 @@ export default class Player2 extends BaseElement {
   }
 
   initEventListeners() {
-    window.addEventListener("keydown", (e) => {
+    document.addEventListener('keydown', e => {
       switch (e.key) {
         case "d":
           if (this.canJump && !this.inJump) {
@@ -110,7 +108,7 @@ export default class Player2 extends BaseElement {
       }
     });
 
-    window.addEventListener("keyup", (e) => {
+    document.addEventListener('keyup', e => {
       switch (e.key) {
         case "d":
           this.keys.d.pressed = false;

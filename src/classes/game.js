@@ -1,11 +1,11 @@
 import ElementList from "../base-classes/elementList.js";
-import {levels} from "../data/levels.js";
-import {Box, BaseElement, ScreenManager} from "../base-classes/";
-import {GameScreen} from "./canvas-manager.js";
-import {Level} from "./level.js";
+import {levelsMeta} from "../data/levels.js";
+import {Box, BaseElement, Screen} from "../base-classes/";
+import {GameScreen} from "./screens/game-screen.js";
+import {Level} from "./levels/level.js";
 import Player2 from "./player.js";
 import Goal from "./goal.js";
-import {CameraBox} from "./camera-box.js";
+import {CameraBox} from "./boxes/camera-box.js";
 
 export default class Game {
 
@@ -15,10 +15,11 @@ export default class Game {
    *
    * @param ctx
    * @param canvas
-   * @param levelId
+   * @param triggers
+   * @param screenManager
    */
 
-  constructor(canvas, ctx, levelId = 0) {
+  constructor({canvas, ctx, triggers, screenManager}) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -27,52 +28,48 @@ export default class Game {
     this.raf = null
     this.ctx = ctx
     this.canvas = canvas
+    this._triggers = triggers
     this.scaleX = 2
     this.scaleY = 4
-    this.gameScreen = new GameScreen('#my-canvas', true, 'gameFrame')
     this.elementList = null
-    this.player = null
+    this._player = null
     this.goal = null
-    this.level = new Level({
-      levelId,
-      levelString: levels.at(levelId),
-      background: new BaseElement({
-        x: 0,
-        y: 0,
-        scaleX: 1,
-        scaleY: 1,
-        imageSrc: `../src/assets/background/Halle.png`,
-        imageCropBox: new Box({
-          height: this.gameScreen.getCanvas().height * 3,
-          width: this.gameScreen.getCanvas().width
-        }),
-        framesX: 1,
-        framesY: 1
-      })
-    })
-    this.background = this.level.getBackground()
+    this._level = null
+    this._isPaused = true
+    this._background = null
     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scaleX,
       height: this.canvas.height / this.scaleY
     })
-    this.chargingBar = new GameScreen('#my-jump-charging-bar')
-    this.pauseMenu = new ScreenManager('#pause-menu')
-    this.mainMenu = new ScreenManager('#main-menu')
-    this.areYouSureMenu = new ScreenManager('#are-you-sure-menu')
+    this._screenManager = screenManager
+    this.chargingBar = new GameScreen({selector: '#my-jump-charging-bar'})
+
+    // listening to escape, so that we could be independent of screen manager
+    //  and the game could control only its own logic
+    document.addEventListener("keydown", (e) => {
+      if (e.key === 'Escape')
+        this._isPaused = true
+    })
+
+    // listening to triggers.
+    // we want to define if this is a resume game or start level
+    this.initResumeOrPauseTriggers()
 
     //Timer:
-    this.time = 0; 
-    this.timerRunning = false; 
-    this.intervalId = null; 
+
+    this.time = 0;
+    this.timerRunning = false;
+    this.intervalId = null;
+
+    Game.instance = this
   }
 
   startTimer() {
     if (!this.timerRunning) {
-      this.timerRunning = true; 
+      this.timerRunning = true;
       this.intervalId = setInterval(() => {
         if (this.timerRunning) {
           this.time++;
-          console.log(`Time: ${this.time}`); // Optional: Log time for testing
         }
       }, 1000); // 1-second interval
     }
@@ -80,49 +77,67 @@ export default class Game {
 
   stopTimer() {
     if (this.timerRunning) {
-      this.timerRunning = false; 
-      clearInterval(this.intervalId); 
+      this.timerRunning = false;
+      clearInterval(this.intervalId);
       this.intervalId = null; // Clear the interval ID
     }
   }
 
   resetTimer() {
-    this.stopTimer(); 
-    this.time = 0; 
-    console.log("Timer reset."); // Optional: Log reset
+    this.stopTimer();
+    this.time = 0;
   }
 
   formatTime(seconds) {
     const minutes = Math.floor(seconds / 60); // Ganze Minuten
     const remainingSeconds = seconds % 60; // Übrige Sekunden
-    return `${minutes} : ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`; 
+    return `${minutes} : ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   }
-  
+
 
   static getInstance() {
     if (!Game.instance) {
       const canvas = document.getElementById("my-canvas");
       const ctx = canvas.getContext("2d");
 
-      Game.instance = new Game(canvas, ctx, 0) // start mit Level 0
+      Game.instance = new Game({canvas, ctx})
     }
     return Game.instance
   }
 
-  start() {
+  start(levelId) {
     this.startTimer()
     this.elementList = new ElementList()
-
+    this._isPaused = false
     // creating game elements
-    // generating platform blocks
-    const platformBlocks = this.level.generatePlatfroms()
 
-    this.player = new Player2({
-      x: 0,
-      y: 1600,
-      scale: 0.3,
-      scaleY: 5,
-      scaleX: 2,
+    // generating Level
+    const levelMeta = levelsMeta.find(level => level.getLevelId() === levelId)
+    this._level = new Level({
+      levelId: levelMeta.getLevelId(),
+      levelString: levelMeta.getLevelMarkup(),
+      background: new BaseElement({
+        imageSrc: levelMeta.getBackgroundImgSrc(),
+        imageCropBox: new Box({
+          height: this.canvas.height * 3,
+          width: this.canvas.width
+        }),
+      })
+    })
+
+    // generating background
+    this._background = this._level.getBackground()
+
+    // generating platform blocks
+    const platformBlocks = this._level.generatePlatfroms()
+
+    // creating player
+    this._player = new Player2({
+      x: levelMeta.getPlayerStartPositionX(),
+      y: levelMeta.getPlayerStartPositionY(),
+      scaleY: levelMeta.getPlayerScaleY(),
+      scaleX: levelMeta.getPlayerScaleX(),
+
       imageSrc: '../src/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0,
@@ -135,6 +150,7 @@ export default class Game {
       framesY: 3
     })
 
+    // creating goal
     this.goal = new Goal({
       x: 100,
       y: 20,
@@ -151,13 +167,10 @@ export default class Game {
     })
 
     // adding all elements to List
-    this.elementList.add(this.background)
-    this.elementList.add(this.player)
+    this.elementList.add(this._background)
+    this.elementList.add(this._player)
     this.elementList.add(this.goal)
     platformBlocks.forEach(platform => this.elementList.add(platform))
-
-    // this is important for animation purposes, do not need now
-    this.timeOfLastFrame = Date.now()
 
     // here we are requiring window to reload to max framerate possible
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
@@ -169,16 +182,15 @@ export default class Game {
     window.cancelAnimationFrame(this.raf)
   }
 
-  
+
   tick() {
-    this.gameScreen.updateFrame()
-    if (!this.player.keys.pause.pressed && !this.goal.checkForGoalReached(this.player)) {
+    if (!this._isPaused && !this.goal.checkForGoalReached(this._player)) {
       this.ctx.save()
       this.ctx.scale(this.scaleX, this.scaleY)
 
       //--- clear screen
       this.ctx.fillStyle = 'white'
-      this.ctx.fillRect(0, 0, this.gameScreen.getCanvas().clientWidth, this.gameScreen.getCanvas().clientHeight)
+      this.ctx.fillRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight)
 
       const jumpChargingBarCtx = this.chargingBar.getContext()
       const jumpChargingBarCanvas = this.chargingBar.getCanvas()
@@ -187,109 +199,88 @@ export default class Game {
         jumpChargingBarCanvas.clientWidth,
         jumpChargingBarCanvas.clientHeight)
 
-      this.cameraBox.updateHorizontalCamera(this.player.getHitBox())
-      this.cameraBox.updateVerticalCamera(this.player.getHitBox())
+      this.cameraBox.updateHorizontalCamera(this._player.getHitBox())
+      this.cameraBox.updateVerticalCamera(this._player.getHitBox())
 
       this.ctx.translate(
         -this.cameraBox.getX(),
         -this.cameraBox.getY())
 
       // drawing elements
-      this.elementList.draw(this.ctx, this.gameScreen.getCanvas())
+      this.elementList.draw(this.ctx, this.canvas)
 
       // animating
       this.elementList.action()
-      if (this.player.keys.w.pressed) {
+      if (this._player.keys.w.pressed) {
         this.drawjumpChargingBar()
       }
 
-      // calling animation function again
-      this.raf = window.requestAnimationFrame(this.tick.bind(this))
       this.ctx.restore()
     } else {
-      if (this.goal.checkForGoalReached(this.player)) {
+      if (this.goal.checkForGoalReached(this._player)) {
         //show time in end screen
         this.resetTimer()
-        this.gameScreen.hide()
-        this.gameScreen.hideFrame()
-        this.chargingBar.hide()
-         this.ctx.font = "20px Arial";
-       this.ctx.fillText(this.time,900,30)
-       this.ctx.beginPath()
-       this.mainMenu.show()
-             } 
-              else{
-        // open pause menu and hiding elements
-      this.stopTimer()
-      this.pauseMenu.show()
-      this.gameScreen.show()
-
+        this.ctx.font = "20px Arial";
+        this.ctx.fillText(this.time, 900, 30)
+        this.ctx.beginPath()
+        this._screenManager.show('#main-menu')
       }
 
-      this.gameScreen.displayFrame()
-      this.chargingBar.show()
-
+      this.stop()
+      return
     }
 
     //timer:
     this.ctx.font = "20px Arial";
-    this.ctx.fillText(this.formatTime(this.time),900,30);
+    this.ctx.fillText(this.formatTime(this.time), 900, 30);
+
+    // calling animation function again
+    this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 
   drawjumpChargingBar() {
-    for (let i = 0; i <= this.player.maxJumpCharge; i += this.player.maxJumpCharge / 10) { // auch mit /20; /100 möglich
-      if (Date.now() - this.player.chargingJumpTime >= i) {
+    for (let i = 0; i <= this._player.maxJumpCharge; i += this._player.maxJumpCharge / 10) { // auch mit /20; /100 möglich
+      if (Date.now() - this._player.chargingJumpTime >= i) {
         const charginBarCanvas = this.chargingBar.getCanvas()
         const charginBarCtx = this.chargingBar.getContext()
 
         charginBarCtx.fillStyle = `rgb(${(255 - i / 5)},0 , 0)`
         charginBarCtx.fillRect(0,
-          charginBarCanvas.clientHeight - charginBarCanvas.clientHeight * (i / this.player.maxJumpCharge),
+          charginBarCanvas.clientHeight - charginBarCanvas.clientHeight * (i / this._player.maxJumpCharge),
           charginBarCanvas.clientWidth, charginBarCanvas.clientHeight / 10)
       }
     }
   }
 
-  getGameScreen() {
-    return this.gameScreen
+  getCanvas() {
+    return this.canvas
   }
 
-  getChargingBar() {
-    return this.chargingBar
+  isPaused() {
+    return this._isPaused
   }
 
-  getMainMenu() {
-    return this.mainMenu
+  resume() {
+    this._isPaused = false
+    this.tick()
   }
 
-  getMapScale() {
-    return this.scale
-  }
-
-  closePauseMenu() {
-    this.startTimer()
-    this.gameScreen.show()
-    this.gameScreen.displayFrame()
-    this.chargingBar.show()
-    this.pauseMenu.hide()
-    this.raf = window.requestAnimationFrame(this.tick.bind(this))
-  }
-
-  areYouSureMainMenu() {
-    this.pauseMenu.hide()
-    this.areYouSureMenu.show()
-  }
-
-  openMainMenu() {
-    this.stopTimer()
-    this.resetTimer()
-    this.areYouSureMenu.hide()
-    this.mainMenu.show()
-  }
-
-  continuePause() {
-    this.areYouSureMenu.hide()
-    this.pauseMenu.show()
+  initResumeOrPauseTriggers() {
+    this._triggers.forEach(trigger => {
+      const triggerEl = document.querySelector(trigger)
+      triggerEl.addEventListener('click', () => {
+        // check dataset value
+        const levelId = triggerEl.dataset.levelId
+        if (levelId) {
+          if (levelId === 'continue')
+            // if it is "continue", then resume
+            this.resume()
+          else
+            // if not, start another level
+            this.start(levelId)
+        }
+      })
+    })
   }
 }
 

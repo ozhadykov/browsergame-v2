@@ -19,41 +19,6 @@ export class GameScreen extends ScreenManager {
             throw new Error(`selector ${this._selector} is invalid, html element not found`)
     }
 
-    displayFrame() {
-        if (this._hasFrame) {
-            console.log('displaying frame',this._frameID)
-            if (this._frameID) {
-                let gameFrame = document.getElementById(this._frameID)
-                if (gameFrame) {
-                    gameFrame.style.display = 'block'   
-                } else {
-                    throw new Error(`gameFrame with id ${this._frameID} not found`)
-                }
-            } else {
-                throw new Error('frameID not set')
-            }
-        }
-    }
-
-    updateFrame() {
-        if (this._hasFrame) {
-            if (this._frameID) {
-                let gameFrame = document.getElementById(this._frameID)
-                if (gameFrame) {
-                    const gameCanvas = document.getElementById('my-canvas')
-                    const canvasRect = gameCanvas.getBoundingClientRect();
-                    gameFrame.style.top = `${canvasRect.top - 1166}px`;
-                    gameFrame.style.left = `${canvasRect.left - 81}px`;
-                    gameFrame.style.width = `${canvasRect.width + 314}px`;
-                    gameFrame.style.height = `${canvasRect.height + 1260}px`;    
-                } else {
-                    throw new Error(`gameFrame with id ${this._frameID} not found`)
-                }
-            } else {
-                throw new Error('frameID not set')
-            }
-        }
-    }
 
     hideFrame() {
         if (this._hasFrame) {

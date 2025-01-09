@@ -7,18 +7,16 @@ export class BaseElement extends Box {
         y,
         height,
         width,
-        scale = 1,
         scaleX = 1,
         scaleY = 1,
         imageSrc,
         imageCropBox,
-        framesX,
-        framesY,
+        framesX = 1,
+        framesY = 1,
         _directionInversion = 1
     }) {
 
         super({ x, y, height, width })
-        this._scale = scale
         this._scaleY = scaleY
         this._scaleX = scaleX
         this._image = new Image()

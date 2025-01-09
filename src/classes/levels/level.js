@@ -1,5 +1,5 @@
-import {Box, BaseElement} from "../base-classes"
-import {platformTypePosition} from "../data/levels.js";
+import {Box, BaseElement} from "../../base-classes/index.js"
+import {platformTypePosition} from "../../data/levels.js";
 
 export class Level {
 
@@ -49,7 +49,6 @@ export class Level {
         // TODO: Define, what kind of platform should be created
 
         if (levelEl !== '-') {
-          console.log(levelEl)
           const platformEl = new BaseElement({
             x: x * 16,
             y: Math.round(y * 8),

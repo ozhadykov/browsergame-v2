@@ -1,9 +1,9 @@
-import { ScreenManager } from "./menu.js";
+import { Screen } from "./screen.js";
 import { Box } from "./base-box.js";
 import { BaseElement } from "./base-element.js";
 
 export {
-    ScreenManager,
+    Screen,
     Box,
     BaseElement,
 }
