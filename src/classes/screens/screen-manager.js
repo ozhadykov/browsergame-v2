@@ -54,7 +54,6 @@ class ScreenManager {
     console.log(selector)
     // hide everything
     this._screens.forEach((screen) => screen.hide())
-    this._screens.find(screen => screen.getSelector() === selector).show()
 
     // show element itself
     const screenToShow = this._screens.find(screen => screen.getSelector() === selector)

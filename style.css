@@ -41,12 +41,6 @@ canvas {
     z-index: 2;
 }
 
-#game-background {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 #my-jump-charging-bar {
     background: rgb(0, 0, 0);
     margin: auto;
@@ -62,12 +56,6 @@ canvas {
 /*
     Menu styles
 */
-
-#main-menu-background {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
 
 .menu {
     display: flex;
@@ -116,6 +104,11 @@ canvas {
     cursor: pointer;
 }
 
+.img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 .scrollable {
     overflow-y: scroll;

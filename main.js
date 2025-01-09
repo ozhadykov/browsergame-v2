@@ -13,8 +13,8 @@ const ctx = canvas.getContext("2d");
 // create new array with screens.js, choose Level and level preview screens
 
 // create and initialise MenuManger in init function menu manager attaches html from menus
-const menuManager = new ScreenManager(screens)
-menuManager.init()
+const screenManager = new ScreenManager(screens)
+screenManager.init()
 
 // also need to dynamically generate all menus from levels.js and push them into Menu manager
 // level-preview-screen and choose Level (simple menu with btns)
@@ -27,5 +27,5 @@ menuManager.init()
 // also we can store in data attribute text, so if in data attribute inside text
 // 'continue', it means, that we are in pause menu or similar and can just call resumeFromMenu
 const triggers = ['#main-menu-start-btn', '#continue-btn', '#start-level-1', '#start-level-2']
-const game = new Game({canvas, ctx, triggers})
+const game = new Game({canvas, ctx, triggers, screenManager})
 

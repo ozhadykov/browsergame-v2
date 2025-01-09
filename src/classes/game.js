@@ -16,9 +16,10 @@ export default class Game {
    * @param ctx
    * @param canvas
    * @param triggers
+   * @param screenManager
    */
 
-  constructor({canvas, ctx, triggers}) {
+  constructor({canvas, ctx, triggers, screenManager}) {
     // using single tone to use in submodules
     if (Game.instance)
       return Game.instance
@@ -30,7 +31,6 @@ export default class Game {
     this._triggers = triggers
     this.scaleX = 2
     this.scaleY = 4
-    this.gameScreen = new GameScreen({selector: '#my-canvas', hasFrame: true, frameID: 'game-frame'})
     this.elementList = null
     this._player = null
     this.goal = null
@@ -41,8 +41,8 @@ export default class Game {
       width: this.canvas.width / this.scaleX,
       height: this.canvas.height / this.scaleY
     })
+    this._screenManager = screenManager
     this.chargingBar = new GameScreen({selector: '#my-jump-charging-bar'})
-    this.mainMenu = new Screen({selector: '#main-screens'})
 
     // listening to escape, so that we could be independent of screen manager
     //  and the game could control only its own logic
@@ -86,7 +86,6 @@ export default class Game {
   resetTimer() {
     this.stopTimer();
     this.time = 0;
-    console.log("Timer reset."); // Optional: Log reset
   }
 
   formatTime(seconds) {
@@ -108,8 +107,6 @@ export default class Game {
 
   start(levelId) {
     this.startTimer()
-    // this.gameScreen.updateFrame()
-    // this.gameScreen.displayFrame()
     this.elementList = new ElementList()
     this._isPaused = false
     // creating game elements
@@ -122,8 +119,8 @@ export default class Game {
       background: new BaseElement({
         imageSrc: levelMeta.getBackgroundImgSrc(),
         imageCropBox: new Box({
-          height: this.gameScreen.getCanvas().height * 3,
-          width: this.gameScreen.getCanvas().width
+          height: this.canvas.height * 3,
+          width: this.canvas.width
         }),
       })
     })
@@ -175,9 +172,6 @@ export default class Game {
     this.elementList.add(this.goal)
     platformBlocks.forEach(platform => this.elementList.add(platform))
 
-    // this is important for animation purposes, do not need now
-    this.timeOfLastFrame = Date.now()
-
     // here we are requiring window to reload to max framerate possible
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
 
@@ -193,11 +187,10 @@ export default class Game {
     if (!this._isPaused && !this.goal.checkForGoalReached(this._player)) {
       this.ctx.save()
       this.ctx.scale(this.scaleX, this.scaleY)
-      // this.gameScreen.updateFrame()
 
       //--- clear screen
       this.ctx.fillStyle = 'white'
-      this.ctx.fillRect(0, 0, this.gameScreen.getCanvas().clientWidth, this.gameScreen.getCanvas().clientHeight)
+      this.ctx.fillRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight)
 
       const jumpChargingBarCtx = this.chargingBar.getContext()
       const jumpChargingBarCanvas = this.chargingBar.getCanvas()
@@ -214,7 +207,7 @@ export default class Game {
         -this.cameraBox.getY())
 
       // drawing elements
-      this.elementList.draw(this.ctx, this.gameScreen.getCanvas())
+      this.elementList.draw(this.ctx, this.canvas)
 
       // animating
       this.elementList.action()
@@ -227,13 +220,10 @@ export default class Game {
       if (this.goal.checkForGoalReached(this._player)) {
         //show time in end screen
         this.resetTimer()
-        this.gameScreen.hide()
-        this.gameScreen.hideFrame()
-        this.chargingBar.hide()
         this.ctx.font = "20px Arial";
         this.ctx.fillText(this.time, 900, 30)
         this.ctx.beginPath()
-        this.mainMenu.show()
+        this._screenManager.show('#main-menu')
       }
 
       this.stop()
@@ -262,8 +252,8 @@ export default class Game {
     }
   }
 
-  getGameScreen() {
-    return this.gameScreen
+  getCanvas() {
+    return this.canvas
   }
 
   isPaused() {

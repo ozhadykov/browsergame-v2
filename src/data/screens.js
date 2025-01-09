@@ -97,6 +97,7 @@ export const screens = [
     selector: '#my-canvas',
     name: 'My Canvas',
     id: 'my-canvas',
+    backgroundSelector: '#game-background',
     triggers: [
       new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
       new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),

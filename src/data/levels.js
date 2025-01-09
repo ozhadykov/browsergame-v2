@@ -220,7 +220,7 @@ const levelsMeta = [
   deeef-------------------abeeeeeebbbbc-------------dbbbbbbf--+
   ghhhhbbbbbbbbbbbbbbbbbbbhhhhhhhhhhhhhbbbbbbbbbbbbbbbbbbbbbbc+`,
     playerStartPositionX: 10,
-    playerStartPositionY: 1550,
+    playerStartPositionY: 0,
     playerScaleX: 2,
     playerScaleY: 5,
   }),
