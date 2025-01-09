@@ -2,7 +2,6 @@ import './style.css'
 import Game from './src/classes/game.js';
 import ScreenManager from "./src/classes/screens/screen-manager.js";
 import {screens} from "./src/data/screens.js"
-import { levelsMeta } from './src/data/levels.js';
 
 // get canvas and context
 const canvas = document.getElementById("my-canvas");
@@ -16,18 +15,6 @@ const ctx = canvas.getContext("2d");
 // create and initialise MenuManger in init function menu manager attaches html from menus
 const menuManager = new ScreenManager(screens)
 menuManager.init()
-
-function startGame() {
-  document.getElementById('main-menu-backround').style.display = "none"
-  game.getGameScreen().show()
-  game.getGameScreen().displayFrame()
-  game.getChargingBar().show()
-  game.getMainMenu().hide()
-  game.start(0);
-}
-
-// main content wrapper in HTML
-const contentContainer = document.querySelector('.content')
 
 // also need to dynamically generate all menus from levels.js and push them into Menu manager
 // level-preview-screen and choose Level (simple menu with btns)

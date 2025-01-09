@@ -8,7 +8,6 @@ export default class Player2 extends BaseElement {
     y,
     height,
     width,
-    scale,
     scaleY,
     scaleX,
     imageSrc,

@@ -30,8 +30,7 @@ export default class Game {
     this._triggers = triggers
     this.scaleX = 2
     this.scaleY = 4
-    this.gameScreen = new GameScreen({selector: '#my-canvas'})
-    //this.gameScreen = new GameScreen('#my-canvas', true, 'gameFrame')
+    this.gameScreen = new GameScreen({selector: '#my-canvas', hasFrame: true, frameID: 'gameFrame'})
     this.elementList = null
     this._player = null
     this.goal = null
@@ -43,7 +42,7 @@ export default class Game {
       height: this.canvas.height / this.scaleY
     })
     this.chargingBar = new GameScreen({selector: '#my-jump-charging-bar'})
-    this.mainMenu = new Screen('#main-screens')
+    this.mainMenu = new Screen({selector: '#main-screens'})
 
     // listening to escape, so that we could be independent of screen manager
     //  and the game could control only its own logic
@@ -71,7 +70,6 @@ export default class Game {
       this.intervalId = setInterval(() => {
         if (this.timerRunning) {
           this.time++;
-          console.log(`Time: ${this.time}`); // Optional: Log time for testing
         }
       }, 1000); // 1-second interval
     }
@@ -191,9 +189,9 @@ export default class Game {
 
   tick() {
     if (!this._isPaused && !this.goal.checkForGoalReached(this._player)) {
-      this.gameScreen.updateFrame()
       this.ctx.save()
       this.ctx.scale(this.scaleX, this.scaleY)
+      this.gameScreen.updateFrame()
 
       //--- clear screen
       this.ctx.fillStyle = 'white'
@@ -224,9 +222,7 @@ export default class Game {
 
       this.ctx.restore()
     } else {
-      // calling animation function again
-      this.raf = window.requestAnimationFrame(this.tick.bind(this))
-      if (this.goal.checkForGoalReached(this.player)) {
+      if (this.goal.checkForGoalReached(this._player)) {
         //show time in end screen
         this.resetTimer()
         this.gameScreen.hide()
@@ -236,22 +232,19 @@ export default class Game {
         this.ctx.fillText(this.time, 900, 30)
         this.ctx.beginPath()
         this.mainMenu.show()
-      } else {
-        // open pause menu and hiding elements
-        this.stopTimer()
-        this.pauseMenu.show()
-        this.gameScreen.show()
-
       }
 
       this.gameScreen.displayFrame()
-      this.chargingBar.show()
-
+      this.stop()
+      return
     }
 
     //timer:
     this.ctx.font = "20px Arial";
     this.ctx.fillText(this.formatTime(this.time), 900, 30);
+
+    // calling animation function again
+    this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 
   drawjumpChargingBar() {
