@@ -58,9 +58,9 @@
       <div id="levels-box" class="scrollable">
         <button id="choose-level-1" class="btn btn-primary">Level 1: Halle (Saale)</button>
         <button id="choose-level-2" class="btn btn-primary">Level 2: Leipzig</button>
-        <button class="btn btn-primary">Level 3</button>
-        <button class="btn btn-primary">Level 4</button>
-        <button class="btn btn-primary">Level 5</button>
+        <button id="choose-level-3" class="btn btn-primary">Level 3: Berlin</button>
+     <!--    <button class="btn btn-primary">Level 4</button>
+        <button class="btn btn-primary">Level 5</button> -->
       </div>
     </div>
   </div>
@@ -73,10 +73,12 @@
       <h1 class="h1 menu-header-text">Level Information</h1>
     </div>
     <div class="menu-body">
-      <div class="h4 text-left">Name: Halle (Saale)</div>
+      <div class="h4 text-left">Halle (Saale)</div>
       <div class="level-info text-left">
-        <div class="text-md">Best Time: 5:34</div>
-        <div class="text-md">Played: 19 times</div>
+        <div class="text-md">Versuche dich vom Untergrund über die Innenstadt in luftige Höhen fortzubewegen und finde den goldenen Schraubenschlüssel.  </div>
+        <div class="text-md">Schwierigkeit: einfach</div> 
+        <!-- <div class="text-md">Best Time: 5:34</div>
+        <div class="text-md">Played: 19 times</div> -->
       </div>
     </div>
     <div class="menu-footer">
@@ -96,13 +98,38 @@
     <div class="menu-body">
       <div class="h4 text-left">Leipzig</div>
       <div class="level-info text-left">
-        <div class="text-md">Best Time: 5:34</div>
-        <div class="text-md">Played: 10 times</div>
+        <div class="text-md">Arbeite dich von der Regenwasserkanalisation durch ein Parkhaus über den Augustusplatz hinauf auf den Panorama Tower und finde den goldenen Schraubenschlüssel.  </div>
+        <div class="text-md">Schwierigkeit: mittel</div> 
+       <!--  <div class="text-md">Best Time: 5:34</div>
+        <div class="text-md">Played: 10 times</div> -->
       </div>
     </div>
     <div class="menu-footer">
       <div class="button-container">
         <button id="start-level-2" data-level-id="2" class="btn btn-primary">Start</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="level-preview-3" class="menu d-none">
+    <div class="menu-header" style="gap: 1rem">
+      <button id="go-back-to-choose-level-3" class="cursor-pointer h3 btn-chevron">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <h1 class="h1 menu-header-text">Level Information</h1>
+    </div>
+    <div class="menu-body">
+      <div class="h4 text-left">Berlin</div>
+      <div class="level-info text-left">
+        <div class="text-md">Erreiche von der Kanalisation die U-Bahn-Station-Potsdamer-Platz und erklimme über den Fernsehturm den Mond, um den goldenen Schraubenschlüssel zu finden.  </div>
+        <div class="text-md">Schwierigkeit: schwierig</div> 
+       <!--  <div class="text-md">Best Time: 5:34</div>
+        <div class="text-md">Played: 10 times</div> -->
+      </div>
+    </div>
+    <div class="menu-footer">
+      <div class="button-container">
+        <button id="start-level-3" data-level-id="3" class="btn btn-primary">Start</button>
       </div>
     </div>
   </div>

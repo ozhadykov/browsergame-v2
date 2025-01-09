@@ -26,6 +26,6 @@ screenManager.init()
 // our level ids are from 1 to infinity :)
 // also we can store in data attribute text, so if in data attribute inside text
 // 'continue', it means, that we are in pause menu or similar and can just call resumeFromMenu
-const triggers = ['#main-menu-start-btn', '#continue-btn', '#start-level-1', '#start-level-2']
+const triggers = ['#main-menu-start-btn', '#continue-btn', '#start-level-1', '#start-level-2', '#start-level-3']
 const game = new Game({canvas, ctx, triggers, screenManager})
 

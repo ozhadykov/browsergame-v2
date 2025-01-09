@@ -46,7 +46,8 @@ export const screens = [
     triggers: [
       new ScreenTrigger({selector: '#main-menu-choose-level', evtType: 'click'}),
       new ScreenTrigger({selector: '#go-back-to-choose-level', evtType: 'click'}),
-      new ScreenTrigger({selector: '#go-back-to-choose-level-2', evtType: 'click'})
+      new ScreenTrigger({selector: '#go-back-to-choose-level-2', evtType: 'click'}),
+      new ScreenTrigger({selector: '#go-back-to-choose-level-3', evtType: 'click'})
     ]
   }),
   // Level Screens
@@ -68,6 +69,15 @@ export const screens = [
       new ScreenTrigger({selector: '#choose-level-2', evtType: 'click'})
     ]
   }),
+new MenuScreen({
+  selector: '#level-preview-3',
+  name: 'Berlin',
+  id: 'level-preview-3',
+  backgroundSelector: '#main-menu-background',
+  triggers: [
+    new ScreenTrigger({selector: '#choose-level-3', evtType: 'click'})
+  ]
+}),
   // pause screens
   new MenuScreen({
     selector: pauseMenuSelector,
@@ -102,7 +112,8 @@ export const screens = [
       new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
       new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),
       new ScreenTrigger({selector: '#start-level-1', evtType: 'click'}),
-      new ScreenTrigger({selector: '#start-level-2', evtType: 'click'})
+      new ScreenTrigger({selector: '#start-level-2', evtType: 'click'}),
+      new ScreenTrigger({selector: '#start-level-3', evtType: 'click'})
     ],
     showWithMe: ['#my-jump-charging-bar', '#game-frame'],
   }),
