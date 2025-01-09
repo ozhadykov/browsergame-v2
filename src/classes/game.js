@@ -31,6 +31,7 @@ export default class Game {
     this.scaleX = 2
     this.scaleY = 4
     this.gameScreen = new GameScreen({selector: '#my-canvas'})
+    //this.gameScreen = new GameScreen('#my-canvas', true, 'gameFrame')
     this.elementList = null
     this._player = null
     this.goal = null
@@ -55,8 +56,47 @@ export default class Game {
     // we want to define if this is a resume game or start level
     this.initResumeOrPauseTriggers()
 
+    //Timer:
+
+    this.time = 0;
+    this.timerRunning = false;
+    this.intervalId = null;
+
     Game.instance = this
   }
+
+  startTimer() {
+    if (!this.timerRunning) {
+      this.timerRunning = true;
+      this.intervalId = setInterval(() => {
+        if (this.timerRunning) {
+          this.time++;
+          console.log(`Time: ${this.time}`); // Optional: Log time for testing
+        }
+      }, 1000); // 1-second interval
+    }
+  }
+
+  stopTimer() {
+    if (this.timerRunning) {
+      this.timerRunning = false;
+      clearInterval(this.intervalId);
+      this.intervalId = null; // Clear the interval ID
+    }
+  }
+
+  resetTimer() {
+    this.stopTimer();
+    this.time = 0;
+    console.log("Timer reset."); // Optional: Log reset
+  }
+
+  formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60); // Ganze Minuten
+    const remainingSeconds = seconds % 60; // Übrige Sekunden
+    return `${minutes} : ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  }
+
 
   static getInstance() {
     if (!Game.instance) {
@@ -69,6 +109,7 @@ export default class Game {
   }
 
   start(levelId) {
+    this.startTimer()
     this.elementList = new ElementList()
     this._isPaused = false
     // creating game elements
@@ -99,6 +140,7 @@ export default class Game {
       y: levelMeta.getPlayerStartPositionY(),
       scaleY: levelMeta.getPlayerScaleY(),
       scaleX: levelMeta.getPlayerScaleX(),
+
       imageSrc: '../src/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0,
@@ -113,10 +155,10 @@ export default class Game {
 
     // creating goal
     this.goal = new Goal({
-      x: 250,
-      y: 450,
+      x: 100,
+      y: 20,
       scale: 1,
-      imageSrc: '../src/assets/goal/Goal.png',
+      imageSrc: '../src/assets/goal/goal.png',
       imageCropBox: new Box({
         x: 0,
         y: 0,
@@ -142,11 +184,14 @@ export default class Game {
   }
 
   stop() {
+    this.stopTimer()
     window.cancelAnimationFrame(this.raf)
   }
 
+
   tick() {
     if (!this._isPaused && !this.goal.checkForGoalReached(this._player)) {
+      this.gameScreen.updateFrame()
       this.ctx.save()
       this.ctx.scale(this.scaleX, this.scaleY)
 
@@ -179,14 +224,34 @@ export default class Game {
 
       this.ctx.restore()
     } else {
-      if (this.goal.checkForGoalReached(this._player)) {
+      // calling animation function again
+      this.raf = window.requestAnimationFrame(this.tick.bind(this))
+      if (this.goal.checkForGoalReached(this.player)) {
+        //show time in end screen
+        this.resetTimer()
+        this.gameScreen.hide()
+        this.gameScreen.hideFrame()
+        this.chargingBar.hide()
+        this.ctx.font = "20px Arial";
+        this.ctx.fillText(this.time, 900, 30)
+        this.ctx.beginPath()
         this.mainMenu.show()
+      } else {
+        // open pause menu and hiding elements
+        this.stopTimer()
+        this.pauseMenu.show()
+        this.gameScreen.show()
+
       }
-      this.stop()
-      return
+
+      this.gameScreen.displayFrame()
+      this.chargingBar.show()
+
     }
-    // calling animation function again
-    this.raf = window.requestAnimationFrame(this.tick.bind(this))
+
+    //timer:
+    this.ctx.font = "20px Arial";
+    this.ctx.fillText(this.formatTime(this.time), 900, 30);
   }
 
   drawjumpChargingBar() {
@@ -222,7 +287,7 @@ export default class Game {
       triggerEl.addEventListener('click', () => {
         // check dataset value
         const levelId = triggerEl.dataset.levelId
-        if (levelId){
+        if (levelId) {
           if (levelId === 'continue')
             // if it is "continue", then resume
             this.resume()
@@ -233,6 +298,5 @@ export default class Game {
       })
     })
   }
-
 }
 

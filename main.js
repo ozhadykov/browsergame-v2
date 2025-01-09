@@ -17,6 +17,15 @@ const ctx = canvas.getContext("2d");
 const menuManager = new ScreenManager(screens)
 menuManager.init()
 
+function startGame() {
+  document.getElementById('main-menu-backround').style.display = "none"
+  game.getGameScreen().show()
+  game.getGameScreen().displayFrame()
+  game.getChargingBar().show()
+  game.getMainMenu().hide()
+  game.start(0);
+}
+
 // main content wrapper in HTML
 const contentContainer = document.querySelector('.content')
 

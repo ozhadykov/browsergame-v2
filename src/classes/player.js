@@ -3,8 +3,22 @@ import {HitBox} from "./boxes/hit-box.js";
 import {Sound} from "../base-classes/sound.js"
 
 export default class Player2 extends BaseElement {
-  constructor(
-    {
+  constructor({
+    x,
+    y,
+    height,
+    width,
+    scale,
+    scaleY,
+    scaleX,
+    imageSrc,
+    imageCropBox,
+    gravity,
+    platformBlocks,
+    framesX,
+    framesY,
+  }) {
+    super({
       x,
       y,
       height,
@@ -13,15 +27,12 @@ export default class Player2 extends BaseElement {
       scaleX,
       imageSrc,
       imageCropBox,
-      gravity,
-      platformBlocks,
       framesX,
       framesY
-    }) {
-    super({x, y, height, width, scaleY, scaleX, imageSrc, imageCropBox, framesX, framesY});
+    })
 
-    this._velocityX = 0
-    this._velocityY = 1
+    this._velocityX = 0;
+    this._velocityY = 1;
 
     this._gravity = gravity ?? 0.1;
     this._platformBlocks = platformBlocks ?? [];
@@ -30,8 +41,8 @@ export default class Player2 extends BaseElement {
       x: this._x,
       y: this._y,
       width: 10,
-      height: 10
-    })
+      height: 10,
+    });
 
     this.keys = {
       d: {
@@ -43,7 +54,8 @@ export default class Player2 extends BaseElement {
       w: {
         pressed: false,
       },
-      pause: { //Escape
+      pause: {
+        //Escape
         pressed: false,
       },
     };
@@ -59,202 +71,188 @@ export default class Player2 extends BaseElement {
     this.animationJump = 0;
     this.walkState = false;
 
-    this.sound = new Sound('#sound')
-    this.sound.initSound('walkSound', '../src/assets/Sounds/walkSoud.mp3')
-    this.sound.initSound('jumpSound', '../src/assets/Sounds/jumpSoud.mp3')
-    this.sound.initSound('crashSound', '../src/assets/Sounds/crashSound.mp3')
+    this.sound = new Sound("#sound");
+    this.sound.initSound("walkSound", "../src/assets/Sounds/walkSoud.mp3");
+    this.sound.initSound("jumpSound", "../src/assets/Sounds/jumpSoud.mp3");
+    this.sound.initSound("crashSound", "../src/assets/Sounds/crashSound.mp3");
 
-    this.initEventListeners()
-
+    this.initEventListeners();
   }
 
   initEventListeners() {
     document.addEventListener('keydown', e => {
       switch (e.key) {
-        case 'd':
-          if (!this.inJump) {
-            this.keys.d.pressed = true
-            this.sound.playSound("walkSound")
+        case "d":
+          if (this.canJump && !this.inJump) {
+            this.keys.d.pressed = true;
+            this.sound.playSound("walkSound");
           }
-          break
-        case 'a':
-          if (!this.inJump) {
-            this.keys.a.pressed = true
-            this.sound.playSound("walkSound")
+          break;
+        case "a":
+          if (this.canJump && !this.inJump) {
+            this.keys.a.pressed = true;
+            this.sound.playSound("walkSound");
           }
-          break
-        case 'w':
+          break;
+        case "w":
           if (!this.keys.w.pressed && this.canJump && !this.inJump) {
-            this.startedPressingJump()
-            this.inJump = true
-            this.keys.w.pressed = true
-            this.chargingJumpTime = Date.now()
-            this.sound.stopSound("jumpSound")
+            this.startedPressingJump();
+            this.inJump = true;
+            this.keys.w.pressed = true;
+            this.chargingJumpTime = Date.now();
+            this.sound.stopSound("jumpSound");
           }
-          break
-        case 'Escape':
-          this.keys.pause.pressed = true
-          break
+          break;
+        case "Escape":
+          this.keys.pause.pressed = true;
+          break;
       }
-    })
+    });
 
     document.addEventListener('keyup', e => {
       switch (e.key) {
-        case 'd':
-          this.keys.d.pressed = false
-          this.sound.stopSound("walkSound")
-          break
-        case 'a':
-          this.keys.a.pressed = false
-          this.sound.stopSound("walkSound")
-          break
-        case 'w':
-          // can Jump funktioniert noch nicht mit neuer Collision 
+        case "d":
+          this.keys.d.pressed = false;
+          this.sound.stopSound("walkSound");
+          break;
+        case "a":
+          this.keys.a.pressed = false;
+          this.sound.stopSound("walkSound");
+          break;
+        case "w":
+          // can Jump funktioniert noch nicht mit neuer Collision
           if (this.canJump && this.inJump) {
-            this.animationJump = 0
-            this.keys.w.pressed = false
-            this.stoppedPressingJump()
+            this.animationJump = 0;
+            this.keys.w.pressed = false;
+            this.stoppedPressingJump();
 
-            this.jumpDuration = this.endTime - this.startTime
-            if (this.jumpDuration >= this.maxJumpCharge) this.jumpDuration = this.maxJumpCharge
-            this._velocityY = -1 * (Math.pow(this.jumpDuration / 350, 2))
-            this._velocityX = this.jumpDuration / 225 * this.getDirection()
-            this.playJumpSound()
-            this.inJump = false
+            this.jumpDuration = 500 + (this.endTime - this.startTime) / 2;
+            if (this.jumpDuration >= this.maxJumpCharge)
+              this.jumpDuration = this.maxJumpCharge;
+            this._velocityY = -1 * Math.pow(this.jumpDuration / 400, 2);
+            this._velocityX = (this.jumpDuration / 225) * this.getDirection();
+            this.playJumpSound();
+            this.inJump = false;
           }
-          break
+          break;
       }
-    })
+    });
   }
 
   playJumpSound() {
-    let soundModulation = 3 - this.jumpDuration / 500
-    this.sound.playSound("jumpSound", soundModulation)
+    let soundModulation = 3 - this.jumpDuration / 500;
+    this.sound.playSound("jumpSound", soundModulation);
   }
 
-
   startedPressingJump() {
-    this.startTime = Date.now()
+    this.startTime = Date.now();
   }
 
   stoppedPressingJump() {
-    this.endTime = Date.now()
+    this.endTime = Date.now();
   }
 
   action() {
-    this._x += this._velocityX
+    this._x += this._velocityX;
     // It is important to use this function 2 times
-    this.checkDirection()
-    this._hitBox.updateHitBox(this)
-    this._hitBox.checkForHorizontalCollisions(this)
-    this.applyGravity()
+    this.checkDirection();
+    this._hitBox.updateHitBox(this);
+    this._hitBox.checkForHorizontalCollisions(this);
+    this.applyGravity();
     // It is important to use this function 2 times
-    this._hitBox.updateHitBox(this)
-    this._hitBox.checkForVerticalCollisions(this)
-    this.enableMoving()
+    this._hitBox.updateHitBox(this);
+    this._hitBox.checkForVerticalCollisions(this);
+    this.enableMoving();
   }
 
   checkDirection() {
-    if (this._velocityX > 0) this.setDirection(1)
-    if (this._velocityX < 0) this.setDirection(-1)
+    if (this._velocityX > 0) this.setDirection(1);
+    if (this._velocityX < 0) this.setDirection(-1);
   }
 
   applyGravity() {
-    this._velocityY += this._gravity
-    this._y += this._velocityY
+    this._velocityY += this._gravity;
+    this._y += this._velocityY;
   }
 
   enableMoving() {
-    if (this._velocityX > 0)
-      this._velocityX -= 0.05
+    if (this._velocityX > 0) this._velocityX -= 0.05;
 
-    if (this._velocityX < 0)
-      this._velocityX += 0.05
+    if (this._velocityX < 0) this._velocityX += 0.05;
 
-    if (this._velocityX < 0.2 && this._velocityX > -0.2)
-      this._velocityX = 0
+    if (this._velocityX < 0.2 && this._velocityX > -0.2) this._velocityX = 0;
 
     if (this.keys.d.pressed && this.canJump) {
       this._velocityX = 1;
       this.walkState = true;
     } else if (this.keys.a.pressed && this.canJump) {
-      this._velocityX = -1
+      this._velocityX = -1;
       this.walkState = true;
     } else {
       this.walkState = false;
     }
-
   }
-
 
   updateFrames() {
     if (this.walkState) {
-      if (this.animationstep <= 8)
-        this.animationstep += 0.15
-      else
-        this.animationstep = 0
-      this._imageCropBox.setX(100 * Math.round(this.animationstep))
-      this._imageCropBox.setY(0)
+      if (this.animationstep <= 8) this.animationstep += 0.15;
+      else this.animationstep = 0;
+      this._imageCropBox.setX(100 * Math.round(this.animationstep));
+      this._imageCropBox.setY(0);
     } else if (this.inJump) {
-      if (this.animationJump <= 2)
-        this.animationJump += 0.07
-      else
-        this.animationJump = 2
-      this._imageCropBox.setX(100 * Math.round(this.animationJump))
-      this._imageCropBox.setY(201)
+      if (this.animationJump <= 2) this.animationJump += 0.07;
+      else this.animationJump = 2;
+      this._imageCropBox.setX(100 * Math.round(this.animationJump));
+      this._imageCropBox.setY(201);
     } else if (this.canJump) {
-      this._imageCropBox.setX(0)
-      this._imageCropBox.setY(101)
+      this._imageCropBox.setX(0);
+      this._imageCropBox.setY(101);
     } else {
-      if (this.animationJump <= 3)
-        this.animationJump = 3
-      if (this.animationJump <= 6)
-        this.animationJump += 0.06
-      else
-        this.animationJump = 6
-      this._imageCropBox.setX(100 * Math.round(this.animationJump))
-      this._imageCropBox.setY(201)
+      if (this.animationJump <= 3) this.animationJump = 3;
+      if (this.animationJump <= 6) this.animationJump += 0.06;
+      else this.animationJump = 6;
+      this._imageCropBox.setX(100 * Math.round(this.animationJump));
+      this._imageCropBox.setY(201);
     }
   }
 
   getPlatformBlocks() {
-    return this._platformBlocks
+    return this._platformBlocks;
   }
 
   getCanJump() {
-    return this.canJump
+    return this.canJump;
   }
 
   getScaleX() {
-    return this._scaleX
+    return this._scaleX;
   }
 
   getScaleY() {
-    return this._scaleY
+    return this._scaleY;
   }
 
   getVelocityY() {
-    return this._velocityY
+    return this._velocityY;
   }
 
   getVelocityX() {
-    return this._velocityX
+    return this._velocityX;
   }
 
   getHitBox() {
-    return this._hitBox
+    return this._hitBox;
   }
 
   setCanJump(value) {
-    this.canJump = value
+    this.canJump = value;
   }
 
   setVelocityY(velocity) {
-    this._velocityY = velocity
+    this._velocityY = velocity;
   }
 
   setVelocityX(velocity) {
-    this._velocityX = velocity
+    this._velocityX = velocity;
   }
-
 }

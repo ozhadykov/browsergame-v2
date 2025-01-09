@@ -51,7 +51,7 @@ export class Level {
         if (levelEl !== '-') {
           const platformEl = new BaseElement({
             x: x * 16,
-            y: y * 8,
+            y: Math.round(y * 8),
             scaleX: 1,
             scaleY: 2,
             imageSrc: '../../src/assets/platform/block.png',
