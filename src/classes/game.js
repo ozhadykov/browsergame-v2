@@ -108,8 +108,8 @@ export default class Game {
 
   start(levelId) {
     this.startTimer()
-    this.gameScreen.updateFrame()
-    this.gameScreen.displayFrame()
+    // this.gameScreen.updateFrame()
+    // this.gameScreen.displayFrame()
     this.elementList = new ElementList()
     this._isPaused = false
     // creating game elements
@@ -193,7 +193,7 @@ export default class Game {
     if (!this._isPaused && !this.goal.checkForGoalReached(this._player)) {
       this.ctx.save()
       this.ctx.scale(this.scaleX, this.scaleY)
-      this.gameScreen.updateFrame()
+      // this.gameScreen.updateFrame()
 
       //--- clear screen
       this.ctx.fillStyle = 'white'
@@ -236,7 +236,6 @@ export default class Game {
         this.mainMenu.show()
       }
 
-      this.gameScreen.displayFrame()
       this.stop()
       return
     }

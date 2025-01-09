@@ -21,6 +21,7 @@ import MenuScreen from "../classes/screens/menu-screen.js";
 import ScreenTrigger from "../classes/screens/screen-trigger.js";
 import {GameScreen} from "../classes/screens/game-screen.js";
 import Button from "../base-classes/button.js";
+import GameFrameScreen from "../classes/screens/game-frame.js";
 
 export const screens = [
   // main screens
@@ -88,6 +89,15 @@ export const screens = [
     showWithMe: ['#my-canvas']
   }),
   // canvas screens
+  new GameFrameScreen({
+    selector: '#game-frame',
+    id: 'game-frame',
+    // triggers: [
+    //   new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
+    //   new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),
+    //   new ScreenTrigger({selector: '#start-level-1', evtType: 'click'})
+    // ]
+  }),
   new GameScreen({
     selector: '#my-canvas',
     name: 'My Canvas',
@@ -97,17 +107,17 @@ export const screens = [
       new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),
       new ScreenTrigger({selector: '#start-level-1', evtType: 'click'})
     ],
-    showWithMe: ['#my-jump-charging-bar']
+    showWithMe: ['#my-jump-charging-bar', '#game-frame'],
   }),
   new GameScreen({
     selector: '#my-jump-charging-bar',
     name: 'Jump Charging',
     id: 'my-jump-charging-bar',
-    triggers: [
-      new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
-      new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),
-      new ScreenTrigger({selector: '#start-level-1', evtType: 'click'})
-    ],
-    showWithMe: ['#my-canvas'],
+    // triggers: [
+    //   new ScreenTrigger({selector: '#main-menu-start-btn', evtType: 'click'}),
+    //   new ScreenTrigger({selector: '#continue-btn', evtType: 'click'}),
+    //   new ScreenTrigger({selector: '#start-level-1', evtType: 'click'})
+    // ],
+    // showWithMe: ['#my-canvas'],
   })
 ]
