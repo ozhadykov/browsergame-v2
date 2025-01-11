@@ -152,8 +152,8 @@ export default class Game {
 
     // creating goal
     this.goal = new Goal({
-      x: 100,
-      y: 20,
+      x: 580,
+      y: 55,
       scale: 1,
       imageSrc: '../src/assets/goal/goal.png',
       imageCropBox: new Box({
