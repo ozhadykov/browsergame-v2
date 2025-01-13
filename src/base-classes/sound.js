@@ -1,3 +1,4 @@
+
 export class Sound {
     constructor () {
         if (Sound.instance) return Sound.instance
@@ -6,12 +7,12 @@ export class Sound {
         this.src
         this.maxSounds = 0
         this.soundFiles = []
-        this.vol = 100
     }
 
-    setVol(newVol){
-        if (newVol >= 0 && newVol <= 100) this.vol = newVol
-        else console.log("Volume is out of Bounds")
+    setVol() {
+        var slider = document.getElementById("myRange")
+        this.vol = slider.value;
+        console.log("Volume: " + this.vol)
     }
 
     getVol() {
@@ -32,10 +33,12 @@ export class Sound {
         }
     }
 
-    playSound(name, speed) {
+    playSound(name, newRelativeVolume, speed) {
+        let relativeVolume = newRelativeVolume ?? 1
+        console.log(newRelativeVolume)
         for (let j = 1; j <= this.maxSounds; j += 1) {
             if (this.soundFiles[j].soundName == name) {
-                this.soundFiles[j].soundAudio.volume = 0.01 * (this.vol / 100)
+                this.soundFiles[j].soundAudio.volume = 0.02 * ((this.vol * relativeVolume) / 100)
                 if (speed)this.soundFiles[j].soundAudio.playbackRate = speed
                 this.soundFiles[j].soundAudio.play() 
             }

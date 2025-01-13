@@ -72,8 +72,8 @@ export default class Player2 extends BaseElement {
 
     this.sound = new Sound("#sound");
     this.sound.initSound("walkSound", "../src/assets/Sounds/walkSoud.mp3");
-    this.sound.initSound("jumpSound", "../src/assets/Sounds/jumpSoud.mp3");
-    this.sound.initSound("crashSound", "../src/assets/Sounds/crashSound.mp3");
+    this.sound.initSound("jumpSound", "../src/assets/Sounds/jumpSound2.mp3");
+    this.sound.setVol();
 
     this.initEventListeners();
   }
@@ -140,7 +140,7 @@ export default class Player2 extends BaseElement {
 
   playJumpSound() {
     let soundModulation = 3 - this.jumpDuration / 500;
-    this.sound.playSound("jumpSound", soundModulation);
+    this.sound.playSound("jumpSound", 1, soundModulation);
   }
 
   startedPressingJump() {

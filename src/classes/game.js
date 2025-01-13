@@ -6,6 +6,8 @@ import {Level} from "./levels/level.js";
 import Player2 from "./player.js";
 import Goal from "./goal.js";
 import {CameraBox} from "./boxes/camera-box.js";
+import {Sound} from "../base-classes/sound.js";
+
 
 export default class Game {
 
@@ -37,6 +39,9 @@ export default class Game {
     this._level = null
     this._isPaused = true
     this._background = null
+    this.sound = new Sound("#sound");
+    this.sound.initSound("winSound", "../src/assets/Sounds/winSound.mp3");
+    this.sound.setVol();
     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scaleX,
       height: this.canvas.height / this.scaleY
@@ -152,8 +157,8 @@ export default class Game {
 
     // creating goal
     this.goal = new Goal({
-      x: 580,
-      y: 55,
+      x: 100,
+      y: 20,
       scale: 1,
       imageSrc: '../src/assets/goal/goal.png',
       imageCropBox: new Box({
@@ -185,6 +190,7 @@ export default class Game {
 
   tick() {
     if (!this._isPaused && !this.goal.checkForGoalReached(this._player)) {
+
       this.ctx.save()
       this.ctx.scale(this.scaleX, this.scaleY)
 
@@ -220,6 +226,8 @@ export default class Game {
       if (this.goal.checkForGoalReached(this._player)) {
         //show time in end screen
         this.resetTimer()
+        this.sound.setVol()
+        this.sound.playSound("winSound", 4)
         this.ctx.font = "20px Arial";
         this.ctx.fillText(this.time, 900, 30)
         this.ctx.beginPath()
