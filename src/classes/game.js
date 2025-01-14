@@ -6,6 +6,7 @@ import {Level} from "./levels/level.js";
 import Player2 from "./player.js";
 import Goal from "./goal.js";
 import {CameraBox} from "./boxes/camera-box.js";
+import { victorySelector } from "../data/menu-constants.js";
 
 export default class Game {
 
@@ -95,6 +96,12 @@ export default class Game {
   }
 
 
+  //für victory screen:
+  getTimer() {
+    return this.time
+  }
+
+
   static getInstance() {
     if (!Game.instance) {
       const canvas = document.getElementById("my-canvas");
@@ -152,8 +159,8 @@ export default class Game {
 
     // creating goal
     this.goal = new Goal({
-      x: 580,
-      y: 55,
+      x: 50,
+      y: 1550,
       scale: 1,
       imageSrc: '../src/assets/goal/goal.png',
       imageCropBox: new Box({
@@ -218,12 +225,15 @@ export default class Game {
       this.ctx.restore()
     } else {
       if (this.goal.checkForGoalReached(this._player)) {
-        //show time in end screen
+        //new:
+        document.querySelector('#timer-text').innerHTML = "benötigte Zeit: " + this.formatTime(this.getTimer())
+        this._screenManager.show('#victory')
+
         this.resetTimer()
         this.ctx.font = "20px Arial";
         this.ctx.fillText(this.time, 900, 30)
         this.ctx.beginPath()
-        this._screenManager.show('#main-menu')
+        //this._screenManager.show('#main-menu')
       }
 
       this.stop()
