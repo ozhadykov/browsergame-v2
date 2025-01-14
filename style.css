@@ -159,6 +159,11 @@ canvas {
     color: white;
 }
 
+.h2 {
+    font-size: 2.4em;
+    letter-spacing: 1px;
+}
+
 .h3 {
     font-size: 2em;
     letter-spacing: 1px;
@@ -171,7 +176,6 @@ canvas {
 .text-md {
     font-size: 1.7em;
 }
-
 
 .text-left {
     text-align: left;

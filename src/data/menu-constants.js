@@ -8,10 +8,12 @@ const mainMenuSelector = '#main-menu'
 const pauseMenuSelector = '#pause-menu'
 const areYouSureMenuSelector = '#are-you-sure-menu'
 const chooseLevel = '#choose-level-menu'
+const victorySelector = '#victory'
 
 export {
   mainMenuSelector,
   pauseMenuSelector,
   areYouSureMenuSelector,
   chooseLevel,
+  victorySelector,
 }
