@@ -98,7 +98,7 @@ new MenuScreen({
       new ScreenTrigger({evtType: 'keydown', evtKey: 'Escape'}),
       new ScreenTrigger({evtType: 'click', selector: '#no-continue-pause'}),
     ],
-    showWithMe: ['#my-canvas', '#game-frame']
+    showWithMe: ['#my-canvas', '#game-frame', '#my-jump-charging-bar']
   }),
   new MenuScreen({
     selector: areYouSureMenuSelector,
@@ -107,7 +107,7 @@ new MenuScreen({
     triggers: [
       new ScreenTrigger({selector: '#go-to-main-menu', evtType: 'click'})
     ],
-    showWithMe: ['#my-canvas']
+    showWithMe: ['#my-canvas', '#game-frame', '#my-jump-charging-bar']
   }),
   // canvas screens
   new GameFrameScreen({
@@ -139,7 +139,7 @@ new MenuScreen({
     selector: victorySelector,
     name: 'victory',
     id: victorySelector,
-    showWithMe: ['#my-canvas', '#game-frame'],
+    showWithMe: ['#my-canvas', '#game-frame','#my-jump-charging-bar'],
     backgroundSelector: '#main-menu-background',
     })
 ]

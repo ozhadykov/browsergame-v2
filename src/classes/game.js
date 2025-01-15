@@ -43,6 +43,8 @@ export default class Game {
     this.sound = new Sound("#sound");
     this.sound.initSound("winSound", "../src/assets/Sounds/winSound.mp3");
     this.sound.setVol();
+    this.timerFrame = new Image()
+    this.timerFrame.src = "../src/assets/background/timerFrame.png"
     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scaleX,
       height: this.canvas.height / this.scaleY
@@ -165,7 +167,7 @@ export default class Game {
     // creating goal
     this.goal = new Goal({
       x: 100,
-      y: 20,
+      y: 1500,
       scale: 1,
       imageSrc: '../src/assets/goal/goal.png',
       imageCropBox: new Box({
@@ -249,8 +251,9 @@ export default class Game {
     }
 
     //timer:
+    this.ctx.drawImage(this.timerFrame, 860, 13, 84, 36);
     this.ctx.font = "20px Arial";
-    this.ctx.fillText(this.formatTime(this.time), 900, 30);
+    this.ctx.fillText(this.formatTime(this.time), 878, 40);
 
     // calling animation function again
     this.raf = window.requestAnimationFrame(this.tick.bind(this))

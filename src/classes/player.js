@@ -84,12 +84,14 @@ export default class Player2 extends BaseElement {
         case "d":
           if (this.canJump && !this.inJump) {
             this.keys.d.pressed = true;
+            this.sound.setVol();
             this.sound.playSound("walkSound");
           }
           break;
         case "a":
           if (this.canJump && !this.inJump) {
             this.keys.a.pressed = true;
+            this.sound.setVol();
             this.sound.playSound("walkSound");
           }
           break;
@@ -140,6 +142,7 @@ export default class Player2 extends BaseElement {
 
   playJumpSound() {
     let soundModulation = 3 - this.jumpDuration / 500;
+    this.sound.setVol();
     this.sound.playSound("jumpSound", 1, soundModulation);
   }
 
