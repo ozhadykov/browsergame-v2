@@ -51,6 +51,16 @@ export const screens = [
       new ScreenTrigger({selector: '#go-back-to-choose-level-3', evtType: 'click'})
     ]
   }),
+  // Settings
+  new MenuScreen({
+    selector: '#settingsMenu',
+    name: 'Einstellungen',
+    id: 'settingsMenu',
+    backgroundSelector: '#main-menu-background',
+    triggers: [
+      new ScreenTrigger({selector: '#main-menu-settings-btn', evtType: 'click'})
+    ]
+  }),
   // Level Screens
   new MenuScreen({
     selector: '#level-preview-1',
@@ -88,7 +98,7 @@ new MenuScreen({
       new ScreenTrigger({evtType: 'keydown', evtKey: 'Escape'}),
       new ScreenTrigger({evtType: 'click', selector: '#no-continue-pause'}),
     ],
-    showWithMe: ['#my-canvas']
+    showWithMe: ['#my-canvas', '#game-frame']
   }),
   new MenuScreen({
     selector: areYouSureMenuSelector,

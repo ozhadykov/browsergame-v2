@@ -52,6 +52,7 @@ export class HitBox extends Box {
                 }
     
                 if (player.getVelocityY() < 0) {
+                this.sound.setVol()
                 this.sound.playSound("crashSound")
                 player.setVelocityY(0)
                 const offset = this.getY() - player.getY()
@@ -95,6 +96,7 @@ export class HitBox extends Box {
                     const offset = this.getX() - player.getX() + this.getWidth()
                     player.setX(platformBlock.getX() - offset - 0.01)
                     if (!player.getCanJump()) {
+                        this.sound.setVol()
                         this.sound.playSound("crashSound") 
                         player.setVelocityX(-1 * player.getVelocityX() / 1.1)
                     }
