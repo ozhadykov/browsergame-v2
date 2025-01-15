@@ -16,7 +16,7 @@
 // on the left is the html selector of your button
 // on the right is the selector of next screens or action, from screens-actions.js
 
-import {mainMenuSelector, pauseMenuSelector, areYouSureMenuSelector, chooseLevel} from "./menu-constants.js"
+import {mainMenuSelector, pauseMenuSelector, areYouSureMenuSelector, chooseLevel, victorySelector} from "./menu-constants.js"
 import MenuScreen from "../classes/screens/menu-screen.js";
 import ScreenTrigger from "../classes/screens/screen-trigger.js";
 import {GameScreen} from "../classes/screens/game-screen.js";
@@ -32,7 +32,8 @@ export const screens = [
     backgroundSelector: '#main-menu-background',
     triggers: [
       new ScreenTrigger({selector: '#yes-main-menu', evtType: 'click'}),
-      new ScreenTrigger({selector: '#go-back-to-main-menu', evtType: 'click'})
+      new ScreenTrigger({selector: '#go-back-to-main-menu', evtType: 'click'}),
+      new ScreenTrigger({selector: '#go-to-main-menu-from-victory', evtType: 'click'})
     ],
     // buttons: [
     //   new Button({id: 'some-id', label: 'this is my button', classList: 'btn btn-primary', dataLevelId: 'test'})
@@ -131,5 +132,14 @@ new MenuScreen({
     selector: '#my-jump-charging-bar',
     name: 'Jump Charging',
     id: 'my-jump-charging-bar',
-  })
+  }),
+
+  //victory screen:
+  new MenuScreen({
+    selector: victorySelector,
+    name: 'victory',
+    id: victorySelector,
+    showWithMe: ['#my-canvas', '#game-frame'],
+    backgroundSelector: '#main-menu-background',
+    })
 ]

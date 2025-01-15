@@ -7,6 +7,7 @@ import Player2 from "./player.js";
 import Goal from "./goal.js";
 import {CameraBox} from "./boxes/camera-box.js";
 import {Sound} from "../base-classes/sound.js";
+import { victorySelector } from "../data/menu-constants.js";
 
 
 export default class Game {
@@ -97,6 +98,12 @@ export default class Game {
     const minutes = Math.floor(seconds / 60); // Ganze Minuten
     const remainingSeconds = seconds % 60; // Übrige Sekunden
     return `${minutes} : ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  }
+
+
+  //für victory screen:
+  getTimer() {
+    return this.time
   }
 
 
@@ -224,14 +231,17 @@ export default class Game {
       this.ctx.restore()
     } else {
       if (this.goal.checkForGoalReached(this._player)) {
-        //show time in end screen
+        //new:
+        document.querySelector('#timer-text').innerHTML = "benötigte Zeit: " + this.formatTime(this.getTimer())
+        this._screenManager.show('#victory')
+
         this.resetTimer()
         this.sound.setVol()
         this.sound.playSound("winSound", 4)
         this.ctx.font = "20px Arial";
         this.ctx.fillText(this.time, 900, 30)
         this.ctx.beginPath()
-        this._screenManager.show('#main-menu')
+        //this._screenManager.show('#main-menu')
       }
 
       this.stop()
