@@ -33,7 +33,9 @@ export const screens = [
     triggers: [
       new ScreenTrigger({selector: '#yes-main-menu', evtType: 'click'}),
       new ScreenTrigger({selector: '#go-back-to-main-menu', evtType: 'click'}),
-      new ScreenTrigger({selector: '#go-to-main-menu-from-victory', evtType: 'click'})
+      new ScreenTrigger({selector: '#go-to-main-menu-from-victory', evtType: 'click'}),
+      new ScreenTrigger({selector: '#go-back-to-main-menu-from-choose-level', evtType: 'click'}),
+
     ],
     // buttons: [
     //   new Button({id: 'some-id', label: 'this is my button', classList: 'btn btn-primary', dataLevelId: 'test'})
@@ -48,7 +50,7 @@ export const screens = [
       new ScreenTrigger({selector: '#main-menu-choose-level', evtType: 'click'}),
       new ScreenTrigger({selector: '#go-back-to-choose-level', evtType: 'click'}),
       new ScreenTrigger({selector: '#go-back-to-choose-level-2', evtType: 'click'}),
-      new ScreenTrigger({selector: '#go-back-to-choose-level-3', evtType: 'click'})
+      new ScreenTrigger({selector: '#go-back-to-choose-level-3', evtType: 'click'}),
     ]
   }),
   // Settings

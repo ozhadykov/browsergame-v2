@@ -120,6 +120,7 @@ export default class Game {
   }
 
   start(levelId) {
+    this.resetTimer()
     this.startTimer()
     this.elementList = new ElementList()
     this._isPaused = false
@@ -166,8 +167,8 @@ export default class Game {
 
     // creating goal
     this.goal = new Goal({
-      x: 100,
-      y: 1500,
+      x: 5,
+      y: 20,
       scale: 1,
       imageSrc: '../src/assets/goal/goal.png',
       imageCropBox: new Box({
@@ -177,7 +178,7 @@ export default class Game {
         width: 32
       }),
       framesX: 1,
-      framesY: 1
+      framesY: 2
     })
 
     // adding all elements to List
@@ -233,16 +234,13 @@ export default class Game {
       this.ctx.restore()
     } else {
       if (this.goal.checkForGoalReached(this._player)) {
-        //new:
         document.querySelector('#timer-text').innerHTML = "benötigte Zeit: " + this.formatTime(this.getTimer())
         this._screenManager.show('#victory')
 
         this.resetTimer()
         this.sound.setVol()
         this.sound.playSound("winSound", 4)
-        this.ctx.font = "20px Arial";
-        this.ctx.fillText(this.time, 900, 30)
-        this.ctx.beginPath()
+
         //this._screenManager.show('#main-menu')
       }
 
@@ -278,11 +276,13 @@ export default class Game {
   }
 
   isPaused() {
+    this.stopTimer()
     return this._isPaused
   }
 
   resume() {
     this._isPaused = false
+    this.startTimer()
     this.tick()
   }
 
