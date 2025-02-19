@@ -71,8 +71,8 @@ export default class Player2 extends BaseElement {
     this.walkState = false;
 
     this.sound = new Sound("#sound");
-    this.sound.initSound("walkSound", "/public/assets/Sounds/walkSoud.mp3");
-    this.sound.initSound("jumpSound", "/public/assets/Sounds/jumpSound2.mp3");
+    this.sound.initSound("walkSound", "/assets/Sounds/walkSoud.mp3");
+    this.sound.initSound("jumpSound", "/assets/Sounds/jumpSound2.mp3");
     this.sound.setVol();
 
     this.initEventListeners();

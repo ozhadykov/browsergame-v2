@@ -9,7 +9,7 @@ export class HitBox extends Box {
         this._isCollidingHorizontal = false
         this._isCollidingVertical = false
         this.sound = new Sound('#sound')
-        this.sound.initSound('crashSound', '../src/assets/Sounds/crashSound.mp3')
+        this.sound.initSound('crashSound', '/assets/Sounds/crashSound.mp3')
     }
 
     isCollidingWith(box) {
@@ -118,7 +118,6 @@ export class HitBox extends Box {
         }
       }
     checkForGoalReached(player, gaol){
-        console.log("TEst")
         if(this.isCollidingWith(gaol.imageCropBox)){
             return (console.log("goal reached"))
         }

@@ -39,10 +39,10 @@ export default class Game {
     this._isPaused = true
     this._background = null
     this.sound = new Sound("#sound");
-    this.sound.initSound("winSound", "/public/assets/Sounds/winSound.mp3");
+    this.sound.initSound("winSound", "/assets/Sounds/winSound.mp3");
     this.sound.setVol();
     this.timerFrame = new Image()
-    this.timerFrame.src = "/public/assets/background/timerFrame.png"
+    this.timerFrame.src = "/assets/background/timerFrame.png"
     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scaleX,
       height: this.canvas.height / this.scaleY
@@ -151,7 +151,7 @@ export default class Game {
       scaleY: levelMeta.getPlayerScaleY(),
       scaleX: levelMeta.getPlayerScaleX(),
 
-      imageSrc: '/public/assets/Char/CharSheetWalk.png',
+      imageSrc: '/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0,
         y: 0,
@@ -168,7 +168,7 @@ export default class Game {
       x: 580,
       y: 55,
       scale: 1,
-      imageSrc: '/public/assets/goal/goal.png',
+      imageSrc: '/assets/goal/goal.png',
       imageCropBox: new Box({
         x: 0,
         y: 0,
