@@ -1,14 +1,12 @@
 import ElementList from "../base-classes/elementList.js";
 import {levelsMeta} from "../data/levels.js";
-import {Box, BaseElement, Screen} from "../base-classes/";
+import {Box, BaseElement} from "../base-classes/";
 import {GameScreen} from "./screens/game-screen.js";
 import {Level} from "./levels/level.js";
 import Player2 from "./player.js";
 import Goal from "./goal.js";
 import {CameraBox} from "./boxes/camera-box.js";
 import {Sound} from "../base-classes/sound.js";
-import { victorySelector } from "../data/menu-constants.js";
-
 
 export default class Game {
 
@@ -41,10 +39,10 @@ export default class Game {
     this._isPaused = true
     this._background = null
     this.sound = new Sound("#sound");
-    this.sound.initSound("winSound", "../src/assets/Sounds/winSound.mp3");
+    this.sound.initSound("winSound", "/public/assets/Sounds/winSound.mp3");
     this.sound.setVol();
     this.timerFrame = new Image()
-    this.timerFrame.src = "../src/assets/background/timerFrame.png"
+    this.timerFrame.src = "/public/assets/background/timerFrame.png"
     this.cameraBox = new CameraBox({
       width: this.canvas.width / this.scaleX,
       height: this.canvas.height / this.scaleY
@@ -153,7 +151,7 @@ export default class Game {
       scaleY: levelMeta.getPlayerScaleY(),
       scaleX: levelMeta.getPlayerScaleX(),
 
-      imageSrc: '../src/assets/Char/CharSheetWalk.png',
+      imageSrc: '/public/assets/Char/CharSheetWalk.png',
       imageCropBox: new Box({
         x: 0,
         y: 0,
@@ -170,7 +168,7 @@ export default class Game {
       x: 580,
       y: 55,
       scale: 1,
-      imageSrc: '../src/assets/goal/goal.png',
+      imageSrc: '/public/assets/goal/goal.png',
       imageCropBox: new Box({
         x: 0,
         y: 0,

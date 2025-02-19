@@ -12,7 +12,6 @@ export class Sound {
     setVol() {
         var slider = document.getElementById("myRange")
         this.vol = slider.value;
-        console.log("Volume: " + this.vol)
     }
 
     getVol() {
@@ -35,7 +34,6 @@ export class Sound {
 
     playSound(name, newRelativeVolume, speed) {
         let relativeVolume = newRelativeVolume ?? 1
-        console.log(newRelativeVolume)
         for (let j = 1; j <= this.maxSounds; j += 1) {
             if (this.soundFiles[j].soundName == name) {
                 this.soundFiles[j].soundAudio.volume = 0.02 * ((this.vol * relativeVolume) / 100)

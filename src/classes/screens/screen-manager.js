@@ -51,7 +51,6 @@ class ScreenManager {
   // so here we are hiding every screen and show only one
   // which selector is passed as param
   show(selector) {
-    console.log(selector)
     // hide everything
     this._screens.forEach((screen) => screen.hide())
 
