@@ -1,122 +1,143 @@
-# browsergame-baseapp
+# 🔧 Where Is My Wrench?
 
-The browsergame-baseapp is a tiny client-side application that may serve as a starting point to develop your own browsergame. 
-It has an educational focus and provides some basic, object-oriented infrastructure. 
+**A team-built HTML Canvas browser game showcasing object-oriented programming, custom animations, and event-driven UI architecture — all in vanilla JavaScript.**
 
+<!-- Add your GIF here -->
+*[Your gameplay GIF will go here]*
+
+## 🎮 What is it?
+
+**Where Is My Wrench?** is a browser-based adventure game developed as a university project by a team of 5 students. Built entirely with vanilla JavaScript and HTML Canvas, this project demonstrates clean object-oriented architecture, custom event systems, and collaborative development practices.
+
+The game showcases our commitment to writing maintainable code without frameworks, featuring carefully structured classes for game entities, a sophisticated window manager for UI state handling, and smooth canvas-based animations created by our talented graphics team.
+
+## ✨ Key Features
+
+- **🏗️ Clean OOP Architecture** - Well-structured classes and abstractions for game entities, states, and behaviors
+- **🎭 Custom Window Manager** - Event-driven UI system for handling different game states and transitions
+- **🎨 Canvas-Based Graphics** - Smooth animations and custom graphics entirely rendered on HTML Canvas
+- **👥 Team Collaboration** - Built through Git workflows, code reviews, and peer mentoring
+- **📱 Cross-Browser Compatible** - Works on all modern browsers without external dependencies
+- **🚀 Vanilla JavaScript** - Zero frameworks, pure JavaScript implementation
+
+## UML:
 ![Screenshot](klassendiagramm.png)
 
-How to start
-------------
-Yes, we are now working with something fast:) Use it to install packages and modules
+## 🛠️ Tech Stack
 
-    npm i
+- **Frontend**: Vanilla JavaScript (ES6+)
+- **Graphics**: HTML5 Canvas API
+- **Architecture**: Object-Oriented Programming
+- **Development**: Git workflows, code reviews, collaborative development
 
-go to your project directory and start it with this command, you do not need more.
+## 📋 Prerequisites
 
-    npm run dev
+Before running the game, make sure you have:
 
-This is wys faster than watchify and this is used to develop apps today, I hope...
+- **Node.js** (version 18 or higher recommended)
+- **npm** or **yarn** package manager
+- A modern web browser (Chrome, Firefox, Edge, Safari)
 
+## 🚀 Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/ozhadykov/browsergame-v2.git
+   cd browsergame-v2
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or if you prefer yarn
+   yarn install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm start
+   # or
+   yarn start
+   ```
+
+4. **Open your browser**
+   
+   Navigate to `http://localhost:5173` (or the port shown in your terminal) to start playing!
+
+## 🎯 How to Play
+
+- Use WASD to move your character
+- Use spacebar to charge the jump
+- Find your missing wrench to complete the level
+- Navigate through different game states using the custom UI system
+
+## 🏗️ Project Structure
+
+```
+browsergame-v2/
+├── src/
+│   ├── classes/          # Game entity classes
+│   ├── base-classes/     # Base Game entity classes
+│   ├── data/             # functions to generate levels
+├── public/
+│   ├── assets/
+|      ├── Char
+|      ├── Sounds
+|      ├── background
+|      ├── goal
+|      ├── mainmenu
+|      └── platform
+└── README.md
+```
+
+## 👥 Team Collaboration
+
+This project was built through:
+
+- **Git Workflows** - Feature branches, pull requests, and merge strategies
+- **Code Reviews** - Peer feedback and collaborative problem-solving
+- **Knowledge Sharing** - Team members mentoring each other on different technologies
+- **Skill Complementarity** - Combining strengths in architecture, graphics, and animation
+
+## 🎨 Technical Highlights
+
+### Object-Oriented Design
+- Modular class structure for characters, game states, and UI elements
+- Inheritance and composition patterns for code reusability
+- Clean separation of concerns between game logic and rendering
+
+### Custom Window Manager
+- Event-driven architecture for handling UI states
+- Custom events for triggering state transitions
+- Modular window system supporting overlays and transitions
+
+### Canvas Graphics
+- Smooth frame-based animations
+- Custom sprite rendering system
+- Responsive canvas that adapts to different screen sizes
+
+## 🤝 Contributing
+
+This is a university project, but we welcome feedback and suggestions! If you'd like to contribute:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+
+## 🙏 Acknowledgments
+
+- Our university instructors for project guidance: Prof. Peters, Lars Thomsen
+- Team members who contributed their graphics, animation, development expertise: Paul Jergus, Paul Fricke,  Deutschländer Imke,  Sieber Simon Peter.
+
+## 📞 Contact
+
+For questions about this project, feel free to reach out through:
+- GitHub Issues
+- Project contributors' profiles
 
 ---
 
-# **Projektplan: Browsergame - Bachelorarbeit**
-
----
-
-### Aktueller Fortschritt
-- **Projekteinrichtung**: Git und Entwicklungsumgebung – **Abgeschlossen**
-- **Gravitation** – **Abgeschlossen**
-- **Spielerbewegung** – **Fast Abgeschlossen**
-- **Hintergrund (Karte)**: Soll gemalt und mit Hilfe von Tiles erstellt werden – **In Arbeit**
-- **Kollisionsabfrage**:
-  - Vertikale und horizontale Kollision
-  - Block-Kollision
-- **Spieleranimation** (falls benötigt)
-- **Hitbox-Implementierung**: Grobe Kopf-Kollision für den Spieler; unser PNG ist etwas größer als das tatsächliche Spielermodell
-- **Spieleranimationen**: Fortgeschrittene Animationen, z.B. Laufen, Springen usw.
-- **Plattform-Kollision** – **In Arbeit**
-- **Horizontale Kamerabewegung**
-- **Vertikale Kamerabewegung**
-- **Levelwechsel**
-- **Fortschritt speichern**
-- **Checkpoints einbauen**
-
----
-
-### Aufgaben für die Woche (11. Nov. - 17. Nov.)
-**Ziel:** Abschluss bis zum nächsten Jour Fixe
-
-1. **Entwurf der Karte mit Tiles**  
-   - **Zuständig:** Omar  
-   - Erstellen eines Entwurfs für die Karte im Tile-Format.
-
-2. **Spielerentwurf (PNG)**  
-   - **Zuständig:** Simon   
-   - Gestaltung eines grundlegenden PNG-Bilds für den Spieler.
-
-3. **Hauptmenü**  
-   - **Zuständig:** Paul J.
-   - Entwurf des Hauptmenüs für das Spiel.
-
-4. **Entwurf der Plattform-Kollision**  
-   - **Zuständig:** Imke  
-   - Vorläufiges Design für die Plattform-Kollisionsabfrage erstellen.
-
-5. **Entwurf des Pausemenüs**
-   - **Zuständig:** Paul F
-   - Entwurf des Hauptmenüs für das Spiel
-
----
-
-
-### Aufgaben (noch nicht zugeteilt)
-**Ziel:** langfristig / iterativ
-
-Idee des Objektorieterten Programmierens einearbeiten
-
-- Prinzip des kleinsten Zugriffs
-- Zusammenfügen von gemeinsamkeiten in Oberklassen (Siehe framework)
-
------ Gameplay
-
-- Hud - Simon
-- Hintergrund - ID 
-- Kamera - ?? 
-- Map in 2 Geteilt - ?? 
-- Steuerung Anpassen - (fertig) 
-- "Sprung Gefühl" Anpassen - ?? 
-
-(???) Items, "lava level",
-
-### Aufgaben für die Woche (28. Nov. - 6. Dez.)
-
-1. Jump Balken + Limiter - Paul F
-2. Main Menu Background + Buttons - Paul J
-3. Background Image - Imke
-4. Neue Character + Neue Animation + neues Level - Simon
-5. Camera Bewegung - Omar. **Done*
-
-### Aufgaben für die Woche (5. Dez. - 12 Dez.)
-
-1. Limiter bearbeiten - Paul F
-2. Steuerung anpassen - Simon 
-3. Map - Imke 
-4. UML - zusammen am Dienstag
-5. Ton - Bonus
-
-#### Feedback an 12 Dez 2024
-
-- Steuerung anpassen: wenn man Sprung auflädt, muss man auch Richtug wechelsn
-- vershiedene BaseBoxes(plus in Box umgenennen): Hitbox(playerHitbox und alle Collision Funktionen auslagern), CropBox, DrawBox, CameraBox
-- Canvas Manager Klasse löschen
-- getters und setters für alle Klassen
-- vershiedene elementLists in Game Klasse
-- Background wenn man in MainMenu geht fixen
-- Klassendiagram
-
-
-
-### Aufagen bis 19.12.2024
-1. Nachdenken was Private ist und dass dann umsetzen. 
-2. Levels.js bearbeiten. Wir wollten Objekt für Level haben.  
+*Built with ❤️ by a team of 5 business informatics students*
