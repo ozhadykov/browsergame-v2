@@ -4,7 +4,7 @@
 **A team-built HTML Canvas browser game showcasing object-oriented programming, custom animations, and event-driven UI architecture — all in vanilla JavaScript.**
 
 <!-- Add your GIF here -->
-*[Your gameplay GIF will go here]*
+![Screenshot](demo.gif)
 
 ## 🎮 What is it?
 
