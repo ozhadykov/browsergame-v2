@@ -18,7 +18,7 @@ const levelsMeta = [
   new LevelMeta({
     levelId: '1',
     levelName: "Halle (Saale)",
-    backgroundImgSrc: '../src/assets/background/Halle.png',
+    backgroundImgSrc: '/assets/background/Halle.png',
     levelMarkup: `------------------------------------------------------------+
       ------------------------------------------------------------+
       ------------------------------------------------------------+
@@ -230,7 +230,7 @@ const levelsMeta = [
   new LevelMeta({
     levelId: '2',
     levelName: "Leipzig",
-    backgroundImgSrc: '../src/assets/background/Leipzig.png',
+    backgroundImgSrc: '/assets/background/Leipzig.png',
     levelMarkup: `------------------------------------------------------------+
       ------------------------------------------------------------+
       ------------------------------------------------------------+
@@ -442,7 +442,7 @@ const levelsMeta = [
   new LevelMeta({
     levelId: '3',
     levelName: "Berlin",
-    backgroundImgSrc: '../src/assets/background/Berlin.png',
+    backgroundImgSrc: '/assets/background/Berlin.png',
     levelMarkup: `------------------------------------------------------------+
       ------------------------------------------------------------+
       ------------------------------------------------------------+

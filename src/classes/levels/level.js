@@ -54,7 +54,8 @@ export class Level {
             y: Math.round(y * 8),
             scaleX: 1,
             scaleY: 2,
-            imageSrc: '../../src/assets/platform/block.png',
+            imageSrc: '/assets/platform/block.png',
+            // imageSrc: new URL('../../src/assets/platform/block.png', import.meta.url).href,
             imageCropBox: new Box({
               x: platformTypePosition[levelEl].x,
               y: platformTypePosition[levelEl].y,
