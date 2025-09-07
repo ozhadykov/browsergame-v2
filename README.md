@@ -1,3 +1,4 @@
+
 # 🔧 Where Is My Wrench?
 
 **A team-built HTML Canvas browser game showcasing object-oriented programming, custom animations, and event-driven UI architecture — all in vanilla JavaScript.**
@@ -23,12 +24,14 @@ The game showcases our commitment to writing maintainable code without framework
 ## UML:
 ![Screenshot](klassendiagramm.png)
 
+
 ## 🛠️ Tech Stack
 
 - **Frontend**: Vanilla JavaScript (ES6+)
 - **Graphics**: HTML5 Canvas API
 - **Architecture**: Object-Oriented Programming
 - **Development**: Git workflows, code reviews, collaborative development
+
 
 ## 📋 Prerequisites
 
@@ -71,6 +74,7 @@ Before running the game, make sure you have:
 - Find your missing wrench to complete the level
 - Navigate through different game states using the custom UI system
 
+
 ## 🏗️ Project Structure
 
 ```
@@ -89,6 +93,7 @@ browsergame-v2/
 |      └── platform
 └── README.md
 ```
+
 
 ## 👥 Team Collaboration
 
@@ -141,3 +146,4 @@ For questions about this project, feel free to reach out through:
 ---
 
 *Built with ❤️ by a team of 5 business informatics students*
+
